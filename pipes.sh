@@ -1,21 +1,23 @@
 #!/bin/bash
 
-f=75 s=13 r=2000 t=0 c=1 n=0 l=0
+p=1
+f=75 s=13 r=2000 t=0
 w=$(tput cols) h=$(tput lines)
-x=$((w/2)) y=$((h/2))
 v=( [00]="\x83" [01]="\x8f" [03]="\x93"
     [10]="\x9b" [11]="\x81" [12]="\x93"
     [21]="\x97" [22]="\x83" [23]="\x9b"
     [30]="\x97" [32]="\x8f" [33]="\x81" )
 
 OPTIND=1
-while getopts "f:s:r:h" arg; do
+while getopts "p:f:s:r:h" arg; do
 case $arg in
+    p) ((p=($OPTARG>0)?$OPTARG:$p));;
     f) ((f=($OPTARG>19 && $OPTARG<101)?$OPTARG:$f));;
     s) ((s=($OPTARG>4 && $OPTARG<16 )?$OPTARG:$s));;
     r) ((r=($OPTARG>0)?$OPTARG:$r));;
     h) echo -e "Usage: pipes [OPTION]..."
         echo -e "Animated pipes terminal screensaver.\n"
+        echo -e " -p \tnumber of pipes (D=1)."
         echo -e " -f [20-100]\tframerate (D=75)."
         echo -e " -s [5-15]\tprobability of a straight fitting (D=13)."
         echo -e " -r LIMIT\treset after x characters (D=2000)."
@@ -24,28 +26,35 @@ case $arg in
     esac
 done
 
+for (( i=1; i<=p; i++ )); do
+    c[i]=$((i%7)) n[i]=0 l[i]=0
+    x[i]=$((w/2)) y[i]=$((h/2))
+done
+
 tput smcup
 tput reset
 tput civis
 while ! read -t0.0$((1000/$f)) -n1; do
-    # New position:
-    (($l%2)) && ((x+=($l==1)?1:-1))
-    ((!($l%2))) && ((y+=($l==2)?1:-1))
+    for (( i=1; i<=p; i++ )); do
+        # New position:
+        ((${l[i]}%2)) && ((x[i]+=(${l[i]}==1)?1:-1))
+        ((!(${l[i]}%2))) && ((y[i]+=(${l[i]}==2)?1:-1))
 
-    # Loop on edges (change color on loop):
-    ((c=($x>$w || $x<0 || $y>$h || $y<0)?($RANDOM%7-1):$c))
-    ((x=($x>$w)?0:(($x<0)?$w:$x)))
-    ((y=($y>$h)?0:(($y<0)?$h:$y)))
+        # Loop on edges (change color on loop):
+        ((c[i]=(${x[i]}>$w || ${x[i]}<0 || ${y[i]}>$h || ${y[i]}<0)?($RANDOM%7-1):${c[i]}))
+        ((x[i]=(${x[i]}>$w)?0:((${x[i]}<0)?$w:${x[i]})))
+        ((y[i]=(${y[i]}>$h)?0:((${y[i]}<0)?$h:${y[i]})))
 
-    # New random direction:
-    ((n=$RANDOM%$s-1))
-    ((n=($n>1||$n==0)?$l:$l+$n))
-    ((n=($n<0)?3:$n%4))
+        # New random direction:
+        ((n[i]=$RANDOM%$s-1))
+        ((n[i]=(${n[i]}>1||${n[i]}==0)?${l[i]}:${l[i]}+${n[i]}))
+        ((n[i]=(${n[i]}<0)?3:${n[i]}%4))
 
-    # Print:
-    tput cup $y $x
-    echo -ne "\033[1;3${c}m\xe2\x94${v[$l$n]}"
+        # Print:
+        tput cup ${y[i]} ${x[i]}
+        echo -ne "\033[1;3${c[i]}m\xe2\x94${v[${l[i]}${n[i]}]}"
+        l[i]=${n[i]}
+    done
     (($t>$r)) && tput reset && tput civis && t=0 || ((t++))
-    l=$n
 done
 tput rmcup
