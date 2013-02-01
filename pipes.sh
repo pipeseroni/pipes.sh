@@ -1,12 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 
-declare -i f=75 s=13 r=2000 t=0 c=1 n=0 l=0
-declare -ir w=$(tput cols) h=$(tput lines)
-declare -i x=$((w/2)) y=$((h/2))
-declare -ar v=( [00]="\x83" [01]="\x8f" [03]="\x93"
-        [10]="\x9b" [11]="\x81" [12]="\x93"
-        [21]="\x97" [22]="\x83" [23]="\x9b"
-        [30]="\x97" [32]="\x8f" [33]="\x81" )
+f=75 s=13 r=2000 t=0 c=1 n=0 l=0
+w=$(tput cols) h=$(tput lines)
+x=$((w/2)) y=$((h/2))
+v=( [00]="\x83" [01]="\x8f" [03]="\x93"
+    [10]="\x9b" [11]="\x81" [12]="\x93"
+    [21]="\x97" [22]="\x83" [23]="\x9b"
+    [30]="\x97" [32]="\x8f" [33]="\x81" )
 
 OPTIND=1
 while getopts "f:s:r:h" arg; do
