@@ -9,6 +9,8 @@
 #
 #   -p, -R, and -C
 #
+#   Video: http://youtu.be/5XnGSFg_gTk
+#
 # And push the commits to Gist:
 #
 #   https://gist.github.com/4689307
