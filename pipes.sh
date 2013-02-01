@@ -9,7 +9,8 @@
 #
 #   -p, -R, and -C
 #
-#   Video: http://youtu.be/5XnGSFg_gTk
+#   Screenshot: http://flic.kr/p/dRnLVj
+#   Screencast: http://youtu.be/5XnGSFg_gTk
 #
 # And push the commits to Gist:
 #
