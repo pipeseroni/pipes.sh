@@ -15,6 +15,13 @@
 # And push the commits to Gist:
 #
 #   https://gist.github.com/4689307
+#
+# I, Devin Samarin, made a few changes and additions:
+#
+#   -r can be 0 to mean "no limit".
+#   Reset cursor visibility after done.
+#
+#   Pushed the changes to https://gist.github.com/4725048
 
 p=1
 f=75 s=13 r=2000 t=0
@@ -32,7 +39,7 @@ case $arg in
     p) ((p=(OPTARG>0)?OPTARG:p));;
     f) ((f=(OPTARG>19 && OPTARG<101)?OPTARG:f));;
     s) ((s=(OPTARG>4 && OPTARG<16 )?OPTARG:s));;
-    r) ((r=(OPTARG>0)?OPTARG:r));;
+    r) ((r=(OPTARG>=0)?OPTARG:r));;
     R) RNDSTART=1;;
     C) NOCOLOR=1;;
     h) echo -e "Usage: $(basename $0) [OPTION]..."
@@ -40,7 +47,7 @@ case $arg in
         echo -e " -p [1-]\tnumber of pipes (D=1)."
         echo -e " -f [20-100]\tframerate (D=75)."
         echo -e " -s [5-15]\tprobability of a straight fitting (D=13)."
-        echo -e " -r LIMIT\treset after x characters (D=2000)."
+        echo -e " -r LIMIT\treset after x characters, 0 if no limit (D=2000)."
         echo -e " -R \t\trandom starting point."
         echo -e " -C \t\tno color."
         echo -e " -h\t\thelp (this screen).\n"
@@ -79,6 +86,7 @@ while ! read -t0.0$((1000/f)) -n1; do
         echo -ne "\xe2\x94${v[${l[i]}${n[i]}]}"
         l[i]=${n[i]}
     done
-    ((t*p>=r)) && tput reset && tput civis && t=0 || ((t++))
+    ((r>0 && t*p>=r)) && tput reset && tput civis && t=0 || ((t++))
 done
 tput rmcup
+tput cnorm
