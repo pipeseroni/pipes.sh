@@ -20,6 +20,7 @@
 #
 #   -r can be 0 to mean "no limit".
 #   Reset cursor visibility after done.
+#   Cleanup for those people who want to quit with ^C
 #
 #   Pushed the changes to https://gist.github.com/4725048
 
@@ -55,6 +56,13 @@ case $arg in
     esac
 done
 
+cleanup() {
+	tput rmcup
+	tput cnorm
+	exit 0
+}
+trap cleanup SIGHUP SIGINT SIGTERM
+
 for (( i=1; i<=p; i++ )); do
     c[i]=$((i%8)) n[i]=0 l[i]=0
     ((x[i]=RNDSTART==1?RANDOM*w/32768:w/2))
@@ -88,5 +96,5 @@ while ! read -t0.0$((1000/f)) -n1; do
     done
     ((r>0 && t*p>=r)) && tput reset && tput civis && t=0 || ((t++))
 done
-tput rmcup
-tput cnorm
+
+cleanup
