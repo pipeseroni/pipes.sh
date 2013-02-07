@@ -60,9 +60,9 @@ case $arg in
 done
 
 cleanup() {
-	tput rmcup
-	tput cnorm
-	exit 0
+    tput rmcup
+    tput cnorm
+    exit 0
 }
 trap cleanup SIGHUP SIGINT SIGTERM
 
@@ -78,13 +78,12 @@ tput civis
 while ! read -t0.0$((1000/f)) -n1; do
     for (( i=1; i<=p; i++ )); do
         # New position:
-        ((${l[i]}%2)) && ((x[i]+=(${l[i]}==1)?1:-1))
-        ((!(${l[i]}%2))) && ((y[i]+=(${l[i]}==2)?1:-1))
+        ((${l[i]}%2)) && ((x[i]+=-${l[i]}+2,1)) || ((y[i]+=${l[i]}-1))
 
         # Loop on edges (change color on loop):
-        ((c[i]=(${x[i]}>w || ${x[i]}<0 || ${y[i]}>h || ${y[i]}<0)?RANDOM%8:${c[i]}))
-        ((x[i]=(${x[i]}>=w)?0:((${x[i]}<0)?w-1:${x[i]})))
-        ((y[i]=(${y[i]}>=h)?0:((${y[i]}<0)?h-1:${y[i]})))
+        ((${x[i]}>w||${x[i]}<0||${y[i]}>h||${y[i]}<0)) && ((c[i]=RANDOM%8))
+        ((x[i]=(x[i]+w)%w))
+        ((y[i]=(y[i]+h)%h))
 
         # New random direction:
         ((n[i]=RANDOM%s-1))
