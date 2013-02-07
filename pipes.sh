@@ -27,6 +27,9 @@
 p=1
 f=75 s=13 r=2000 t=0
 w=$(tput cols) h=$(tput lines)
+# 0: up, 1: right, 2: down, 3: left
+# 00 means going up   , then going up   -> ┃
+# 12 means going right, then going down -> ┓
 v=( [00]="\x83" [01]="\x8f" [03]="\x93"
     [10]="\x9b" [11]="\x81" [12]="\x93"
     [21]="\x97" [22]="\x83" [23]="\x9b"
@@ -80,8 +83,8 @@ while ! read -t0.0$((1000/f)) -n1; do
 
         # Loop on edges (change color on loop):
         ((c[i]=(${x[i]}>w || ${x[i]}<0 || ${y[i]}>h || ${y[i]}<0)?RANDOM%8:${c[i]}))
-        ((x[i]=(${x[i]}>w)?0:((${x[i]}<0)?w:${x[i]})))
-        ((y[i]=(${y[i]}>h)?0:((${y[i]}<0)?h:${y[i]})))
+        ((x[i]=(${x[i]}>=w)?0:((${x[i]}<0)?w-1:${x[i]})))
+        ((y[i]=(${y[i]}>=h)?0:((${y[i]}<0)?h-1:${y[i]})))
 
         # New random direction:
         ((n[i]=RANDOM%s-1))
