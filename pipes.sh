@@ -54,7 +54,7 @@ case $arg in
     h) echo -e "Usage: $(basename $0) [OPTION]..."
         echo -e "Animated pipes terminal screensaver.\n"
         echo -e " -p [1-]\tnumber of pipes (D=1)."
-        echo -e " -t [0-$((${#pipe_sets[@]} - 1))]\ttype of pipes (D=0)."
+        echo -e " -t [0-$((${#sets[@]} - 1))]\ttype of pipes (D=0)."
         echo -e " -f [20-100]\tframerate (D=75)."
         echo -e " -s [5-15]\tprobability of a straight fitting (D=13)."
         echo -e " -r LIMIT\treset after x characters, 0 if no limit (D=2000)."
