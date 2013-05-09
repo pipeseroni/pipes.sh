@@ -7,7 +7,7 @@
 #
 # I, Yu-Jie Lin, made a few changes and additions:
 #
-#   -p, -R, and -C
+#   -p, -t, -R, and -C
 #
 #   Screenshot: http://flic.kr/p/dRnLVj
 #   Screencast: http://youtu.be/5XnGSFg_gTk
@@ -27,20 +27,25 @@
 p=1
 f=75 s=13 r=2000 t=0
 w=$(tput cols) h=$(tput lines)
+# ab -> idx = a*4 + b
 # 0: up, 1: right, 2: down, 3: left
 # 00 means going up   , then going up   -> ┃
 # 12 means going right, then going down -> ┓
-v=( [00]="\x83" [01]="\x8f" [03]="\x93"
-    [10]="\x9b" [11]="\x81" [12]="\x93"
-    [21]="\x97" [22]="\x83" [23]="\x9b"
-    [30]="\x97" [32]="\x8f" [33]="\x81" )
+sets=(
+    "┃┏ ┓┛━┓  ┗┃┛┗ ┏━"
+    "│╭ ╮╯─╮  ╰│╯╰ ╭─"
+    "│┌ ┐┘─┐  └│┘└ ┌─"
+    "║╔ ╗╝═╗  ╚║╝╚ ╔═"
+)
+v="${sets[0]}"
 RNDSTART=0
 NOCOLOR=0
 
 OPTIND=1
-while getopts "p:f:s:r:RCh" arg; do
+while getopts "p:t:f:s:r:RCh" arg; do
 case $arg in
     p) ((p=(OPTARG>0)?OPTARG:p));;
+    t) ((OPTARG>=0 && OPTARG<${#sets[@]})) && v="${sets[OPTARG]}";;
     f) ((f=(OPTARG>19 && OPTARG<101)?OPTARG:f));;
     s) ((s=(OPTARG>4 && OPTARG<16 )?OPTARG:s));;
     r) ((r=(OPTARG>=0)?OPTARG:r));;
@@ -49,6 +54,7 @@ case $arg in
     h) echo -e "Usage: $(basename $0) [OPTION]..."
         echo -e "Animated pipes terminal screensaver.\n"
         echo -e " -p [1-]\tnumber of pipes (D=1)."
+        echo -e " -t [0-$((${#pipe_sets[@]} - 1))]\ttype of pipes (D=0)."
         echo -e " -f [20-100]\tframerate (D=75)."
         echo -e " -s [5-15]\tprobability of a straight fitting (D=13)."
         echo -e " -r LIMIT\treset after x characters, 0 if no limit (D=2000)."
@@ -93,7 +99,7 @@ while ! read -t0.0$((1000/f)) -n1; do
         # Print:
         tput cup ${y[i]} ${x[i]}
         [[ $NOCOLOR == 0 ]] && echo -ne "\033[1;3${c[i]}m"
-        echo -ne "\xe2\x94${v[${l[i]}${n[i]}]}"
+        echo -n "${v:l[i]*4+n[i]:1}"
         l[i]=${n[i]}
     done
     ((r>0 && t*p>=r)) && tput reset && tput civis && t=0 || ((t++))
