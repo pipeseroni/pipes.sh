@@ -57,8 +57,12 @@ if $SLEEP &>/dev/null; (($? != 142)); then
 fi
 
 cleanup() {
+    # clear up standard input
+    read -t 0 && cat </dev/stdin>/dev/null
+
     tput rmcup
     tput cnorm
+    stty echo
     exit 0
 }
 trap cleanup SIGHUP SIGINT SIGTERM
@@ -69,6 +73,7 @@ for (( i=1; i<=p; i++ )); do
     ((y[i]=RNDSTART==1?RANDOM*h/32768:h/2))
 done
 
+stty -echo
 tput smcup
 tput reset
 tput civis
