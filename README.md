@@ -23,7 +23,7 @@ Copyright concern
 
 Normally, I wouldn't do this for a source code without proper license, but it's
 done a year ago, So, what the heck. Even I have read somewhere that claim
-`pipes.sh` is in public domain, I can't not trust that.
+`pipes.sh` is in public domain, I can not trust that.
 
 So, anyone who wants to contribute, please be aware.
 
