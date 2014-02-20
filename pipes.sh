@@ -1,28 +1,9 @@
 #!/bin/bash
-# The author of the original script is unknown to me. The first entry I can
-# find was posted at 2010-03-21 09:50:09 on Arch Linux Forums (doesn't mean the
-# poster is the author at all):
+# pipes.sh: Animated pipes terminal screensaver.
 #
-#   https://bbs.archlinux.org/viewtopic.php?pid=728932#p728932
+# This modified version is maintained at:
 #
-# I, Yu-Jie Lin, made a few changes and additions:
-#
-#   -p, -t, -R, and -C
-#
-#   Screenshot: http://flic.kr/p/dRnLVj
-#   Screencast: http://youtu.be/5XnGSFg_gTk
-#
-# And push the commits to Gist:
-#
-#   https://gist.github.com/4689307
-#
-# I, Devin Samarin, made a few changes and additions:
-#
-#   -r can be 0 to mean "no limit".
-#   Reset cursor visibility after done.
-#   Cleanup for those people who want to quit with ^C
-#
-#   Pushed the changes to https://gist.github.com/4725048
+#   https://github.com/livibetter/pipes.sh
 
 p=1
 f=75 s=13 r=2000 t=0
