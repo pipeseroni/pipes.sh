@@ -31,6 +31,26 @@ So, anyone who wants to contribute, please be aware.
 The most interesting thing is: I don't even have a name of the original author.
 
 
+Installation
+============
+
+If you want to install, you can run:
+
+.. code:: sh
+
+  $ make install
+
+By default, it installs to ``/usr/local``; for user home, you can run:
+
+.. code:: sh
+
+  $ make PREFIX=$HOME/.local install
+
+Or any ``PREFIX`` you prefer.
+
+The ``Makefile`` also provides ``uninstall`` target.
+
+
 Options
 =======
 
