@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # pipes.sh: Animated pipes terminal screensaver.
 #
 # This modified version is maintained at:
@@ -47,6 +47,15 @@ case $arg in
     esac
 done
 
+# Attempt to workaround for Bash versions < 4, such as 3.2 on Mac:
+#   https://gist.github.com/livibetter/4689307/#comment-892368
+# Untested--in conduction of using shebang `env bash`--should fall back to
+# `sleep`
+printf -v SLEEP "read -t0.0$((1000/f)) -n 1"
+if $SLEEP &>/dev/null; (($? != 142)); then
+  printf -v SLEEP "sleep 0.0$((1000/f))"
+fi
+
 cleanup() {
     tput rmcup
     tput cnorm
@@ -63,7 +72,8 @@ done
 tput smcup
 tput reset
 tput civis
-while ! read -t0.0$((1000/f)) -n1; do
+# any key press exits the loop and this script
+while $SLEEP; (($? > 128)) || [[ $SLEEP = sleep* ]] && (($? == 0)); do
     for (( i=1; i<=p; i++ )); do
         # New position:
         ((${l[i]}%2)) && ((x[i]+=-${l[i]}+2,1)) || ((y[i]+=${l[i]}-1))

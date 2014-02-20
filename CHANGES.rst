@@ -3,6 +3,12 @@ CHANGES
 =======
 
 
+2013-02-21
+==========
+
+* fix ``read`` with fractional timeout for older Bash version < 4
+
+
 2013-02-20
 ==========
 
