@@ -7,6 +7,7 @@ CHANGES
 ==========
 
 * fix ``read`` with fractional timeout for older Bash version < 4
+* add option argument ``-t 5`` for ASCII type
 
 
 2013-02-20

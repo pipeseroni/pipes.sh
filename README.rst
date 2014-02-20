@@ -34,28 +34,28 @@ The most interesting thing is: I don't even have a name of the original author.
 Options
 =======
 
-`-p [1-]`
+``-p [1-]``
     number of pipes (D=1).
 
-`-t [0-4]`
+``-t [0-4]``
     type of pipes (D=0). See [Types of Pipes](#types-of-pipes) for samples.
 
-`-f [20-100]`
+``-f [20-100]``
     framerate (D=75).
 
-`-s [5-15]`
+``-s [5-15]``
     probability of a straight fitting (D=13).
 
-`-r LIMIT`
+``-r LIMIT``
      reset after x characters, 0 if no limit (D=2000).
 
-`-R`
+``-R``
     random starting point.
 
-`-C`
+``-C``
     no color.
 
-`-h`
+``-h``
     help message.
 
 
@@ -65,31 +65,36 @@ Types of Pipes
 There are a few types of pipes to choose from:
 
 
-`-t 0`
-------
+``-t 0``
+--------
 
-Characters are `┃┏ ┓┛━┓  ┗┃┛┗ ┏━`.
+Characters are ``┃┏ ┓┛━┓  ┗┃┛┗ ┏━``.
 
 .. figure:: https://lh5.googleusercontent.com/-gHm74e1R0wY/UwWJnHr_H1I/AAAAAAAAFxI/1qe53Jl8FM4/s800/2014-02-20--12%253A47%253A36.png
 
-`-t 1`
-------
+``-t 1``
+--------
 
-Characters are `│╭ ╮╯─╮  ╰│╯╰ ╭─`.
+Characters are ``│╭ ╮╯─╮  ╰│╯╰ ╭─``.
 
-`-t 2`
-------
+``-t 2``
+--------
 
-Characters are `│┌ ┐┘─┐  └│┘└ ┌─`.
+Characters are ``│┌ ┐┘─┐  └│┘└ ┌─``.
 
-`-t 3`
-------
+``-t 3``
+--------
 
-Characters are `║╔ ╗╝═╗  ╚║╝╚ ╔═`.
+Characters are ``║╔ ╗╝═╗  ╚║╝╚ ╔═``.
 
-`-t 4`
-------
+``-t 4``
+--------
 
-Characters are `|+ ++-+  +|++ +-`.
+Characters are ``|+ ++-+  +|++ +-``.
 
 .. figure:: https://lh6.googleusercontent.com/-EVMwemQ0JFo/UwWJpVL3zZI/AAAAAAAAFxQ/qBEdcI_10zk/s800/2014-02-20--12%253A48%253A08.png
+
+``-t 5``
+--------
+
+Characters are ``|/ \/-\  \|/\ /-``.
