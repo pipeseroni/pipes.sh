@@ -37,7 +37,7 @@ Options
 :   number of pipes (D=1).
 
 `-t [0-4]`
-:   type of pipes (D=0). See *Types of Pipes* for samples.
+:   type of pipes (D=0). See [Types of Pipes](#types-of-pipes) for samples.
 
 `-f [20-100]`
 :   framerate (D=75).
@@ -63,18 +63,17 @@ Types of Pipes
 
 There are a few types of pipes to choose from:
 
-| t | Characters       |
-| - | ---------------- |
-| 0 | ┃┏ ┓┛━┓  ┗┃┛┗ ┏━ |
-| 1 | │╭ ╮╯─╮  ╰│╯╰ ╭─ |
-| 2 | │┌ ┐┘─┐  └│┘└ ┌─ |
-| 3 | ║╔ ╗╝═╗  ╚║╝╚ ╔═ |
-| 4 | &#124;+ ++-+  +&#124;++ +- |
 
-### `-t 0`
+### `-t 0`: `┃┏ ┓┛━┓  ┗┃┛┗ ┏━`
 
 ![pipes.sh](https://lh5.googleusercontent.com/-gHm74e1R0wY/UwWJnHr_H1I/AAAAAAAAFxI/1qe53Jl8FM4/s800/2014-02-20--12%253A47%253A36.png)
 
-### `-t 4`
+### `-t 1`: `│╭ ╮╯─╮  ╰│╯╰ ╭─`
+
+### `-t 2`: `│┌ ┐┘─┐  └│┘└ ┌─`
+
+### `-t 3`: `║╔ ╗╝═╗  ╚║╝╚ ╔═`
+
+### `-t 4`: `|+ ++-+  +|++ +-`
 
 ![pipes.sh](https://lh6.googleusercontent.com/-EVMwemQ0JFo/UwWJpVL3zZI/AAAAAAAAFxQ/qBEdcI_10zk/s800/2014-02-20--12%253A48%253A08.png)
