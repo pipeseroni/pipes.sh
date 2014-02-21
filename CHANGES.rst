@@ -3,14 +3,14 @@ CHANGES
 =======
 
 
-2013-02-21
+2014-02-21
 ==========
 
 * fix ``read`` with fractional timeout for older Bash version < 4
 * add option argument ``-t 5`` for ASCII type
 
 
-2013-02-20
+2014-02-20
 ==========
 
 * move to GitHub_

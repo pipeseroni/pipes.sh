@@ -185,4 +185,4 @@ Related projects
 * pipesX.sh_: pipes.sh at an angle
 
 .. _Snakes: http://mezulis.com/2013/04/02/snakes-a-console-based-pipes-like-screensaver/
-.. _pipesX.sh: https://gist.github.com/livibetter/5974905
+.. _pipesX.sh: https://github.com/livibetter/pipesX.sh
