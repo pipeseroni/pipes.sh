@@ -4,7 +4,26 @@ pipes.sh
 
   *Animated pipes terminal screensaver.*
 
-.. figure:: https://lh5.googleusercontent.com/-gHm74e1R0wY/UwWJnHr_H1I/AAAAAAAAFxI/1qe53Jl8FM4/s800/2014-02-20--12%253A47%253A36.png
+.. note on taking the screenshots
+
+  Font is Inconsolata, font size 24 as in 16x35 pixel per character
+
+  Image size is 640x210. A sample command, where terminal at +0+18,
+  window border is 2, terminal is urxvt, seems to 2 pixels as padding:
+
+  xsnap -region 640x210+$((2+2))+$((20+2)) -file doc/pipes.png
+
+.. figure:: doc/pipes.png
+
+.. contents:: **Contents**
+   :local:
+   :backlinks: top
+
+
+How this started
+================
+
+First and foremost, I am not the original author of pipes.sh.
 
 The author of the original script is unknown to me. The first entry I can
 find was posted at 2010-03-21 09:50:09 on `Arch Linux Forums`_ (doesn't mean the
@@ -12,11 +31,16 @@ poster is the author at all).
 
 .. _Arch Linux Forums: https://bbs.archlinux.org/viewtopic.php?pid=728932#p728932
 
-Originally, I pushed my modifications to Gist_, but after saw this
-`C version`_, it might be the time to move here.
+Originally, I pushed my modifications to Gist_ after reading about pipes.sh on
+a blog_, I continued to maintain the Gist for a few months in 2013
 
 .. _Gist: https://gist.github.com/livibetter/4689307
-.. _C version: http://mezulis.com/2013/04/02/snakes-a-console-based-pipes-like-screensaver/
+.. _blog: http://inconsolation.wordpress.com/2013/02/01/pipes-sh-a-little-bit-of-fun/
+
+In 2014, after seeing this `C version`_, which happened to be inspired by my
+modified version, it might be the time to move here.
+
+.. _C version: Snakes_
 
 
 Copyright concern
@@ -55,66 +79,105 @@ Options
 =======
 
 ``-p [1-]``
-    number of pipes (D=1).
+-----------
 
-``-t [0-4]``
-    type of pipes (D=0). See [Types of Pipes](#types-of-pipes) for samples.
+Number of pipes (D=1).
+
+``-t [#]``
+----------
+
+Type of pipes (D=0).
+
+.. note on taking the screenshots
+
+  Font is Inconsolata, font size 24 as in 16x35 pixel per character
+
+  Image size is 480x140. A sample command, where terminal at +0+18,
+  window border is 2, terminal is urxvt, seems to 2 pixels as padding:
+
+  xsnap -region 480x140+$((2+2))+$((20+2)) -file doc/pipes.t#.png
+
++----------+-------------------------------+
+| ``-t #`` | Charaters                     |
++==========+===============================+
+| ``-t 0`` | ``┃┏ ┓┛━┓  ┗┃┛┗ ┏━``          |
+|          |                               |
+|          | .. figure:: doc/pipes.t0.png  |
++----------+-------------------------------+
+| ``-t 1`` | ``│╭ ╮╯─╮  ╰│╯╰ ╭─``          |
+|          |                               |
+|          | .. figure:: doc/pipes.t1.png  |
++----------+-------------------------------+
+| ``-t 2`` | ``│┌ ┐┘─┐  └│┘└ ┌─``          |
+|          |                               |
+|          | .. figure:: doc/pipes.t2.png  |
++----------+-------------------------------+
+| ``-t 3`` | ``║╔ ╗╝═╗  ╚║╝╚ ╔═``          |
+|          |                               |
+|          | .. figure:: doc/pipes.t3.png  |
++----------+-------------------------------+
+| ``-t 4`` | ``|+ ++-+  +|++ +-``          |
+|          |                               |
+|          | .. figure:: doc/pipes.t4.png  |
++----------+-------------------------------+
+| ``-t 5`` | ``|/ \/-\  \|/\ /-``          |
+|          |                               |
+|          | .. figure:: doc/pipes.t5.png  |
++----------+-------------------------------+
 
 ``-f [20-100]``
-    framerate (D=75).
+---------------
+
+Framerate (D=75).
 
 ``-s [5-15]``
-    probability of a straight fitting (D=13).
+-------------
+
+Probability of a straight fitting (D=13).
 
 ``-r LIMIT``
-     reset after x characters, 0 if no limit (D=2000).
+------------
+
+Reset after x characters, 0 if no limit (D=2000).
 
 ``-R``
-    random starting point.
+------
+
+Random starting point.
 
 ``-C``
-    no color.
+------
+
+No color.
+
+.. note on taking the screenshot
+
+  Font is Inconsolata, font size 24 as in 16x35 pixel per character
+
+  Image size is 640x140. A sample command, where terminal at +0+18,
+  window border is 2, terminal is urxvt, seems to 2 pixels as padding:
+
+  xsnap -region 640x140+$((2+2))+$((20+2)) -file doc/pipes.Cpng
+
+.. figure:: doc/pipes.C.png
 
 ``-h``
-    help message.
+------
+
+Help message.
 
 
-Types of Pipes
-==============
+Contribution
+============
 
-There are a few types of pipes to choose from:
+Feel free to fork and/or create pull request. But if you does create pull requests, that means you agree to put your contribution in public domain, also be sure to read about `copyright concern`_.
 
 
-``-t 0``
---------
+Related projects
+================
 
-Characters are ``┃┏ ┓┛━┓  ┗┃┛┗ ┏━``.
+* Snakes_: a C version of pipes.sh
+* pipesX.sh_: pipes.sh at an angle
 
-.. figure:: https://lh5.googleusercontent.com/-gHm74e1R0wY/UwWJnHr_H1I/AAAAAAAAFxI/1qe53Jl8FM4/s800/2014-02-20--12%253A47%253A36.png
-
-``-t 1``
---------
-
-Characters are ``│╭ ╮╯─╮  ╰│╯╰ ╭─``.
-
-``-t 2``
---------
-
-Characters are ``│┌ ┐┘─┐  └│┘└ ┌─``.
-
-``-t 3``
---------
-
-Characters are ``║╔ ╗╝═╗  ╚║╝╚ ╔═``.
-
-``-t 4``
---------
-
-Characters are ``|+ ++-+  +|++ +-``.
-
-.. figure:: https://lh6.googleusercontent.com/-EVMwemQ0JFo/UwWJpVL3zZI/AAAAAAAAFxQ/qBEdcI_10zk/s800/2014-02-20--12%253A48%253A08.png
-
-``-t 5``
---------
-
-Characters are ``|/ \/-\  \|/\ /-``.
+.. _Snakes: http://mezulis.com/2013/04/02/snakes-a-console-based-pipes-like-screensaver/
+.. _pipesX.sh: https://gist.github.com/livibetter/5974905
