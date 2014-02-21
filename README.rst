@@ -14,6 +14,11 @@ pipes.sh
   xsnap -region 640x210+$((2+2))+$((20+2)) -file doc/pipes.png
 
 .. figure:: doc/pipes.png
+  :target: screencast_
+
+  Screenshot of pipes.sh, click to watch a screencast_ on YouTube.
+
+.. _screencast: http://youtu.be/q_nYfR6CVEY
 
 .. contents:: **Contents**
    :local:
