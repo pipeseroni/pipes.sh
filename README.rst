@@ -172,6 +172,12 @@ No color.
 Help message.
 
 
+``-v``
+------
+
+Print version number.
+
+
 Contribution
 ============
 

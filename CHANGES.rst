@@ -3,6 +3,12 @@ CHANGES
 =======
 
 
+Development
+===========
+
+* add versioning functionality
+
+
 2014-02-21
 ==========
 

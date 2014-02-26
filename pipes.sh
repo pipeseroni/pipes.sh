@@ -5,6 +5,8 @@
 #
 #   https://github.com/livibetter/pipes.sh
 
+VERSION=0.0.0
+
 p=1
 f=75 s=13 r=2000 t=0
 w=$(tput cols) h=$(tput lines)
@@ -25,7 +27,7 @@ RNDSTART=0
 NOCOLOR=0
 
 OPTIND=1
-while getopts "p:t:f:s:r:RCh" arg; do
+while getopts "p:t:f:s:r:RChv" arg; do
 case $arg in
     p) ((p=(OPTARG>0)?OPTARG:p));;
     t) ((OPTARG>=0 && OPTARG<${#sets[@]})) && v="${sets[OPTARG]}";;
@@ -44,7 +46,10 @@ case $arg in
         echo -e " -R \t\trandom starting point."
         echo -e " -C \t\tno color."
         echo -e " -h\t\thelp (this screen).\n"
+        echo -e " -v\t\tprint version number.\n"
         exit 0;;
+    v) echo "$(basename -- "$0") $VERSION"
+        exit 0
     esac
 done
 
