@@ -46,7 +46,7 @@ case $arg in
         echo -e " -r LIMIT\treset after x characters, 0 if no limit (D=2000)."
         echo -e " -R \t\trandom starting point."
         echo -e " -C \t\tno color."
-        echo -e " -h\t\thelp (this screen).\n"
+        echo -e " -h\t\thelp (this screen)."
         echo -e " -v\t\tprint version number.\n"
         exit 0;;
     v) echo "$(basename -- "$0") $VERSION"
