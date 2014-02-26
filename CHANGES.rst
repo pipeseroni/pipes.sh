@@ -7,6 +7,7 @@ Development
 ===========
 
 * add versioning functionality
+* allow multiple ``-t`` (#3)
 
 
 2014-02-21

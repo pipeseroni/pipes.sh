@@ -91,7 +91,7 @@ Number of pipes (D=1).
 ``-t [#]``
 ----------
 
-Type of pipes (D=0).
+Type of pipes, can be used more than once (D=0).
 
 .. note on taking the screenshots
 
