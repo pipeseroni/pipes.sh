@@ -73,6 +73,7 @@ cleanup() {
     tput rmcup
     tput cnorm
     stty echo
+    ((NOCOLOR)) && echo -ne '\e[0m'
     exit 0
 }
 trap cleanup SIGHUP SIGINT SIGTERM

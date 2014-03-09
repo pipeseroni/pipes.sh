@@ -6,6 +6,8 @@ CHANGES
 Development
 ===========
 
+* fix leftover color escaped code (#5)
+
 
 Version 0.1.0 (2014-02-26T11:27:01Z)
 ====================================
