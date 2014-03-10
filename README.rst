@@ -178,6 +178,12 @@ Help message.
 Print version number.
 
 
+Controls
+========
+
+Press any key to exit the program.
+
+
 Contribution
 ============
 
