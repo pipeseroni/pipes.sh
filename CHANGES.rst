@@ -7,6 +7,10 @@ Development
 ===========
 
 * fix leftover color escaped code (#5)
+* workaround of Control+C exiting (#4)
+
+  Signal ``INT`` is now ignored, so user interrupt would not occur, only a key
+  press can trigger the exit of pipes.sh.
 
 
 Version 0.1.0 (2014-02-26T11:27:01Z)

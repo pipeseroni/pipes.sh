@@ -76,7 +76,8 @@ cleanup() {
     ((NOCOLOR)) && echo -ne '\e[0m'
     exit 0
 }
-trap cleanup SIGHUP SIGINT SIGTERM
+trap cleanup HUP TERM
+trap '' INT
 
 for (( i=1; i<=p; i++ )); do
     c[i]=$((i%8)) n[i]=0 l[i]=0
@@ -90,7 +91,7 @@ tput smcup
 tput reset
 tput civis
 # any key press exits the loop and this script
-while $SLEEP; (($? > 128)) || [[ $SLEEP = sleep* ]] && (($? == 0)); do
+while REPLY=; $SLEEP; (($? != 130)) && [[ -z $REPLY ]] ; do
     for (( i=1; i<=p; i++ )); do
         # New position:
         ((${l[i]}%2)) && ((x[i]+=-${l[i]}+2,1)) || ((y[i]+=${l[i]}-1))
