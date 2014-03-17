@@ -12,6 +12,8 @@ Development
   Signal ``INT`` is now ignored, so user interrupt would not occur, only a key
   press can trigger the exit of pipes.sh.
 
+* add manpage (#2, #6 by @Foggalong)
+
 
 Version 0.1.0 (2014-02-26T11:27:01Z)
 ====================================
