@@ -1,0 +1,51 @@
+.\" Manpage for pipes.sh
+.\" Report errors or typos to https://github.com/livibetter/pipes.sh/
+.TH man 8 "17 March 2014" "0.1.0" "pipes.sh man page"
+
+.SH NAME
+pipes.sh \- animated pipes terminal screensaver
+
+.SH SYNOPSIS
+pipes.sh [OPTIONS]
+
+.SH DESCRIPTION
+A bash script which draws randomly pathed pipes over the terminal. Generally used either as a functional screensaver or for amusement.
+
+.SH OPTIONS
+A summary of options is included below. For a more complete description and examples see the GitHub page linked to in the see also section.
+.TP 5
+.B -p [1-]
+Number of pipes. (default is 1)
+.TP
+.B -t [0-5]
+Determines the type of pipes to be drawn. Multiple arguments can be used. (default is 0)
+.TP
+.B -f [20-100]
+Frame rate. (default is 75)
+.TP
+.B -s [5-15]
+Probability of straight fitting. (default is 13)
+.TP
+.B -r [LIMIT]
+Resets the drawing after [LIMIT] characters. If no limit is specified then it takes the value 0. (default is 2000) 
+.TP
+.B -R
+Random starting point.
+.TP
+.B -C
+No color.
+.TP
+.B -h
+Displays a help message.
+.TP
+.B -v
+Prints the version number.
+
+.SH SEE ALSO
+Source: https://github.com/livibetter/pipes.sh
+
+.SH BUGS
+There are issues exiting with any key on Mac and also some terminal emulators have problems with remnant pipes and color changes.
+
+.SH AUTHOR
+The original author of pipes.sh is unknown but it is maintained today by Yu-Jie Lin (livibetter@gmail.com). This manual page was written by Joshua Fogg (joshua.h.fogg@gmail.com).
