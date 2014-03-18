@@ -7,6 +7,17 @@ Development
 ===========
 
 * fix leftover color escaped code (#5)
+* fix terminal with no ``smcup`` and ``rmcup`` capabilities, and incorrect
+  ``tput reset`` (#4)
+
+  ``smcup`` stores the screen and ``rmcup`` restores, if ``tput`` can't execute
+  successfully like in Linux console, then the terminal doesn't have such
+  capabilities, therefore a ``reset`` is used to clean up.
+
+  ``tput reset`` results incorrect screen restoration, seemingly only cursor
+  position restores, the screen before invocation isn't saved and restored.
+  However, within ``tmux`` this issue doesn't not occur.
+
 * workaround of Control+C exiting (#4)
 
   Signal ``INT`` is now ignored, so user interrupt would not occur, only a key
