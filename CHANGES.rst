@@ -6,6 +6,10 @@ CHANGES
 Development
 ===========
 
+
+Version 0.1.1 (2014-03-18T08:52:13Z)
+====================================
+
 * fix leftover color escaped code (#5)
 * fix terminal with no ``smcup`` and ``rmcup`` capabilities, and incorrect
   ``tput reset`` (#4)
