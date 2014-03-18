@@ -70,6 +70,9 @@ cleanup() {
     # clear up standard input
     read -t 0 && cat </dev/stdin>/dev/null
 
+    # terminal has no smcup and rmcup capabilities
+    ((FORCE_RESET)) && reset && exit 0
+
     tput rmcup
     tput cnorm
     stty echo
@@ -87,7 +90,7 @@ for (( i=1; i<=p; i++ )); do
 done
 
 stty -echo
-tput smcup
+tput smcup || FORCE_RESET=1
 tput reset
 tput civis
 # any key press exits the loop and this script
