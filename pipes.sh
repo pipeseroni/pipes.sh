@@ -75,6 +75,7 @@ cleanup() {
 
     tput rmcup
     tput cnorm
+    stty echo
     ((NOCOLOR)) && echo -ne '\e[0m'
     exit 0
 }
@@ -88,8 +89,10 @@ for (( i=1; i<=p; i++ )); do
     v[i]=${V[${#V[@]} * RANDOM / M]}
 done
 
+stty -echo
 tput smcup || FORCE_RESET=1
 tput civis
+tput clear
 # any key press exits the loop and this script
 while REPLY=; $SLEEP; (($? != 130)) && [[ -z $REPLY ]] ; do
     for (( i=1; i<=p; i++ )); do
