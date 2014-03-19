@@ -6,6 +6,8 @@ CHANGES
 Development
 ===========
 
+* fix no exit keys in Bash < 4 (#1)
+
 
 Version 0.1.1 (2014-03-18T08:52:13Z)
 ====================================

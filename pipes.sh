@@ -80,7 +80,7 @@ cleanup() {
     exit 0
 }
 trap cleanup HUP TERM
-trap '' INT
+trap 'break 2' INT
 
 for (( i=1; i<=p; i++ )); do
     c[i]=$((i%8)) n[i]=0 l[i]=0

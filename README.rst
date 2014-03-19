@@ -181,7 +181,8 @@ Print version number.
 Controls
 ========
 
-Press any key to exit the program.
+Press any key to exit the program, except in Bash < 4, Control + C is the only
+key to exit.
 
 
 Contribution
