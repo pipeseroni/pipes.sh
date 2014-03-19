@@ -94,7 +94,7 @@ tput smcup || FORCE_RESET=1
 tput civis
 tput clear
 # any key press exits the loop and this script
-while REPLY=; $SLEEP; (($? != 130)) && [[ -z $REPLY ]] ; do
+while REPLY=; $SLEEP; [[ -z $REPLY ]] ; do
     for (( i=1; i<=p; i++ )); do
         # New position:
         ((${l[i]}%2)) && ((x[i]+=-${l[i]}+2,1)) || ((y[i]+=${l[i]}-1))
