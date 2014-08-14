@@ -197,5 +197,5 @@ Related projects
 * Snakes_: a C version of pipes.sh
 * pipesX.sh_: pipes.sh at an angle
 
-.. _Snakes: http://mezulis.com/2013/04/02/snakes-a-console-based-pipes-like-screensaver/
+.. _Snakes: https://github.com/OneLastTry/Snakes
 .. _pipesX.sh: https://github.com/livibetter/pipesX.sh
