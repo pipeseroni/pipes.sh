@@ -1,0 +1,9 @@
+{
+  "name": "pipes",
+  "version": "0.1.1",
+  "description": "Animated pipes terminal screensaver",
+  "global": "true",
+  "install": "make install",
+  "scripts": [ "pipes.sh" ]
+}
+
