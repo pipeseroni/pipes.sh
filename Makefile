@@ -7,7 +7,7 @@ INSTMAN=$(INSTDIR)/share/man/man6
 
 BIN ?= pipes.sh
 SCRIPT=pipes.sh
-MANPAGE=$(BIN).6
+MANPAGE=$(SCRIPT).6
 
 all:
 	@echo did nothing. try targets: install, or uninstall.
@@ -18,10 +18,10 @@ install:
 	test -d $(INSTMAN) || mkdir -p $(INSTMAN)
 
 	install -m 0755 $(SCRIPT) $(INSTBIN)/$(BIN)
-	install -m 0644 doc/$(MANPAGE) $(INSTMAN)
+	install -m 0644 doc/$(MANPAGE) $(INSTMAN)/$(BIN)
 
 uninstall:
 	rm -f $(INSTBIN)/$(BIN)
-	rm -f $(INSTMAN)/$(MANPAGE)
+	rm -f $(INSTMAN)/$(BIN)
 
 .PHONY: all install uninstall
