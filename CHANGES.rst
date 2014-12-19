@@ -6,6 +6,9 @@ CHANGES
 Development
 ===========
 
+Version 0.2.0 (2014-12-19T07:43:58Z)
+====================================
+
 * fix no exit keys in Bash < 4 (#1)
 * add ``-B`` option for no bold effect (#10)
 
