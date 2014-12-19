@@ -150,7 +150,7 @@ Reset after x characters, 0 if no limit (D=2000).
 
 Random starting point.
 
-``-b``
+``-B``
 ------
 
 No bold effect.
