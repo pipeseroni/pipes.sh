@@ -7,6 +7,7 @@ Development
 ===========
 
 * fix no exit keys in Bash < 4 (#1)
+* add ``-B`` option for no bold effect (#10)
 
 
 Version 0.1.1 (2014-03-18T08:52:13Z)

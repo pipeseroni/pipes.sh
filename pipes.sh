@@ -25,10 +25,11 @@ sets=(
 )
 v=()
 RNDSTART=0
+BOLD=1
 NOCOLOR=0
 
 OPTIND=1
-while getopts "p:t:f:s:r:RChv" arg; do
+while getopts "p:t:f:s:r:RBChv" arg; do
 case $arg in
     p) ((p=(OPTARG>0)?OPTARG:p));;
     t) ((OPTARG>=0 && OPTARG<${#sets[@]})) && V+=($OPTARG);;
@@ -36,6 +37,7 @@ case $arg in
     s) ((s=(OPTARG>4 && OPTARG<16 )?OPTARG:s));;
     r) ((r=(OPTARG>=0)?OPTARG:r));;
     R) RNDSTART=1;;
+    B) BOLD=0;;
     C) NOCOLOR=1;;
     h) echo -e "Usage: $(basename $0) [OPTION]..."
         echo -e "Animated pipes terminal screensaver.\n"
@@ -45,6 +47,7 @@ case $arg in
         echo -e " -s [5-15]\tprobability of a straight fitting (D=13)."
         echo -e " -r LIMIT\treset after x characters, 0 if no limit (D=2000)."
         echo -e " -R \t\trandom starting point."
+        echo -e " -B \t\tno bold effect."
         echo -e " -C \t\tno color."
         echo -e " -h\t\thelp (this screen)."
         echo -e " -v\t\tprint version number.\n"
@@ -111,7 +114,8 @@ while REPLY=; $SLEEP; [[ -z $REPLY ]] ; do
 
         # Print:
         tput cup ${y[i]} ${x[i]}
-        [[ $NOCOLOR == 0 ]] && echo -ne "\033[1;3${c[i]}m"
+        echo -ne "\e[${BOLD}m"
+        [[ $NOCOLOR == 0 ]] && echo -ne "\e[3${c[i]}m"
         echo -n "${sets[v[i]]:l[i]*4+n[i]:1}"
         l[i]=${n[i]}
     done
