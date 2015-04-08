@@ -60,6 +60,12 @@ So, anyone who wants to contribute, please be aware.
 The most interesting thing is: I don't even have a name of the original author.
 
 
+Requirements
+============
+
+* Bash 4+ since version 1.0.0.
+
+
 Installation
 ============
 
@@ -186,8 +192,7 @@ Print version number.
 Controls
 ========
 
-Press any key to exit the program, except in Bash < 4, Control + C is the only
-key to exit.
+Press any key to exit the program.
 
 
 Contribution

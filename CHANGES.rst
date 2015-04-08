@@ -6,6 +6,14 @@ CHANGES
 Development
 ===========
 
+* drop Bash 3- support
+
+  The last commit for Bash 3- is ``b3e2253ff3c6c01fb718af262db9c2a6b72736e0``
+  or before version 1.0.
+
+* fix keys like arrow keys or ``Ctrl+Alt+A`` halt on exiting (#12)
+
+
 Version 0.2.0 (2014-12-19T07:43:58Z)
 ====================================
 

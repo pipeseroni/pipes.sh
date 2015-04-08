@@ -60,18 +60,9 @@ done
 # set default values if not by options
 ((${#V[@]})) || V=(0)
 
-# Attempt to workaround for Bash versions < 4, such as 3.2 on Mac:
-#   https://gist.github.com/livibetter/4689307/#comment-892368
-# Untested--in conduction of using shebang `env bash`--should fall back to
-# `sleep`
-printf -v SLEEP "read -t0.0$((1000/f)) -n 1"
-if $SLEEP &>/dev/null; (($? != 142)); then
-  printf -v SLEEP "sleep 0.0$((1000/f))"
-fi
-
 cleanup() {
     # clear up standard input
-    read -t 0 && cat </dev/stdin>/dev/null
+    read -t 0.001 && cat </dev/stdin>/dev/null
 
     # terminal has no smcup and rmcup capabilities
     ((FORCE_RESET)) && reset && exit 0
@@ -97,7 +88,7 @@ tput smcup || FORCE_RESET=1
 tput civis
 tput clear
 # any key press exits the loop and this script
-while REPLY=; $SLEEP; [[ -z $REPLY ]] ; do
+while REPLY=; read -t 0.0$((1000/f)) -n 1; [[ -z $REPLY ]] ; do
     for (( i=1; i<=p; i++ )); do
         # New position:
         ((${l[i]}%2)) && ((x[i]+=-${l[i]}+2,1)) || ((y[i]+=${l[i]}-1))
