@@ -5,7 +5,7 @@
 #
 #   https://github.com/livibetter/pipes.sh
 
-VERSION=0.2.0
+VERSION=1.0.0
 
 M=32768
 p=1

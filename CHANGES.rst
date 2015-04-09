@@ -6,6 +6,10 @@ CHANGES
 Development
 ===========
 
+
+Version 1.0.0 (2015-04-09T02:41:33Z)
+====================================
+
 * drop Bash 3- support
 
   The last commit for Bash 3- is ``b3e2253ff3c6c01fb718af262db9c2a6b72736e0``
