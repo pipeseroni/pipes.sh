@@ -135,6 +135,30 @@ Type of pipes, can be used more than once (D=0).
 |          |                               |
 |          | .. figure:: doc/pipes.t5.png  |
 +----------+-------------------------------+
+| ``-t 6`` | ``.. ....  .... ..``          |
+|          |                               |
+|          | .. figure:: doc/pipes.t6.png  |
++----------+-------------------------------+
+| ``-t 7`` | ``.o oo.o  o.oo o.``          |
+|          |                               |
+|          | .. figure:: doc/pipes.t7.png  |
++----------+-------------------------------+
+
+``-t c[16 chars]``
+------------------
+
+Custom pipe, for example: ``-t cMAYFORCEBWITHYOU``.
+
+.. note on taking the screenshot
+
+  Font is Inconsolata, font size 24 as in 16x35 pixel per character
+
+  Image size is 640x140. A sample command, where terminal at +0+18,
+  window border is 2, terminal is urxvt, seems to 2 pixels as padding:
+
+  xsnap -region 640x140+$((2+2))+$((20+2)) -file doc/pipes.tc.png
+
+.. figure:: doc/pipes.tc.png
 
 ``-f [20-100]``
 ---------------

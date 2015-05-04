@@ -22,6 +22,8 @@ sets=(
     "║╔ ╗╝═╗  ╚║╝╚ ╔═"
     "|+ ++-+  +|++ +-"
     "|/ \/-\  \|/\ /-"
+    ".. ....  .... .."
+    ".o oo.o  o.oo o."
 )
 v=()
 RNDSTART=0
@@ -32,7 +34,14 @@ OPTIND=1
 while getopts "p:t:f:s:r:RBChv" arg; do
 case $arg in
     p) ((p=(OPTARG>0)?OPTARG:p));;
-    t) ((OPTARG>=0 && OPTARG<${#sets[@]})) && V+=($OPTARG);;
+    t)
+        if [[ "$OPTARG" = c???????????????? ]]; then
+            V+=(${#sets[@]})
+            sets+=("${OPTARG:1}")
+        else
+            ((OPTARG>=0 && OPTARG<${#sets[@]})) && V+=($OPTARG)
+        fi
+        ;;
     f) ((f=(OPTARG>19 && OPTARG<101)?OPTARG:f));;
     s) ((s=(OPTARG>4 && OPTARG<16 )?OPTARG:s));;
     r) ((r=(OPTARG>=0)?OPTARG:r));;
@@ -43,6 +52,7 @@ case $arg in
         echo -e "Animated pipes terminal screensaver.\n"
         echo -e " -p [1-]\tnumber of pipes (D=1)."
         echo -e " -t [0-$((${#sets[@]} - 1))]\ttype of pipes, can be used more than once (D=0)."
+        echo -e " -t c[16 chars]\tcustom type of pipes."
         echo -e " -f [20-100]\tframerate (D=75)."
         echo -e " -s [5-15]\tprobability of a straight fitting (D=13)."
         echo -e " -r LIMIT\treset after x characters, 0 if no limit (D=2000)."

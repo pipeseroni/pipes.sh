@@ -7,6 +7,8 @@ Development
 ===========
 
 * move to new GitHub_
+* add ``-t c[16 chars]`` for custom type
+* add ``-t 6`` and ``-t 7``
 
 .. _GitHub: https://github.com/pipeseroni/pipes.sh
 
