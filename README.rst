@@ -207,5 +207,5 @@ Related projects
 * Snakes_: a C version of pipes.sh
 * pipesX.sh_: pipes.sh at an angle
 
-.. _Snakes: https://github.com/OneLastTry/Snakes
-.. _pipesX.sh: https://github.com/livibetter/pipesX.sh
+.. _Snakes: https://github.com/pipeseroni/Snakes
+.. _pipesX.sh: https://github.com/pipeseroni/pipesX.sh

@@ -3,7 +3,7 @@
 #
 # This modified version is maintained at:
 #
-#   https://github.com/livibetter/pipes.sh
+#   https://github.com/pipeseroni/pipes.sh
 
 VERSION=1.0.0
 

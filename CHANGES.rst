@@ -6,6 +6,10 @@ CHANGES
 Development
 ===========
 
+* move to new GitHub_
+
+.. _GitHub: https://github.com/pipeseroni/pipes.sh
+
 
 Version 1.0.0 (2015-04-09T02:41:33Z)
 ====================================
@@ -65,10 +69,8 @@ Version 0.1.0 (2014-02-26T11:27:01Z)
 2014-02-20
 ==========
 
-* move to GitHub_
+* move to GitHub: ``https://github.com/livibetter/pipes.sh``
 * add option argument ``-t 4`` for ASCII type
-
-.. _GitHub: https://github.com/livibetter/pipes.sh
 
 
 2013-02-07
