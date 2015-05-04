@@ -6,6 +6,9 @@ CHANGES
 Development
 ===========
 
+Version 1.1.0 (2015-05-04T05:21:24Z)
+====================================
+
 * move to new GitHub_
 * add ``-t c[16 chars]`` for custom type
 * add ``-t 6`` and ``-t 7``
