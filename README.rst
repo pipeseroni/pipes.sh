@@ -25,39 +25,28 @@ pipes.sh
    :backlinks: top
 
 
-How this started
-================
+A Brief History
+===============
 
-First and foremost, I am not the original author of pipes.sh.
-
-The author of the original script is unknown to me. The first entry I can
-find was posted at 2010-03-21 09:50:09 on `Arch Linux Forums`_ (doesn't mean the
-poster is the author at all).
+pipes.sh was originally created by @msimpson and posted to the `Arch Linux Forums`_
+in early 2010. It was also later posted to `Gist_` with a license clarification.
 
 .. _Arch Linux Forums: https://bbs.archlinux.org/viewtopic.php?pid=728932#p728932
+.. _Gist: https://gist.github.com/msimpson/1096939
 
-Originally, I pushed my modifications to Gist_ after reading about pipes.sh on
-a blog_, I continued to maintain the Gist for a few months in 2013
+In early 2013 @livibetter posted a modification of the script to Gist_ after reading
+about it on a blog_ where it was maintained for a few months.
 
 .. _Gist: https://gist.github.com/livibetter/4689307
 .. _blog: http://inconsolation.wordpress.com/2013/02/01/pipes-sh-a-little-bit-of-fun/
 
-In 2014, after seeing this `C version`_, which happened to be inspired by my
-modified version, it might be the time to move here.
+In 2014 the script was given its own GitHub repo which encouraged contributions
+from other developers. As the script gained more popularity the decision was made
+to combine forces with developers of similar projects (such as this `C version`_).
+Finally, in 2015 the Pipeseroni_ collective was formed.
 
 .. _C version: Snakes_
-
-
-Copyright concern
-=================
-
-Normally, I wouldn't do this for a source code without proper license, but it's
-done a year ago, So, what the heck. Even I have read somewhere that claim
-`pipes.sh` is in public domain, I can not trust that.
-
-So, anyone who wants to contribute, please be aware.
-
-The most interesting thing is: I don't even have a name of the original author.
+.. _Pipeseroni: https://github.com/pipeseroni
 
 
 Requirements
@@ -226,7 +215,7 @@ Press any key to exit the program.
 Contribution
 ============
 
-Feel free to fork and/or create pull request. But if you does create pull requests, that means you agree to put your contribution in public domain, also be sure to read about `copyright concern`_.
+Feel free to fork and/or create pull request. But if you does create pull requests, that means you agree to put your contribution in public domain.
 
 
 Related projects
