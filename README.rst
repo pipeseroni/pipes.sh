@@ -29,7 +29,7 @@ A Brief History
 ===============
 
 pipes.sh was originally created by @msimpson and posted to the `Arch Linux Forums`_
-in early 2010. It was also later posted to `Gist_` with a license clarification.
+in early 2010. It was also later posted to `Gist_` released in the public domain..
 
 .. _Arch Linux Forums: https://bbs.archlinux.org/viewtopic.php?pid=728932#p728932
 .. _Gist: https://gist.github.com/msimpson/1096939
@@ -43,7 +43,7 @@ about it on a blog_ where it was maintained for a few months.
 In 2014 the script was given its own GitHub repo which encouraged contributions
 from other developers. As the script gained more popularity the decision was made
 to combine forces with developers of similar projects (such as this `C version`_).
-Finally, in 2015 the Pipeseroni_ collective was formed.
+Finally, in 2015 the MIT license was added and the Pipeseroni_ collective was formed.
 
 .. _C version: Snakes_
 .. _Pipeseroni: https://github.com/pipeseroni
@@ -98,7 +98,7 @@ Type of pipes, can be used more than once (D=0).
   xsnap -region 480x140+$((2+2))+$((20+2)) -file doc/pipes.t#.png
 
 +----------+-------------------------------+
-| ``-t #`` | Charaters                     |
+| ``-t #`` | Characters                    |
 +==========+===============================+
 | ``-t 0`` | ``┃┏ ┓┛━┓  ┗┃┛┗ ┏━``          |
 |          |                               |
@@ -215,7 +215,8 @@ Press any key to exit the program.
 Contribution
 ============
 
-Feel free to fork and/or create pull request. But if you does create pull requests, that means you agree to put your contribution in public domain.
+Feel free to fork and/or create pull request. If you're contributing,
+remember your changes will be released under the MIT license.
 
 
 Related projects
