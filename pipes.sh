@@ -1,14 +1,28 @@
 #!/usr/bin/env bash
 # pipes.sh: Animated pipes terminal screensaver.
+# Copyleft (ↄ) 2015 - Acidhub <acidhub@craft.net.br>
+#              2015 - Pipeseroni - http://github.com/pipeseroni
+#              2014 - Yu-Jie Lin <livibetter@gmail.com>
+#              ???? - Mathew Simpson
 #
-# This modified version is maintained at:
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
 #
-#   https://github.com/pipeseroni/pipes.sh
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
 
-VERSION=1.1.0
+VERSION=1.2
 
 M=32768
-p=1
+p=3
 f=75 s=13 r=2000 t=0
 w=$(tput cols) h=$(tput lines)
 # ab -> idx = a*4 + b
@@ -16,15 +30,16 @@ w=$(tput cols) h=$(tput lines)
 # 00 means going up   , then going up   -> ┃
 # 12 means going right, then going down -> ┓
 sets=(
-    "┃┏ ┓┛━┓  ┗┃┛┗ ┏━"
-    "│╭ ╮╯─╮  ╰│╯╰ ╭─"
-    "│┌ ┐┘─┐  └│┘└ ┌─"
-    "║╔ ╗╝═╗  ╚║╝╚ ╔═"
-    "|+ ++-+  +|++ +-"
-    "|/ \/-\  \|/\ /-"
-    ".. ....  .... .."
-    ".o oo.o  o.oo o."
-    "-\ /\|/  /-\/ \|"  # railway
+    "┃┏ ┓┛━┓  ┗┃┛┗ ┏━" # -t 0 "default"
+    "│╭ ╮╯─╮  ╰│╯╰ ╭─" # -t 1 "round"
+    "│┌ ┐┘─┐  └│┘└ ┌─" # -t 2 "weak"
+    "║╔ ╗╝═╗  ╚║╝╚ ╔═" # -t 3 "double"
+    "|+ ++-+  +|++ +-" # -t 4 "add/sub"
+    "|/ \/-\  \|/\ /-" # -t 5 "It' something"
+    ".. ....  .... .." # -t 6 "dots"
+    ".o oo.o  o.oo o." # -t 7 "dot-O"
+    "-\ /\|/  /-\/ \|" # -t 8 "railway"
+    "▓≡▓≡≡▓≡  ≡▓≡≡▓≡▓" # -t 9 "blocks"
 )
 v=()
 RNDSTART=0
@@ -51,7 +66,7 @@ case $arg in
     C) NOCOLOR=1;;
     h) echo -e "Usage: $(basename $0) [OPTION]..."
         echo -e "Animated pipes terminal screensaver.\n"
-        echo -e " -p [1-]\tnumber of pipes (D=1)."
+        echo -e " -p [1-?]\tnumber of pipes (D=3)."
         echo -e " -t [0-$((${#sets[@]} - 1))]\ttype of pipes, can be used more than once (D=0)."
         echo -e " -t c[16 chars]\tcustom type of pipes."
         echo -e " -f [20-100]\tframerate (D=75)."
