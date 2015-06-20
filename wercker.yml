@@ -5,6 +5,6 @@ build:
         name: Building pipes.sh
         code: |
           sed -i 's/Required/Never/g' /etc/pacman.conf
-          pacman -Sy --noconfirm make
+          pacman -Sy --noconfirm make libunistring
           make
           make install
