@@ -2,11 +2,12 @@ pipes.sh
 ========
 
 [![Join the chat at https://gitter.im/BlackXT/pipes.sh](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/BlackXT/pipes.sh?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![wercker status](https://app.wercker.com/status/fd916a2e97a1ec904b399474cb1ebf80/s "wercker status")](https://app.wercker.com/project/bykey/fd916a2e97a1ec904b399474cb1ebf80)
+
     *Animated pipes terminal screensaver.*
 ![](https://raw.githubusercontent.com/BlackXT/pipes.sh/master/pipes.png)
-  Screenshot of pipes.sh.
 
-[![wercker status](https://app.wercker.com/status/fd916a2e97a1ec904b399474cb1ebf80/m "wercker status")](https://app.wercker.com/project/bykey/fd916a2e97a1ec904b399474cb1ebf80)
+   Screenshot of pipes.sh.
 
 A Brief History
 ===============
