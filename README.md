@@ -1,5 +1,7 @@
 pipes.sh
 ========
+
+[![Join the chat at https://gitter.im/BlackXT/pipes.sh](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/BlackXT/pipes.sh?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
     *Animated pipes terminal screensaver.*
 ![](https://raw.githubusercontent.com/BlackXT/pipes.sh/master/pipes.png)
   Screenshot of pipes.sh.
