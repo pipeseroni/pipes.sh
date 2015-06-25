@@ -1,11 +1,11 @@
 pipes.sh
 ========
 
-[![Join the chat at https://gitter.im/BlackXT/pipes.sh](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/BlackXT/pipes.sh?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/Acidhub/pipes.sh](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Acidhub/pipes.sh?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![wercker status](https://app.wercker.com/status/fd916a2e97a1ec904b399474cb1ebf80/s "wercker status")](https://app.wercker.com/project/bykey/fd916a2e97a1ec904b399474cb1ebf80)
 
     *Animated pipes terminal screensaver.*
-![](https://raw.githubusercontent.com/BlackXT/pipes.sh/master/pipes.png)
+![](https://raw.githubusercontent.com/Acidhub/pipes.sh/master/pipes.png)
 
    Screenshot of pipes.sh.
 
@@ -19,8 +19,7 @@ In early 2013 @livibetter posted a modification of the script to [Gist](https://
 In 2014 the script was given its own GitHub repo which encouraged contributions from other developers. As the script gained more popularity the decision was made to combine forces with developers of similar projects (such as this C version). 
 Finally, in 2015 the [Pipeseroni](https://github.com/pipeseroni) collective was formed.
 
-In 05/06/2015 [AcidHub](mailto:acidhub@craft.net.br) with his [BlackXT](https://github.com/BlackXT) GitHub account forked this project and 
-made the git as light as possible only for archive purposes.
+In 05/06/2015 [AcidHub](mailto:contact@acidhub.click) forked this project and made the git as light as possible only for archive purposes.
 
 Requirements
 ============
