@@ -10,7 +10,12 @@ VERSION=1.1.0
 M=32768
 p=1
 f=75 s=13 r=2000 t=0
-w=$(tput cols) h=$(tput lines)
+w=80 h=24
+
+resize() {
+	w=$(tput cols) h=$(tput lines)
+}
+
 # ab -> idx = a*4 + b
 # 0: up, 1: right, 2: down, 3: left
 # 00 means going up   , then going up   -> ┃
@@ -84,8 +89,11 @@ cleanup() {
     ((NOCOLOR)) && echo -ne '\e[0m'
     exit 0
 }
+trap resize SIGWINCH
 trap cleanup HUP TERM
 trap 'break 2' INT
+
+resize
 
 for (( i=1; i<=p; i++ )); do
     c[i]=$((i%8)) n[i]=0 l[i]=0
