@@ -74,6 +74,12 @@ Or any ``PREFIX`` you prefer.
 
 The ``Makefile`` also provides ``uninstall`` target.
 
+If you are a `Homebrew <http://brew.sh>`_ user, you can install via:
+
+.. code-block:: sh
+
+    $ brew install pipes-sh
+
 
 Options
 =======
