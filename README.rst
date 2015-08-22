@@ -25,30 +25,6 @@ pipes.sh
    :backlinks: top
 
 
-A Brief History
-===============
-
-pipes.sh was originally created by @msimpson and posted to the `Arch Linux Forums`_
-in early 2010. It was also later posted to `Gist_` released in the public domain..
-
-.. _Arch Linux Forums: https://bbs.archlinux.org/viewtopic.php?pid=728932#p728932
-.. _Gist: https://gist.github.com/msimpson/1096939
-
-In early 2013 @livibetter posted a modification of the script to Gist_ after reading
-about it on a blog_ where it was maintained for a few months.
-
-.. _Gist: https://gist.github.com/livibetter/4689307
-.. _blog: http://inconsolation.wordpress.com/2013/02/01/pipes-sh-a-little-bit-of-fun/
-
-In 2014 the script was given its own GitHub repo which encouraged contributions
-from other developers. As the script gained more popularity the decision was made
-to combine forces with developers of similar projects (such as this `C version`_).
-Finally, in 2015 the MIT license was added and the Pipeseroni_ collective was formed.
-
-.. _C version: Snakes_
-.. _Pipeseroni: https://github.com/pipeseroni
-
-
 Requirements
 ============
 
