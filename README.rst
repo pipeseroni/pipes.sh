@@ -193,13 +193,3 @@ Contribution
 
 Feel free to fork and/or create pull request. If you're contributing,
 remember your changes will be released under the MIT license.
-
-
-Related projects
-================
-
-* Snakes_: a C version of pipes.sh
-* pipesX.sh_: pipes.sh at an angle
-
-.. _Snakes: https://github.com/pipeseroni/Snakes
-.. _pipesX.sh: https://github.com/pipeseroni/pipesX.sh
