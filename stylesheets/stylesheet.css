@@ -57,7 +57,7 @@ a {
   color: #fff;
   text-align: center;
   background-color: #159957;
-  background-image: linear-gradient(120deg, #155799, #159957); }
+  background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url("https://raw.githubusercontent.com/pipeseroni/pipes.sh/master/doc/pipes.png"); }
 
 @media screen and (min-width: 64em) {
   .page-header {
