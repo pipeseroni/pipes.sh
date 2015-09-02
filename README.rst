@@ -135,6 +135,31 @@ Custom pipe, for example: ``-t cMAYFORCEBWITHYOU``.
 
 .. figure:: doc/pipes.tc.png
 
+``-c [0-7]``
+------------
+
+Color of pipes, can be used more than once (D=1 2 3 4 5 6 7 0).
+
+Numbers are terminal color numbers. Traditionally typical values are:
+
++---+------------+
+| 0 | background |
++---+------------+
+| 1 | red        |
++---+------------+
+| 2 | green      |
++---+------------+
+| 3 | yellow     |
++---+------------+
+| 4 | blue       |
++---+------------+
+| 5 | magenta    |
++---+------------+
+| 6 | cyan       |
++---+------------+
+| 7 | foreground |
++---+------------+
+
 ``-f [20-100]``
 ---------------
 

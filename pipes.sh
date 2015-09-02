@@ -38,7 +38,7 @@ BOLD=1
 NOCOLOR=0
 
 OPTIND=1
-while getopts "p:t:f:s:r:RBChv" arg; do
+while getopts "p:t:c:f:s:r:RBChv" arg; do
 case $arg in
     p) ((p=(OPTARG>0)?OPTARG:p));;
     t)
@@ -49,6 +49,7 @@ case $arg in
             ((OPTARG>=0 && OPTARG<${#sets[@]})) && V+=($OPTARG)
         fi
         ;;
+    c) [[ $OPTARG =~ ^[0-7]$ ]] && C+=($OPTARG);;
     f) ((f=(OPTARG>19 && OPTARG<101)?OPTARG:f));;
     s) ((s=(OPTARG>4 && OPTARG<16 )?OPTARG:s));;
     r) ((r=(OPTARG>=0)?OPTARG:r));;
@@ -59,6 +60,7 @@ case $arg in
         echo -e "Animated pipes terminal screensaver.\n"
         echo -e " -p [1-]\tnumber of pipes (D=1)."
         echo -e " -t [0-$((${#sets[@]} - 1))]\ttype of pipes, can be used more than once (D=0)."
+        echo -e " -c [0-7]\tcolor of pipes, can be used more than once (D=1 2 3 4 5 6 7 0)."
         echo -e " -t c[16 chars]\tcustom type of pipes."
         echo -e " -f [20-100]\tframerate (D=75)."
         echo -e " -s [5-15]\tprobability of a straight fitting (D=13)."
@@ -76,6 +78,7 @@ done
 
 # set default values if not by options
 ((${#V[@]})) || V=(0)
+((${#C[@]})) || C=(1 2 3 4 5 6 7 0)
 
 cleanup() {
     # clear up standard input
@@ -97,9 +100,11 @@ trap 'break 2' INT
 resize
 
 for (( i=1; i<=p; i++ )); do
-    c[i]=$((i%8)) n[i]=0 l[i]=0
+    n[i]=0
+    l[i]=0
     ((x[i]=RNDSTART==1?w*RANDOM/M:w/2))
     ((y[i]=RNDSTART==1?h*RANDOM/M:h/2))
+    ((c[i]=C[(i-1)%${#C[@]}]))
     v[i]=${V[${#V[@]} * RANDOM / M]}
 done
 
@@ -114,7 +119,7 @@ while REPLY=; read -t 0.0$((1000/f)) -n 1 2>/dev/null; [[ -z $REPLY ]] ; do
         ((${l[i]}%2)) && ((x[i]+=-${l[i]}+2,1)) || ((y[i]+=${l[i]}-1))
 
         # Loop on edges (change color on loop):
-        ((${x[i]}>=w||${x[i]}<0||${y[i]}>=h||${y[i]}<0)) && ((c[i]=8*RANDOM/M, v[i]=V[${#V[@]}*RANDOM/M]))
+        ((${x[i]}>=w||${x[i]}<0||${y[i]}>=h||${y[i]}<0)) && ((c[i]=C[${#C[@]}*RANDOM/M], v[i]=V[${#V[@]}*RANDOM/M]))
         ((x[i]=(x[i]+w)%w))
         ((y[i]=(y[i]+h)%h))
 
