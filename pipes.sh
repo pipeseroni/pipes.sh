@@ -78,7 +78,10 @@ done
 
 # set default values if not by options
 ((${#V[@]})) || V=(0)
+VN=${#V[@]}
 ((${#C[@]})) || C=(1 2 3 4 5 6 7 0)
+CN=${#C[@]}
+
 
 cleanup() {
     # clear up standard input
@@ -99,13 +102,17 @@ trap 'break 2' INT
 
 resize
 
+ci=$((CN*RANDOM/M))
+vi=$((VN*RANDOM/M))
 for (( i=1; i<=p; i++ )); do
     n[i]=0
     l[i]=0
     ((x[i]=RNDSTART==1?w*RANDOM/M:w/2))
     ((y[i]=RNDSTART==1?h*RANDOM/M:h/2))
-    ((c[i]=C[(i-1)%${#C[@]}]))
-    v[i]=${V[${#V[@]} * RANDOM / M]}
+    c[i]=${C[ci]}
+    ((ci=(ci+1)%CN))
+    v[i]=${V[vi]}
+    ((vi=(vi+1)%VN))
 done
 
 stty -echo
