@@ -30,6 +30,7 @@ sets=(
     ".. ....  .... .."
     ".o oo.o  o.oo o."
     "-\ /\|/  /-\/ \|"  # railway
+    "╿┍ ┑┚╼┒  ┕╽┙┖ ┎╾"  # knobby pipe
 )
 v=()
 RNDSTART=0
