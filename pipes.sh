@@ -113,7 +113,7 @@ while REPLY=; read -t 0.0$((1000/f)) -n 1 2>/dev/null; [[ -z $REPLY ]] ; do
         ((${l[i]}%2)) && ((x[i]+=-${l[i]}+2,1)) || ((y[i]+=${l[i]}-1))
 
         # Loop on edges (change color on loop):
-        ((${x[i]}>w||${x[i]}<0||${y[i]}>h||${y[i]}<0)) && ((c[i]=RANDOM%8, v[i]=V[${#V[@]}*RANDOM/M]))
+        ((${x[i]}>=w||${x[i]}<0||${y[i]}>=h||${y[i]}<0)) && ((c[i]=RANDOM%8, v[i]=V[${#V[@]}*RANDOM/M]))
         ((x[i]=(x[i]+w)%w))
         ((y[i]=(y[i]+h)%h))
 
