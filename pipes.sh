@@ -13,7 +13,11 @@ f=75 s=13 r=2000 t=0
 w=80 h=24
 
 resize() {
-	w=$(tput cols) h=$(tput lines)
+	if [[ $- == *i* ]]; then
+		w=$(tput cols) h=$(tput lines)
+	else
+		w=$(tmux list-panes -F "#{pane_width}") h=$(tmux list-panes -F "#{pane_height}")
+	fi
 }
 
 # ab -> idx = a*4 + b
