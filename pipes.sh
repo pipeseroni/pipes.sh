@@ -13,7 +13,7 @@ f=75 s=13 r=2000 t=0
 w=80 h=24
 
 resize() {
-	w=$(tput cols) h=$(tput lines)
+    w=$(tput cols) h=$(tput lines)
 }
 
 # ab -> idx = a*4 + b
