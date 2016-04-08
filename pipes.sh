@@ -87,7 +87,7 @@ cleanup() {
     tput rmcup
     tput cnorm
     stty echo
-    ((NOCOLOR)) && echo -ne '\e[0m'
+    ((NOCOLOR)) && echo -ne '\x1b[0m'
     exit 0
 }
 trap resize SIGWINCH
@@ -125,8 +125,8 @@ while REPLY=; read -t 0.0$((1000/f)) -n 1 2>/dev/null; [[ -z $REPLY ]] ; do
 
         # Print:
         tput cup ${y[i]} ${x[i]}
-        echo -ne "\e[${BOLD}m"
-        [[ $NOCOLOR == 0 ]] && echo -ne "\e[3${c[i]}m"
+        echo -ne "\x1b[${BOLD}m"
+        [[ $NOCOLOR == 0 ]] && echo -ne "\x1b[3${c[i]}m"
         echo -n "${sets[v[i]]:l[i]*4+n[i]:1}"
         l[i]=${n[i]}
     done
