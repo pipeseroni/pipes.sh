@@ -5,7 +5,7 @@
 #
 #   https://github.com/pipeseroni/pipes.sh
 
-VERSION=1.1.0
+VERSION=1.2.0
 
 M=32768
 p=1
