@@ -125,8 +125,8 @@ while REPLY=; read -t 0.0$((1000/f)) -n 1 2>/dev/null; [[ -z $REPLY ]] ; do
 
         # Print:
         tput cup ${y[i]} ${x[i]}
-        echo -ne "\033[${BOLD}m"
-        [[ $NOCOLOR == 0 ]] && echo -ne "\033[3${c[i]}m"
+        echo -ne "\e[${BOLD}m"
+        [[ $NOCOLOR == 0 ]] && echo -ne "\e[3${c[i]}m"
         echo -n "${sets[v[i]]:l[i]*4+n[i]:1}"
         l[i]=${n[i]}
     done
