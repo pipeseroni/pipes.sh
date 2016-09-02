@@ -1,26 +1,17 @@
+TARGET=pipes
 PREFIX=/usr/local
 DESTDIR=
-
-INSTDIR=$(DESTDIR)$(PREFIX)
-INSTBIN=$(INSTDIR)/bin
-INSTMAN=$(INSTDIR)/share/man/man6
-
-SCRIPT=pipes.sh
-MANPAGE=$(SCRIPT).6
+BINDIR=$(PREFIX)/bin
 
 all:
-	@echo did nothing. try targets: install, or uninstall.
+	@echo Try: install or uninstall.
 
 install:
-	test -d $(INSTDIR) || mkdir -p $(INSTDIR)
-	test -d $(INSTBIN) || mkdir -p $(INSTBIN)
-	test -d $(INSTMAN) || mkdir -p $(INSTMAN)
-
-	install -m 0755 $(SCRIPT) $(INSTBIN)
-	install -m 0644 doc/$(MANPAGE) $(INSTMAN)
+	install -Dm755 $(TARGET).sh $(DESTDIR)$(BINDIR)/$(TARGET)
+	install -Dm755 $(TARGET)_orig.sh $(DESTDIR)$(BINDIR)/$(TARGET)_orig
 
 uninstall:
-	rm -f $(INSTBIN)/$(SCRIPT)
-	rm -f $(INSTMAN)/$(MANPAGE)
+	rm -f $(DESTDIR)$(BINDIR)/$(TARGET)
+	rm -f $(DESTDIR)$(BINDIR)/$(TARGET)_orig 
 
 .PHONY: all install uninstall

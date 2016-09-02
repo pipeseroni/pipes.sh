@@ -1,0 +1,8 @@
+box: acidhub/archmake
+build:
+  steps:
+    - script:
+        name: Building pipes.sh
+        code: |
+          make
+          make install
