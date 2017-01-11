@@ -1,10 +1,11 @@
-PREFIX=/usr/local
+PREFIX?=/usr/local
 DESTDIR=
 
 INSTDIR=$(DESTDIR)$(PREFIX)
 INSTBIN=$(INSTDIR)/bin
 INSTMAN=$(INSTDIR)/share/man/man6
 
+BIN ?= pipes.sh
 SCRIPT=pipes.sh
 MANPAGE=$(SCRIPT).6
 
@@ -16,11 +17,11 @@ install:
 	test -d $(INSTBIN) || mkdir -p $(INSTBIN)
 	test -d $(INSTMAN) || mkdir -p $(INSTMAN)
 
-	install -m 0755 $(SCRIPT) $(INSTBIN)
-	install -m 0644 doc/$(MANPAGE) $(INSTMAN)
+	install -m 0755 $(SCRIPT) $(INSTBIN)/$(BIN)
+	install -m 0644 doc/$(MANPAGE) $(INSTMAN)/$(BIN)
 
 uninstall:
-	rm -f $(INSTBIN)/$(SCRIPT)
-	rm -f $(INSTMAN)/$(MANPAGE)
+	rm -f $(INSTBIN)/$(BIN)
+	rm -f $(INSTMAN)/$(BIN)
 
 .PHONY: all install uninstall
