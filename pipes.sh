@@ -98,8 +98,8 @@ resize
 
 for (( i=1; i<=p; i++ )); do
     c[i]=$((i%8)) n[i]=0 l[i]=0
-    ((x[i]=RNDSTART==1?RANDOM*w/32768:w/2))
-    ((y[i]=RNDSTART==1?RANDOM*h/32768:h/2))
+    ((x[i]=RNDSTART==1?w*RANDOM/M:w/2))
+    ((y[i]=RNDSTART==1?h*RANDOM/M:h/2))
     v[i]=${V[${#V[@]} * RANDOM / M]}
 done
 
@@ -114,12 +114,12 @@ while REPLY=; read -t 0.0$((1000/f)) -n 1 2>/dev/null; [[ -z $REPLY ]] ; do
         ((${l[i]}%2)) && ((x[i]+=-${l[i]}+2,1)) || ((y[i]+=${l[i]}-1))
 
         # Loop on edges (change color on loop):
-        ((${x[i]}>=w||${x[i]}<0||${y[i]}>=h||${y[i]}<0)) && ((c[i]=RANDOM%8, v[i]=V[${#V[@]}*RANDOM/M]))
+        ((${x[i]}>=w||${x[i]}<0||${y[i]}>=h||${y[i]}<0)) && ((c[i]=8*RANDOM/M, v[i]=V[${#V[@]}*RANDOM/M]))
         ((x[i]=(x[i]+w)%w))
         ((y[i]=(y[i]+h)%h))
 
         # New random direction:
-        ((n[i]=RANDOM%s-1))
+        ((n[i]=s*RANDOM/M-1))
         ((n[i]=(${n[i]}>1||${n[i]}==0)?${l[i]}:${l[i]}+${n[i]}))
         ((n[i]=(${n[i]}<0)?3:${n[i]}%4))
 
