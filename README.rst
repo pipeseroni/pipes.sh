@@ -201,6 +201,11 @@ No color.
 
 .. figure:: doc/pipes.C.png
 
+``-K``
+------
+
+Pipes keep their color and type when hitting the screen edge.
+
 ``-h``
 ------
 

@@ -36,9 +36,10 @@ v=()
 RNDSTART=0
 BOLD=1
 NOCOLOR=0
+KEEPCOLORANDTYPE=0
 
 OPTIND=1
-while getopts "p:t:c:f:s:r:RBChv" arg; do
+while getopts "p:t:c:f:s:r:RBCKhv" arg; do
 case $arg in
     p) ((p=(OPTARG>0)?OPTARG:p));;
     t)
@@ -56,6 +57,7 @@ case $arg in
     R) RNDSTART=1;;
     B) BOLD=0;;
     C) NOCOLOR=1;;
+    K) KEEPCOLORANDTYPE=1;;
     h) echo -e "Usage: $(basename $0) [OPTION]..."
         echo -e "Animated pipes terminal screensaver.\n"
         echo -e " -p [1-]\tnumber of pipes (D=1)."
@@ -68,6 +70,7 @@ case $arg in
         echo -e " -R \t\trandom starting point."
         echo -e " -B \t\tno bold effect."
         echo -e " -C \t\tno color."
+        echo -e " -K \t\tpipes keep their color and type when hitting the screen edge."
         echo -e " -h\t\thelp (this screen)."
         echo -e " -v\t\tprint version number.\n"
         exit 0;;
@@ -102,8 +105,8 @@ trap 'break 2' INT
 
 resize
 
-ci=$((CN*RANDOM/M))
-vi=$((VN*RANDOM/M))
+ci=$((KEEPCOLORANDTYPE?0:CN*RANDOM/M))
+vi=$((KEEPCOLORANDTYPE?0:VN*RANDOM/M))
 for (( i=1; i<=p; i++ )); do
     n[i]=0
     l[i]=0
@@ -126,7 +129,7 @@ while REPLY=; read -t 0.0$((1000/f)) -n 1 2>/dev/null; [[ -z $REPLY ]] ; do
         ((${l[i]}%2)) && ((x[i]+=-${l[i]}+2,1)) || ((y[i]+=${l[i]}-1))
 
         # Loop on edges (change color on loop):
-        ((${x[i]}>=w||${x[i]}<0||${y[i]}>=h||${y[i]}<0)) && ((c[i]=C[${#C[@]}*RANDOM/M], v[i]=V[${#V[@]}*RANDOM/M]))
+        ((!KEEPCOLORANDTYPE&&(${x[i]}>=w||${x[i]}<0||${y[i]}>=h||${y[i]}<0))) && ((c[i]=C[$CN*RANDOM/M], v[i]=V[$VN*RANDOM/M]))
         ((x[i]=(x[i]+w)%w))
         ((y[i]=(y[i]+h)%h))
 
