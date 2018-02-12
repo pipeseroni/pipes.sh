@@ -36,9 +36,10 @@ v=()
 RNDSTART=0
 BOLD=1
 NOCOLOR=0
+KEEPCOLORANDTYPE=0
 
 OPTIND=1
-while getopts "p:t:f:s:r:RBChv" arg; do
+while getopts "p:t:c:f:s:r:RBCKhv" arg; do
 case $arg in
     p) ((p=(OPTARG>0)?OPTARG:p));;
     t)
@@ -49,16 +50,19 @@ case $arg in
             ((OPTARG>=0 && OPTARG<${#sets[@]})) && V+=($OPTARG)
         fi
         ;;
+    c) [[ $OPTARG =~ ^[0-7]$ ]] && C+=($OPTARG);;
     f) ((f=(OPTARG>19 && OPTARG<101)?OPTARG:f));;
     s) ((s=(OPTARG>4 && OPTARG<16 )?OPTARG:s));;
     r) ((r=(OPTARG>=0)?OPTARG:r));;
     R) RNDSTART=1;;
     B) BOLD=0;;
     C) NOCOLOR=1;;
+    K) KEEPCOLORANDTYPE=1;;
     h) echo -e "Usage: $(basename $0) [OPTION]..."
         echo -e "Animated pipes terminal screensaver.\n"
         echo -e " -p [1-]\tnumber of pipes (D=1)."
         echo -e " -t [0-$((${#sets[@]} - 1))]\ttype of pipes, can be used more than once (D=0)."
+        echo -e " -c [0-7]\tcolor of pipes, can be used more than once (D=1 2 3 4 5 6 7 0)."
         echo -e " -t c[16 chars]\tcustom type of pipes."
         echo -e " -f [20-100]\tframerate (D=75)."
         echo -e " -s [5-15]\tprobability of a straight fitting (D=13)."
@@ -66,6 +70,7 @@ case $arg in
         echo -e " -R \t\trandom starting point."
         echo -e " -B \t\tno bold effect."
         echo -e " -C \t\tno color."
+        echo -e " -K \t\tpipes keep their color and type when hitting the screen edge."
         echo -e " -h\t\thelp (this screen)."
         echo -e " -v\t\tprint version number.\n"
         exit 0;;
@@ -76,6 +81,10 @@ done
 
 # set default values if not by options
 ((${#V[@]})) || V=(0)
+VN=${#V[@]}
+((${#C[@]})) || C=(1 2 3 4 5 6 7 0)
+CN=${#C[@]}
+
 
 cleanup() {
     # clear up standard input
@@ -96,11 +105,17 @@ trap 'break 2' INT
 
 resize
 
+ci=$((KEEPCOLORANDTYPE?0:CN*RANDOM/M))
+vi=$((KEEPCOLORANDTYPE?0:VN*RANDOM/M))
 for (( i=1; i<=p; i++ )); do
-    c[i]=$((i%8)) n[i]=0 l[i]=0
-    ((x[i]=RNDSTART==1?RANDOM*w/32768:w/2))
-    ((y[i]=RNDSTART==1?RANDOM*h/32768:h/2))
-    v[i]=${V[${#V[@]} * RANDOM / M]}
+    n[i]=0
+    l[i]=0
+    ((x[i]=RNDSTART==1?w*RANDOM/M:w/2))
+    ((y[i]=RNDSTART==1?h*RANDOM/M:h/2))
+    c[i]=${C[ci]}
+    ((ci=(ci+1)%CN))
+    v[i]=${V[vi]}
+    ((vi=(vi+1)%VN))
 done
 
 stty -echo
@@ -114,12 +129,12 @@ while REPLY=; read -t 0.0$((1000/f)) -n 1 2>/dev/null; [[ -z $REPLY ]] ; do
         ((${l[i]}%2)) && ((x[i]+=-${l[i]}+2,1)) || ((y[i]+=${l[i]}-1))
 
         # Loop on edges (change color on loop):
-        ((${x[i]}>=w||${x[i]}<0||${y[i]}>=h||${y[i]}<0)) && ((c[i]=RANDOM%8, v[i]=V[${#V[@]}*RANDOM/M]))
+        ((!KEEPCOLORANDTYPE&&(${x[i]}>=w||${x[i]}<0||${y[i]}>=h||${y[i]}<0))) && ((c[i]=C[$CN*RANDOM/M], v[i]=V[$VN*RANDOM/M]))
         ((x[i]=(x[i]+w)%w))
         ((y[i]=(y[i]+h)%h))
 
         # New random direction:
-        ((n[i]=RANDOM%s-1))
+        ((n[i]=s*RANDOM/M-1))
         ((n[i]=(${n[i]}>1||${n[i]}==0)?${l[i]}:${l[i]}+${n[i]}))
         ((n[i]=(${n[i]}<0)?3:${n[i]}%4))
 
