@@ -227,5 +227,8 @@ Press any key to exit the program.
 Contribution
 ============
 
-Feel free to fork and/or create pull request. If you're contributing,
-remember your changes will be released under the MIT license.
+Feel free to fork and/or create pull request following the guideline_. If
+you're contributing, remember your changes will be released under the MIT
+license.
+
+.. _guideline: CONTRIBUTING.rst
