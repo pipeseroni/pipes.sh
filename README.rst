@@ -224,6 +224,14 @@ Controls
 Press any key to exit the program.
 
 
+Reporting an Issue
+==================
+
+* `Reporting a bug`__
+
+__ https://github.com/pipeseroni/pipes.sh/issues/new?template=BUG.md&title=Brief+bug+summary
+
+
 Contribution
 ============
 
