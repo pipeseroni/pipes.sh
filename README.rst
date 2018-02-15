@@ -184,3 +184,9 @@ you're contributing, remember your changes will be released under the MIT
 license.
 
 .. _guideline: CONTRIBUTING.rst
+
+
+Copyright
+=========
+
+pipes.sh is licensed under the MIT License.
