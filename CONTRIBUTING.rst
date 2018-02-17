@@ -20,7 +20,11 @@ Pull Requests
 
 * Please title your PR appropriately.
 * Please write a concise commit summary and a detailed message body.
-* Please update ``README`` as needed.
+* Please update the following files as needed:
+
+  * ``README.rst``
+  * ``docs/pipes.sh.6``
+
 * When in doubt, ask in issues first, a few examples:
 
   * If it could be a big commit, which is impossible to split.
