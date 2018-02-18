@@ -36,28 +36,28 @@ v=()
 RNDSTART=0
 BOLD=1
 NOCOLOR=0
-KEEPCOLORANDTYPE=0
+KEEPCT=0  # Keep pipe color and type
 
 OPTIND=1
 while getopts "p:t:c:f:s:r:RBCKhv" arg; do
 case $arg in
-    p) ((p=(OPTARG>0)?OPTARG:p));;
+    p) ((p = (OPTARG > 0) ? OPTARG : p));;
     t)
         if [[ "$OPTARG" = c???????????????? ]]; then
             V+=(${#sets[@]})
             sets+=("${OPTARG:1}")
         else
-            ((OPTARG>=0 && OPTARG<${#sets[@]})) && V+=($OPTARG)
+            ((OPTARG >= 0 && OPTARG < ${#sets[@]})) && V+=($OPTARG)
         fi
         ;;
     c) [[ $OPTARG =~ ^[0-7]$ ]] && C+=($OPTARG);;
-    f) ((f=(OPTARG>19 && OPTARG<101)?OPTARG:f));;
-    s) ((s=(OPTARG>4 && OPTARG<16 )?OPTARG:s));;
-    r) ((r=(OPTARG>=0)?OPTARG:r));;
+    f) ((f = (OPTARG > 19 && OPTARG < 101) ? OPTARG : f));;
+    s) ((s = (OPTARG > 4 && OPTARG < 16) ? OPTARG : s));;
+    r) ((r = (OPTARG >= 0) ? OPTARG : r));;
     R) RNDSTART=1;;
     B) BOLD=0;;
     C) NOCOLOR=1;;
-    K) KEEPCOLORANDTYPE=1;;
+    K) KEEPCT=1;;
     h) echo -e "Usage: $(basename $0) [OPTION]..."
         echo -e "Animated pipes terminal screensaver.\n"
         echo -e " -p [1-]\tnumber of pipes (D=1)."
@@ -105,17 +105,17 @@ trap 'break 2' INT
 
 resize
 
-ci=$((KEEPCOLORANDTYPE?0:CN*RANDOM/M))
-vi=$((KEEPCOLORANDTYPE?0:VN*RANDOM/M))
-for (( i=1; i<=p; i++ )); do
+ci=$((KEEPCT ? 0 : CN * RANDOM / M))
+vi=$((KEEPCT ? 0 : VN * RANDOM / M))
+for ((i = 1; i <= p; i++)); do
     n[i]=0
     l[i]=0
-    ((x[i]=RNDSTART==1?w*RANDOM/M:w/2))
-    ((y[i]=RNDSTART==1?h*RANDOM/M:h/2))
+    ((x[i] = RNDSTART == 1 ? w * RANDOM / M : w / 2))
+    ((y[i] = RNDSTART == 1 ? h * RANDOM / M : h / 2))
     c[i]=${C[ci]}
-    ((ci=(ci+1)%CN))
+    ((ci = (ci + 1) % CN))
     v[i]=${V[vi]}
-    ((vi=(vi+1)%VN))
+    ((vi = (vi + 1) % VN))
 done
 
 stty -echo
@@ -123,20 +123,21 @@ tput smcup || FORCE_RESET=1
 tput civis
 tput clear
 # any key press exits the loop and this script
-while REPLY=; read -t 0.0$((1000/f)) -n 1 2>/dev/null; [[ -z $REPLY ]] ; do
-    for (( i=1; i<=p; i++ )); do
+while REPLY=; read -t 0.0$((1000 / f)) -n 1 2>/dev/null; [[ -z $REPLY ]]; do
+    for ((i = 1; i <= p; i++)); do
         # New position:
-        ((${l[i]}%2)) && ((x[i]+=-${l[i]}+2,1)) || ((y[i]+=${l[i]}-1))
+        ((l[i] % 2)) && ((x[i] += -l[i] + 2, 1)) || ((y[i] += l[i] - 1))
 
         # Loop on edges (change color on loop):
-        ((!KEEPCOLORANDTYPE&&(${x[i]}>=w||${x[i]}<0||${y[i]}>=h||${y[i]}<0))) && ((c[i]=C[$CN*RANDOM/M], v[i]=V[$VN*RANDOM/M]))
-        ((x[i]=(x[i]+w)%w))
-        ((y[i]=(y[i]+h)%h))
+        ((!KEEPCT && (x[i] >= w || x[i] < 0 || y[i] >= h || y[i] < 0))) \
+        && ((c[i] = C[CN * RANDOM / M], v[i] = V[VN * RANDOM / M]))
+        ((x[i] = (x[i] + w) % w))
+        ((y[i] = (y[i] + h) % h))
 
         # New random direction:
-        ((n[i]=s*RANDOM/M-1))
-        ((n[i]=(${n[i]}>1||${n[i]}==0)?${l[i]}:${l[i]}+${n[i]}))
-        ((n[i]=(${n[i]}<0)?3:${n[i]}%4))
+        ((n[i] = s * RANDOM / M - 1))
+        ((n[i] = (n[i] > 1 || n[i] == 0) ? l[i] : l[i] + n[i]))
+        ((n[i] = (n[i] < 0) ? 3 : n[i] % 4))
 
         # Print:
         tput cup ${y[i]} ${x[i]}
@@ -145,7 +146,7 @@ while REPLY=; read -t 0.0$((1000/f)) -n 1 2>/dev/null; [[ -z $REPLY ]] ; do
         echo -n "${sets[v[i]]:l[i]*4+n[i]:1}"
         l[i]=${n[i]}
     done
-    ((r>0 && t*p>=r)) && tput reset && tput civis && t=0 || ((t++))
+    ((r > 0 && t * p >= r)) && tput reset && tput civis && t=0 || ((t++))
 done
 
 cleanup
