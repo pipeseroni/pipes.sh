@@ -3,7 +3,7 @@
 # https://github.com/pipeseroni/pipes.sh
 #
 # Copyright (c) 2015-2018 Pipeseroni/pipes.sh contributors
-# Copyright (c) 2012-2015 Yu-Jie Lin
+# Copyright (c) 2013-2015 Yu-Jie Lin
 # Copyright (c) 2010 Matthew Simpson
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
