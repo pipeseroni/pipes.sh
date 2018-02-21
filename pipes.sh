@@ -143,7 +143,18 @@ tput smcup || FORCE_RESET=1
 tput civis
 tput clear
 # any key press exits the loop and this script
-while REPLY=; read -t 0.0$((1000 / f)) -n 1 2>/dev/null; [[ -z $REPLY ]]; do
+while REPLY=; do
+    read -t 0.0$((1000 / f)) -n 1 2>/dev/null
+    case "$REPLY" in
+        P) ((s = s <  15 ? s + 1 : s));;
+        O) ((s = s >   3 ? s - 1 : s));;
+        F) ((f = f < 100 ? f + 1 : f));;
+        D) ((f = f >  20 ? f - 1 : f));;
+        B) ((BOLD = (BOLD + 1) % 2));;
+        C) ((NOCOLOR = (NOCOLOR + 1) % 2));;
+        K) ((KEEPCT = (KEEPCT + 1) % 2));;
+        ?) break;;
+    esac
     for ((i = 1; i <= p; i++)); do
         # New position:
         ((l[i] % 2)) && ((x[i] += -l[i] + 2, 1)) || ((y[i] += l[i] - 1))
@@ -162,7 +173,7 @@ while REPLY=; read -t 0.0$((1000 / f)) -n 1 2>/dev/null; [[ -z $REPLY ]]; do
         # Print:
         tput cup ${y[i]} ${x[i]}
         echo -ne "\x1b[${BOLD}m"
-        [[ $NOCOLOR == 0 ]] && echo -ne "\x1b[3${c[i]}m"
+        ((NOCOLOR)) && echo -ne "\x1b[0m" || echo -ne "\x1b[3${c[i]}m"
         echo -n "${sets[v[i]]:l[i]*4+n[i]:1}"
         l[i]=${n[i]}
     done

@@ -165,7 +165,18 @@ For example, ``-t cMAYFORCEBWITHYOU``.
 Controls
 ========
 
-Press any key to exit the program.
+Press any key to exit the program, except the following :kbd:`Shift` +
+:kbd:`Key`:
+
+===================  ======================================================
+Keys                 Actions
+===================  ======================================================
+:kbd:`P` / :kbd:`O`  Increase/decrease probability of straight pipes
+:kbd:`F` / :kbd:`D`  Increase/decrease frame rate
+:kbd:`B`             Toggle bold effect
+:kbd:`C`             Toggle no colors
+:kbd:`K`             Toggle keeping pipe color and type when crossing edges
+===================  ======================================================
 
 
 Reporting an Issue
