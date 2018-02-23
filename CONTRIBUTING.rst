@@ -23,7 +23,7 @@ Pull Requests
 * Please update the following files as needed:
 
   * ``README.rst``
-  * ``docs/pipes.sh.6``
+  * ``pipes.sh.6``
 
 * When in doubt, ask in issues first, a few examples:
 
