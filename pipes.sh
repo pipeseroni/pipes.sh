@@ -113,6 +113,7 @@ cleanup() {
     # terminal has no smcup and rmcup capabilities
     ((FORCE_RESET)) && reset && exit 0
 
+    tput reset
     tput rmcup
     tput cnorm
     stty echo
