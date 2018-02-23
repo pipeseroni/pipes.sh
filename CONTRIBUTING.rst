@@ -12,15 +12,18 @@ sure you read this guideline before carrying out any tasks.
 Pull Requests
 =============
 
-* You release your changes under the MIT License.
-* Please keep your PR and commit atomic: *One PR, One Commit, One Issue*.
+Please follow the general rules below:
+
+* Release your changes under the MIT License.
+* Keep your PR and commit atomic: *One PR, One Commit, One Issue*.
 
   * You may be asked to fix something, just add a commit for the changes, we
     will squash the commits, another reason to keep your PR atomic.
 
-* Please title your PR appropriately.
-* Please write a concise commit summary and a detailed message body.
-* Please update the following files as needed:
+* Title your PR appropriately.
+* Write a concise commit summary and a detailed message body.
+* Comment your changes adequately.
+* Update the following files as needed:
 
   * ``README.rst``
   * ``pipes.sh.6``
