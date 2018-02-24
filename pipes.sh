@@ -27,12 +27,16 @@
 
 VERSION=1.2.0
 
-M=32768
-p=1
-f=75 s=13 r=2000 t=0
-w=80 h=24
+M=32768  # Bash RANDOM maximum + 1
+p=1      # number of pipes
+f=75     # frame rate
+s=13     # probability of straight fitting
+r=2000   # characters limit
+t=0      # iteration counter for -r character limit
+w=80     # terminal size
+h=24
 
-# ab -> idx = a*4 + b
+# ab -> sets[][idx] = a*4 + b
 # 0: up, 1: right, 2: down, 3: left
 # 00 means going up   , then going up   -> ┃
 # 12 means going right, then going down -> ┓
@@ -48,7 +52,23 @@ sets=(
     "-\ /\|/  /-\/ \|"  # railway
     "╿┍ ┑┚╼┒  ┕╽┙┖ ┎╾"  # knobby pipe
 )
-v=()
+
+# pipes'
+x=()  # current position
+y=()
+l=()  # current directions
+      # 0: up, 1: right, 2: down, 3: left
+n=()  # new directions
+v=()  # current types
+c=()  # current color
+
+# selected pipes'
+V=()  # types (indexes to sets[])
+C=()  # colors
+VN=0  # number of selected types
+CN=0  # number of selected colors
+
+# switches
 RNDSTART=0
 BOLD=1
 NOCOLOR=0
@@ -106,7 +126,7 @@ parse() {
 
 
 cleanup() {
-    # clear up standard input
+    # clear out standard input
     read -t 0.001 && cat </dev/stdin>/dev/null
 
     # terminal has no smcup and rmcup capabilities
@@ -174,6 +194,7 @@ main() {
         esac
         for ((i = 1; i <= p; i++)); do
             # New position:
+            # l[] direction = 0: up, 1: right, 2: down, 3: left
             ((l[i] % 2)) && ((x[i] += -l[i] + 2, 1)) || ((y[i] += l[i] - 1))
 
             # Loop on edges (change color on loop):
