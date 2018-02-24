@@ -113,7 +113,7 @@ cleanup() {
     # terminal has no smcup and rmcup capabilities
     ((FORCE_RESET)) && reset && exit 0
 
-    tput reset
+    tput reset  # fix for konsole, see pipeseroni/pipes.sh#43
     tput rmcup
     tput cnorm
     stty echo
