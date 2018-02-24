@@ -11,9 +11,9 @@ pipes.sh
   Image size is 640x210. A sample command, where terminal at +0+18,
   window border is 2, terminal is urxvt, seems to 2 pixels as padding:
 
-  xsnap -region 640x210+$((2+2))+$((20+2)) -file doc/pipes.png
+  xsnap -region 640x210+$((2+2))+$((20+2)) -file i/pipes.png
 
-.. figure:: doc/pipes.png
+.. figure:: i/pipes.png
   :target: screencast_
 
   Screenshot of pipes.sh, click to watch a screencast_ on YouTube.
@@ -91,33 +91,33 @@ Options          Descrptions (Defaults)
   Image size is 480x140. A sample command, where terminal at +0+18,
   window border is 2, terminal is urxvt, seems to 2 pixels as padding:
 
-  xsnap -region 480x140+$((2+2))+$((20+2)) -file doc/pipes.t#.png
+  xsnap -region 480x140+$((2+2))+$((20+2)) -file i/pipes.t#.png
 
-+----------+------------------------+------------------------------+
-| ``-t #`` | Characters             | Screenshots                  |
-+==========+========================+==============================+
-| ``-t 0`` | ``┃┏ ┓┛━┓  ┗┃┛┗ ┏━``   | .. figure:: doc/pipes.t0.png |
-+----------+------------------------+------------------------------+
-| ``-t 1`` | ``│╭ ╮╯─╮  ╰│╯╰ ╭─``   | .. figure:: doc/pipes.t1.png |
-+----------+------------------------+------------------------------+
-| ``-t 2`` | ``│┌ ┐┘─┐  └│┘└ ┌─``   | .. figure:: doc/pipes.t2.png |
-+----------+------------------------+------------------------------+
-| ``-t 3`` | ``║╔ ╗╝═╗  ╚║╝╚ ╔═``   | .. figure:: doc/pipes.t3.png |
-+----------+------------------------+------------------------------+
-| ``-t 4`` | ``|+ ++-+  +|++ +-``   | .. figure:: doc/pipes.t4.png |
-+----------+------------------------+------------------------------+
-| ``-t 5`` | ``|/ \/-\  \|/\ /-``   | .. figure:: doc/pipes.t5.png |
-+----------+------------------------+------------------------------+
-| ``-t 6`` | ``.. ....  .... ..``   | .. figure:: doc/pipes.t6.png |
-+----------+------------------------+------------------------------+
-| ``-t 7`` | ``.o oo.o  o.oo o.``   | .. figure:: doc/pipes.t7.png |
-+----------+------------------------+------------------------------+
-| ``-t 8`` | | ``-\ /\|/  /-\/ \|`` | .. figure:: doc/pipes.t8.png |
-|          | | (railway)            |                              |
-+----------+------------------------+------------------------------+
-| ``-t 9`` | | ``╿┍ ┑┚╼┒  ┕╽┙┖ ┎╾`` | .. figure:: doc/pipes.t9.png |
-|          | | (knobby)             |                              |
-+----------+------------------------+------------------------------+
++----------+------------------------+----------------------------+
+| ``-t #`` | Characters             | Screenshots                |
++==========+========================+============================+
+| ``-t 0`` | ``┃┏ ┓┛━┓  ┗┃┛┗ ┏━``   | .. figure:: i/pipes.t0.png |
++----------+------------------------+----------------------------+
+| ``-t 1`` | ``│╭ ╮╯─╮  ╰│╯╰ ╭─``   | .. figure:: i/pipes.t1.png |
++----------+------------------------+----------------------------+
+| ``-t 2`` | ``│┌ ┐┘─┐  └│┘└ ┌─``   | .. figure:: i/pipes.t2.png |
++----------+------------------------+----------------------------+
+| ``-t 3`` | ``║╔ ╗╝═╗  ╚║╝╚ ╔═``   | .. figure:: i/pipes.t3.png |
++----------+------------------------+----------------------------+
+| ``-t 4`` | ``|+ ++-+  +|++ +-``   | .. figure:: i/pipes.t4.png |
++----------+------------------------+----------------------------+
+| ``-t 5`` | ``|/ \/-\  \|/\ /-``   | .. figure:: i/pipes.t5.png |
++----------+------------------------+----------------------------+
+| ``-t 6`` | ``.. ....  .... ..``   | .. figure:: i/pipes.t6.png |
++----------+------------------------+----------------------------+
+| ``-t 7`` | ``.o oo.o  o.oo o.``   | .. figure:: i/pipes.t7.png |
++----------+------------------------+----------------------------+
+| ``-t 8`` | | ``-\ /\|/  /-\/ \|`` | .. figure:: i/pipes.t8.png |
+|          | | (railway)            |                            |
++----------+------------------------+----------------------------+
+| ``-t 9`` | | ``╿┍ ┑┚╼┒  ┕╽┙┖ ┎╾`` | .. figure:: i/pipes.t9.png |
+|          | | (knobby)             |                            |
++----------+------------------------+----------------------------+
 
 
 ``-t c[16 chars]``: custom pipe
@@ -132,9 +132,9 @@ For example, ``-t cMAYFORCEBWITHYOU``.
   Image size is 640x140. A sample command, where terminal at +0+18,
   window border is 2, terminal is urxvt, seems to 2 pixels as padding:
 
-  xsnap -region 640x140+$((2+2))+$((20+2)) -file doc/pipes.tc.png
+  xsnap -region 640x140+$((2+2))+$((20+2)) -file i/pipes.tc.png
 
-.. figure:: doc/pipes.tc.png
+.. figure:: i/pipes.tc.png
 
 
 ``-c [0-7]``: colors
@@ -157,9 +157,9 @@ For example, ``-t cMAYFORCEBWITHYOU``.
   Image size is 640x140. A sample command, where terminal at +0+18,
   window border is 2, terminal is urxvt, seems to 2 pixels as padding:
 
-  xsnap -region 640x140+$((2+2))+$((20+2)) -file doc/pipes.Cpng
+  xsnap -region 640x140+$((2+2))+$((20+2)) -file i/pipes.C.png
 
-.. figure:: doc/pipes.C.png
+.. figure:: i/pipes.C.png
 
 
 Controls

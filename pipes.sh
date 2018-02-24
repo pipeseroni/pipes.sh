@@ -110,6 +110,7 @@ cleanup() {
     # clear up standard input
     read -t 0.001 && cat </dev/stdin>/dev/null
 
+    tput reset  # fix for konsole, see pipeseroni/pipes.sh#43
     tput rmcup
     tput cnorm
     stty echo

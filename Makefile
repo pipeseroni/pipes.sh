@@ -17,7 +17,7 @@ install:
 	test -d $(INSTMAN) || mkdir -p $(INSTMAN)
 
 	install -m 0755 $(SCRIPT) $(INSTBIN)
-	install -m 0644 doc/$(MANPAGE) $(INSTMAN)
+	install -m 0644 $(MANPAGE) $(INSTMAN)
 
 uninstall:
 	rm -f $(INSTBIN)/$(SCRIPT)
