@@ -2,20 +2,43 @@
 
 <!-- all required -->
 
-* OS: <!-- and version or distribution -->
-* Terminal emulator: <!-- and version -->
+<!-- with version or distribution -->
+* OS: 
+
+<!-- with version -->
+* Terminal emulator: 
+
+<!-- with version, if you use; if not, remove this part -->
+* Terminal multiplexer: 
+
+<!-- paste the output -->
+* `echo $TERM`: 
+
 * Bash version: 
+
 * pipes.sh version or commit hash: 
-<!-- list anything else you think would help -->
+
+<!-- list anything else that would help -->
 
 ### Expected behavior
+
+
 
 ### Actual behavior
 
 <!--
-  * consider upload screenshot, if it would be more helpful.
-  * please put terminal output in fenced block, three backticks ``` above the
-    output and three more below.
+  * Consider upload a screenshot, if helpful.
+
+  * Please put terminal output or code in fenced block, for examples:
+
+    ```
+    user $ echo $TERM
+    xterm
+    ```
+
+    ```bash
+    # some Bash code
+    ```
 -->
 
 ### Steps to reproduce the behavior
