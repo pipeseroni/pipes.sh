@@ -13,16 +13,18 @@ pipes.sh \- animated pipes terminal screensaver
 A bash script which draws randomly pathed pipes over the terminal. Generally used either as a functional screensaver or for amusement.
 
 .SH OPTIONS
-A summary of options is included below. For a more complete description and examples see the GitHub page linked to in the see also section.
 .TP 5
 .B -p [1-]
 Number of pipes. (default is 1)
 .TP
-.B -t [#]
+.B -t [0-9]
 Determines the type of pipes to be drawn. Multiple arguments can be used. (default is 0)
 .TP
 .B -t c[16 chars]
 Use custom type of pipes.
+.TP
+.B -c [0-7]
+Colors of pipes. Multiple arguments can be used. (default is 1 2 3 4 5 6 7 0)
 .TP
 .B -f [20-100]
 Frame rate. (default is 75)
@@ -41,6 +43,9 @@ No bold effect.
 .TP
 .B -C
 No color.
+.TP
+.B -K
+No change of colors and types when hitting screen edges.
 .TP
 .B -h
 Displays a help message.
@@ -66,26 +71,54 @@ Toggle no colors
 .B K
 Toggle keeping pipe color and type when crossing edges
 
+.SH HISTORY
+\fIpipes.sh\fR was originally created by Matthew Simpson and posted to the
+.UR https://bbs.archlinux.org/viewtopic.php?pid=728932#p728932
+Arch Linux Forums
+.UE
+in early 2010. It was also later posted to
+.UR https://gist.github.com/msimpson/1096939
+Gist
+.UE
+released in the public domain.
+
+In early 2013, Yu-Jie Lin posted a modification of the script to Gist after
+reading about it on a
+.UR https://inconsolation.wordpress.com/2013/02/01/pipes-sh-a-little-bit-of-fun/
+blog
+.UE .
+It was maintained on Gist independently for a period of a few months.
+
+In 2014, the script was given its own GitHub repository as a project which
+encouraged contributions from other developers. As the project gained more
+popularity the decision was made to combine forces with developers of similar
+projects.
+
+Finally in 2015, the MIT License was added and the Pipeseroni collective was
+formed (see \fBLINKS\fR below) to maintain the project.
+
+.SH LINKS
+.UR https://pipeseroni.github.io/
+\fBWebsite\fR
+.UE
+
+.UR https://github.com/pipeseroni/pipes.sh
+\fBRepository\fR
+.UE
+
 .SH BUGS
 Please see current issues on
-.UR https\://\:github.com/pipeseroni/pipes.sh/issues
+.UR https://github.com/pipeseroni/pipes.sh/issues
 issue tracker
 .UE ,
 and report any bugs or request feature you'd like.
 
 .SH AUTHORS
-The original author of
-.B pipes.sh
-is unknown.
-This version is maintained by
-.MT livibetter@\:gmail.com
-Yu-Jie Lin
-.ME
-since 2013 on
-.UR https\://\:github.com/pipeseroni/pipes.sh
-GitHub
+.UR https://github.com/pipeseroni/pipes.sh/graphs/contributors
+Pipeseroni/pipes.sh contributors
 .UE .
-This manual page was written by
-.MT joshua.h.fogg@\:gmail.com
-Joshua Fogg
-.ME .
+
+.SH COPYRIGHT
+Copyright (c) 2010-2018 Pipeseroni/pipes.sh contributors.
+
+\fIpipes.sh\fR is licensed under the MIT License, see LICENSE file.

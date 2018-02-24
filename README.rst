@@ -179,6 +179,33 @@ Keys                 Actions
 ===================  ======================================================
 
 
+History
+=======
+
+pipes.sh was originally created by Matthew Simpson and posted to the `Arch
+Linux Forums`__ in early 2010. It was also later posted to Gist__ released in
+the public domain.
+
+__ https://bbs.archlinux.org/viewtopic.php?pid=728932#p728932
+__ https://gist.github.com/msimpson/1096939
+
+In early 2013, Yu-Jie Lin posted a modification of the script to Gist after
+reading about it on a blog__ It was maintained on Gist independently for a
+period of a few months.
+
+__ https://inconsolation.wordpress.com/2013/02/01/pipes-sh-a-little-bit-of-fun/
+
+In 2014 the script was given its own GitHub repository as a project which
+encouraged contributions from other developers. As the project gained more
+popularity the decision was made to combine forces with developers of similar
+projects.
+
+Finally, in 2015, the MIT License was added and the Pipeseroni_ collective was
+formed to maintain the project.
+
+.. _Pipeseroni: https://pipeseroni.github.io/
+
+
 Reporting an Issue
 ==================
 
