@@ -25,7 +25,7 @@
 # SOFTWARE.
 
 
-VERSION=1.2.0
+VERSION=1.3.0
 
 M=32768  # Bash RANDOM maximum + 1
 p=1      # number of pipes
