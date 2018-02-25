@@ -147,21 +147,6 @@ For example, ``-t cMAYFORCEBWITHYOU``.
 +---+------------+---+------------+---+------------+---+------------+
 
 
-``-C``: no colors
------------------
-
-.. note on taking the screenshot
-
-  Font is Inconsolata, font size 24 as in 16x35 pixel per character
-
-  Image size is 640x140. A sample command, where terminal at +0+18,
-  window border is 2, terminal is urxvt, seems to 2 pixels as padding:
-
-  xsnap -region 640x140+$((2+2))+$((20+2)) -file i/pipes.C.png
-
-.. figure:: i/pipes.C.png
-
-
 Controls
 ========
 
