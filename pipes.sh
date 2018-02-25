@@ -136,7 +136,7 @@ cleanup() {
     tput rmcup
     tput cnorm
     stty echo
-    ((NOCOLOR)) && echo -ne '\x1b[0m'
+    ((NOCOLOR)) && echo -ne '\e[0m'
     exit 0
 }
 
@@ -210,8 +210,8 @@ main() {
 
             # Print:
             tput cup ${y[i]} ${x[i]}
-            echo -ne "\x1b[${BOLD}m"
-            ((NOCOLOR)) && echo -ne "\x1b[0m" || echo -ne "\x1b[3${c[i]}m"
+            echo -ne "\e[${BOLD}m"
+            ((NOCOLOR)) && echo -ne "\e[0m" || echo -ne "\e[3${c[i]}m"
             echo -n "${sets[v[i]]:l[i]*4+n[i]:1}"
             l[i]=${n[i]}
         done
