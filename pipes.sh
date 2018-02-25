@@ -153,7 +153,7 @@ init() {
     trap resize SIGWINCH
     ci=$((KEEPCT ? 0 : CN * RANDOM / M))
     vi=$((KEEPCT ? 0 : VN * RANDOM / M))
-    for ((i = 1; i <= p; i++)); do
+    for ((i = 0; i < p; i++)); do
         n[i]=0
         l[i]=0
         ((x[i] = RNDSTART == 1 ? w * RANDOM / M : w / 2))
@@ -192,7 +192,7 @@ main() {
             K) ((KEEPCT = (KEEPCT + 1) % 2));;
             ?) break;;
         esac
-        for ((i = 1; i <= p; i++)); do
+        for ((i = 0; i < p; i++)); do
             # New position:
             # l[] direction = 0: up, 1: right, 2: down, 3: left
             ((l[i] % 2)) && ((x[i] += -l[i] + 2, 1)) || ((y[i] += l[i] - 1))
