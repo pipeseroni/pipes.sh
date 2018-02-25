@@ -69,10 +69,10 @@ VN=0  # number of selected types
 CN=0  # number of selected colors
 
 # switches
-RNDSTART=0
+RNDSTART=0  # randomize starting position and direction
 BOLD=1
 NOCOLOR=0
-KEEPCT=0  # Keep pipe color and type
+KEEPCT=0    # keep pipe color and type
 
 
 parse() {
@@ -105,7 +105,7 @@ parse() {
             echo -e " -f [20-100]\tframerate (D=75)."
             echo -e " -s [5-15]\tprobability of a straight fitting (D=13)."
             echo -e " -r LIMIT\treset after x characters, 0 if no limit (D=2000)."
-            echo -e " -R \t\trandom starting point."
+            echo -e " -R \t\trandomize starting position and direction."
             echo -e " -B \t\tno bold effect."
             echo -e " -C \t\tno color."
             echo -e " -K \t\tpipes keep their color and type when hitting the screen edge."
@@ -155,7 +155,7 @@ init() {
     vi=$((KEEPCT ? 0 : VN * RANDOM / M))
     for ((i = 0; i < p; i++)); {((
         n[i] = 0,
-        l[i] = 0,
+        l[i] = RNDSTART ? RANDOM % 4 : 0,
         x[i] = RNDSTART ? w * RANDOM / M : w / 2,
         y[i] = RNDSTART ? h * RANDOM / M : h / 2,
         c[i] = C[ci],
