@@ -153,16 +153,16 @@ init() {
     trap resize SIGWINCH
     ci=$((KEEPCT ? 0 : CN * RANDOM / M))
     vi=$((KEEPCT ? 0 : VN * RANDOM / M))
-    for ((i = 0; i < p; i++)); do
-        n[i]=0
-        l[i]=0
-        ((x[i] = RNDSTART == 1 ? w * RANDOM / M : w / 2))
-        ((y[i] = RNDSTART == 1 ? h * RANDOM / M : h / 2))
-        c[i]=${C[ci]}
-        ((ci = (ci + 1) % CN))
-        v[i]=${V[vi]}
-        ((vi = (vi + 1) % VN))
-    done
+    for ((i = 0; i < p; i++)); {((
+        n[i] = 0,
+        l[i] = 0,
+        x[i] = RNDSTART ? w * RANDOM / M : w / 2,
+        y[i] = RNDSTART ? h * RANDOM / M : h / 2,
+        c[i] = C[ci],
+        v[i] = V[vi],
+        ci = (ci + 1) % CN,
+        vi = (vi + 1) % VN
+    ));}
 
     stty -echo
     tput smcup || FORCE_RESET=1
