@@ -19,9 +19,107 @@ Number of pipes. (default is 1)
 .TP
 .B -t [0-9]
 Determines the type of pipes to be drawn. Multiple arguments can be used. (default is 0)
+
+Due to the manpage limitation, the following list describes types in text,
+please see
+.UR https://github.com/pipeseroni/pipes.sh#-t--pipe-types
+README
+.UE
+for actual Unicode characters and screenshots.
+.RS
+.TP
+.B -t 0
+"BOX DRAWING HEAVY"
+.TP
+.B -t 1
+"BOX DRAWING LIGHT" and "BOX DRAWING LIGHT ARC"
+.TP
+.B -t 2
+"BOX DRAWING LIGHT"
+.TP
+.B -t 3
+"BOX DRAWING DOUBLE"
+.TP
+.B -t 4
+"|+ ++-+ +|++ +-"
+.TP
+.B -t 5
+"|/ \\/-\\ \\|/\\ /-"
+.TP
+.B -t 6
+".. .... .... .."
+.TP
+.B -t 7
+".o oo.o o.oo o."
+.TP
+.B -t 8
+"-\\ /\\|/ /-\\/ \\|" (railway)
+.TP
+.B -t 9
+"BOX DRAWING HEAVY AND LIGHT" (knobby)
+.RE
+
 .TP
 .B -t c[16 chars]
 Use custom type of pipes.
+
+The following table describes the order of characters and what they represent.
+Four of the characters are not applicable as the pipes does not perform a
+180-turn.
+.RS
+.TP
+.B Index
+Going
+.TP
+.B 1
+Straight up
+.TP
+.B 2
+Up and going right
+.TP
+.B 3
+Not applicable (up and back down), use space
+.TP
+.B 4
+Up and going left
+.TP
+.B 5
+Right and going up
+.TP
+.B 6
+Stright right
+.TP
+.B 7
+Right and going down
+.TP
+.B 8
+Not applicable (right and back left), use space
+.TP
+.B 9
+Not applicable (down and back up), use space
+.TP
+.B 10
+Down and going right
+.TP
+.B 11
+Straight down
+.TP
+.B 12
+Down and going left
+.TP
+.B 13
+Left and going up
+.TP
+.B 14
+Not applicable (left and back right), use space
+.TP
+.B 15
+Left and going down
+.TP
+.B 16
+Straight left
+.RE
+
 .TP
 .B -c [0-7]
 Colors of pipes. Multiple arguments can be used. (default is 1 2 3 4 5 6 7 0)
