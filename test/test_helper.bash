@@ -27,12 +27,13 @@ PIPESSH="$BATS_TEST_DIRNAME/../pipes.sh"
 # nested pairs.
 _CP() {
     < "$PIPESSH" \
-    sed -ne '/^\s*# +_CP_\w\+$/,/^\s*# -_CP_\w\+$/ {
-                s/^\s*# +\(_CP_\w\+\)$/\1()\{/
-                s/^\s*# -_CP_\w\+$/\}/
-                p
-            }' |
-    sed -e 's/\$\?RANDOM/$((_RND_SEQ[_RND_IDX++]))/g'
+    sed -n -E \
+        -e '/^ *# \+_CP_[a-zA-Z0-9_]+$/,/^ *# -_CP_[a-zA-Z0-9_]+$/ {' \
+            -e 's/^ *# \+(_CP_[a-zA-Z0-9_]+)$/\1()\{/' \
+            -e 's/^ *# -_CP_[a-zA-Z0-9_]+$/\}/' \
+            -e 'p' \
+        -e '}' |
+    sed -E -e 's/\$?RANDOM/$((_RND_SEQ[_RND_IDX\+\+]))/g'
 }
 
 
