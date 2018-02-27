@@ -191,8 +191,37 @@ teardown() {
 }
 
 
-@test "newdir" {
-    skip
+@test "newdir: no turns" {
+    local _l
+
+    s=1
+    for ((_l = 0; _l < 4; _l++)); do
+        l[i]=$_l
+         _RND_push $M -1
+        _CP_newdir
+
+        echo _l=$_l: n[i]=${n[i]} l[i]=${l[i]}
+        ((n[i] == l[i]))
+    done
+}
+
+
+@test "newdir: turning" {
+    local _l _n
+
+    s=2
+    for ((_l = 0; _l < 4; _l++)); do
+        for ((_d = 0; _d < 2; _d++)); do
+            l[i]=$_l
+            _RND_push 0 $_d
+
+            _CP_newdir
+
+            ((_n = (_l + (2 * _d) - 1 + 4) % 4, 1))
+            echo _l=$_l _d:$_d: n[i]=${n[i]} _n=$_n l[i]=${l[i]}
+            ((n[i] == _n))
+        done
+    done
 }
 
 

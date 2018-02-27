@@ -215,11 +215,20 @@ main() {
               y[i] = (y[i] + h) % h, 1))
             # -_CP_warp
 
-            # New random direction:
+            # new turning direction:
+            # $((s - 1)) in $s, going straight, therefore n[i] == l[i];
+            # and 1 in $s that pipe makes a right or left turn
+            #
+            #     s * RANDOM / M - 1 == 0
+            #     n[i] == -1
+            #  => n[i] == l[i] + 1 or l[i] - 1
             # +_CP_newdir
-            ((n[i] = s * RANDOM / M - 1))
-            ((n[i] = (n[i] > 1 || n[i] == 0) ? l[i] : l[i] + n[i]))
-            ((n[i] = (n[i] < 0) ? 3 : n[i] % 4))
+            ((
+                n[i] = s * RANDOM / M - 1,
+                n[i] = n[i] >= 0 ? l[i] : l[i] + (2 * (RANDOM % 2) - 1),
+                n[i] = (n[i] + 4) % 4,
+                1
+            ))
             # -_CP_newdir
 
             # Print:

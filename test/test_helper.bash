@@ -61,6 +61,20 @@ _CP() {
 # in the process of the tested code and in subprocess that it spawns, as
 # anything being updated in the subprocess will not be updated to the parent,
 # that means the _RND_IDX.
+#
+# Limitation: since the mock RANDOM is an expansion, it could be expanded even
+# it might not be executed, for example:
+#
+#    n = RANDOM
+#    n = n % 2 ? 7 : RANDOM
+#
+# Even when first RANDOM % 2 == 1, the mock RANDOM will still be expanded, the
+# next number is expanded and _RND_SEQ is increased.
+#
+# You will need to add dummy value for second RANDOM, or rewrite the second
+# evaluation to be:
+#
+#    ((n % 2)) && ((n = 7)) || ((n = RANDOM))
 
 
 # initializes a mock RANDOM
