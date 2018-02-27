@@ -129,9 +129,6 @@ cleanup() {
     # clear out standard input
     read -t 0.001 && cat </dev/stdin>/dev/null
 
-    # terminal has no smcup and rmcup capabilities
-    ((FORCE_RESET)) && reset && exit 0
-
     tput reset  # fix for konsole, see pipeseroni/pipes.sh#43
     tput rmcup
     tput cnorm
