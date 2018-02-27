@@ -1,0 +1,107 @@
+This directory hosts BATS [1] test files:
+
+* <funcnames>.bats test the functions
+* command.bats tests the execution of pipes.sh
+* test_helper.bash is test helper
+
+[1] https://github.com/bats-core/bats-core
+
+
+Running tests
+=============
+
+    $ make test  # or
+    $ bats test
+
+
+Checklist
+=========
+
+* Variables for tests:
+
+  * Must declare them using local.  (test cases only)
+
+  * Prefix an underscore.
+
+* If adding new default settings, please add new checks to the default 
+  settings test in parse.bats, ensuring no default settings can be changed 
+  without failing the test.
+
+
+Notes
+=====
+
+((..., ..., 1))
+---------------
+
+Because of how BATS constitutes an assertion and pipes.sh heavily relies on 
+ARITHMETIC EVALUATION, some existing code could easily trigger a failure, for 
+example:
+
+    ((A = B * 3 + 1 - C))
+    : doing something else don't care the $? from above
+
+In the code above, if B = 0 and C = 1, the (( )) returns status 1 as A = 0, 
+which we don't care, but BATS sees it as a failure.  In order to work around 
+it, we forces it to return status 0, by adding another evaluation:
+
+    ((A = B * 3 + 1 - C, 1))
+
+This ensures the evaluation always returning status 0.
+
+
+RANDOM
+------
+
+Bash RANDOM is used in pipes.sh, even it's not heavily, it will interfere the 
+tests as its purpose is to provide a random number.  In order to test a piece 
+of code that uses RANDOM, deterministically, we need to use a mock for RANDOM 
+for a deterministic sequences of numbers of our choices.
+
+In test_helper.bash, _RND_* and _CP provides the mock.  Basically you wrap the 
+code with two special comments, _CP extracts the code and make it as a 
+function and replace RANDOM with the mock to be used by eval.
+
+You then supply the random numbers you want using _RND_push, and the RANDOM 
+will be expanded to that exact sequence in the newly extracted function 
+execution.
+
+Please read the comments of the two components in test_helper.bash for more 
+details.
+
+
+Uses of $BATS_TEST_DESCRIPTION
+------------------------------
+
+A good amount of tests utilizes it to run function with arguments, this would 
+reduce the chance of mismatches, for example:
+
+    @test "parse -c 8  # out of range" {
+        $BATS_TEST_DESCRIPTION
+
+        : ...
+    }
+
+Also to set settings/variables, for example:
+
+    @test "p=2 RNDSTART=1" {
+        eval $BATS_TEST_DESCRIPTION
+
+        : ...
+    }
+
+
+echo for indistinct assertions
+------------------------------
+
+Unlike most of unittest frameworks, BATS does not print out the expected and 
+actual results as it has no such concept.  You can use echo just before the 
+tests, for example:
+
+    for ((i = 0; i < 4; i++)); do
+        echo i=$i
+        ((i % 2 == 0))
+    done
+
+BATS only tells you the second line in loop fails, but you won't know the 
+value of i, a manual echo would tell you when the test fails.

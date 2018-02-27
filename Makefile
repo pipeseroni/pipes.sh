@@ -11,6 +11,10 @@ MANPAGE=$(SCRIPT).6
 all:
 	@echo did nothing. try targets: install, or uninstall.
 
+test:
+	bats test
+.PHONY: test
+
 install:
 	test -d $(INSTDIR) || mkdir -p $(INSTDIR)
 	test -d $(INSTBIN) || mkdir -p $(INSTBIN)

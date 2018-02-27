@@ -91,7 +91,7 @@ parse() {
         c) [[ $OPTARG =~ ^[0-7]$ ]] && C+=($OPTARG);;
         f) ((f = (OPTARG > 19 && OPTARG < 101) ? OPTARG : f));;
         s) ((s = (OPTARG > 4 && OPTARG < 16) ? OPTARG : s));;
-        r) ((r = (OPTARG >= 0) ? OPTARG : r));;
+        r) ((r = (OPTARG >= 0) ? OPTARG : r, 1));;
         R) RNDSTART=1;;
         B) BOLD=0;;
         C) NOCOLOR=1;;
@@ -146,11 +146,10 @@ resize() {
 }
 
 
-init() {
+init_pipes() {
+    # +_CP_init_pipes
     local i
 
-    resize
-    trap resize SIGWINCH
     ci=$((KEEPCT ? 0 : CN * RANDOM / M))
     vi=$((KEEPCT ? 0 : VN * RANDOM / M))
     for ((i = 0; i < p; i++)); {((
@@ -161,14 +160,22 @@ init() {
         c[i] = C[ci],
         v[i] = V[vi],
         ci = (ci + 1) % CN,
-        vi = (vi + 1) % VN
+        vi = (vi + 1) % VN,
+        1
     ));}
+    # -_CP_init_pipes
+}
 
+
+init_screen() {
     stty -echo
     tput smcup || FORCE_RESET=1
     tput civis
     tput clear
     trap cleanup HUP TERM
+
+    resize
+    trap resize SIGWINCH
 }
 
 
@@ -176,8 +183,9 @@ main() {
     local i
 
     parse "$@"
-    init "$@"
+    init_screen
 
+    init_pipes
     # any key press exits the loop and this script
     trap 'break 2' INT
     while REPLY=; do
@@ -195,24 +203,32 @@ main() {
         for ((i = 0; i < p; i++)); do
             # New position:
             # l[] direction = 0: up, 1: right, 2: down, 3: left
-            ((l[i] % 2)) && ((x[i] += -l[i] + 2, 1)) || ((y[i] += l[i] - 1))
+            # +_CP_newpos
+            ((l[i] % 2)) && ((x[i] += -l[i] + 2, 1)) || ((y[i] += l[i] - 1, 1))
+            # -_CP_newpos
 
             # Loop on edges (change color on loop):
+            # +_CP_warp
             ((!KEEPCT && (x[i] >= w || x[i] < 0 || y[i] >= h || y[i] < 0))) \
             && ((c[i] = C[CN * RANDOM / M], v[i] = V[VN * RANDOM / M]))
-            ((x[i] = (x[i] + w) % w))
-            ((y[i] = (y[i] + h) % h))
+            ((x[i] = (x[i] + w) % w,
+              y[i] = (y[i] + h) % h, 1))
+            # -_CP_warp
 
             # New random direction:
+            # +_CP_newdir
             ((n[i] = s * RANDOM / M - 1))
             ((n[i] = (n[i] > 1 || n[i] == 0) ? l[i] : l[i] + n[i]))
             ((n[i] = (n[i] < 0) ? 3 : n[i] % 4))
+            # -_CP_newdir
 
             # Print:
             tput cup ${y[i]} ${x[i]}
+            # +_CP_print
             echo -ne "\e[${BOLD}m"
             ((NOCOLOR)) && echo -ne "\e[0m" || echo -ne "\e[3${c[i]}m"
             echo -n "${sets[v[i]]:l[i]*4+n[i]:1}"
+            # -_CP_print
             l[i]=${n[i]}
         done
         ((r > 0 && t * p >= r)) && tput reset && tput civis && t=0 || ((t++))
@@ -222,4 +238,5 @@ main() {
 }
 
 
-main "$@"
+# when being sourced, $0 == bash, only invoke main when they are the same
+[[ "$0" != "$BASH_SOURCE" ]] ||  main "$@"

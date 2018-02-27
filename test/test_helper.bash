@@ -1,0 +1,97 @@
+PIPESSH="$BATS_TEST_DIRNAME/../pipes.sh"
+
+
+# cherrypick a piece of code to test and replace RANDOM with a mock, see _RND
+# below.
+#
+# Wrap code with two comments like
+#
+#     # +_CP_foobar
+#     : some code here
+#     ((1 + RANDOM * 3))
+#     : more code here
+#     # -_CP_foobar
+#
+# It will be extracted and echo out as
+#
+#     _CP_foobar() {
+#     : some code here
+#     ((1 + $((_RND_SEQ[_RND_IDX++])) * 3))
+#     : more code here
+#     }
+#
+# The result can be used by eval to define the functions.
+#
+# FIXME check if the names in two comments actually match, we should find +_CP,
+# then extract with -_CP, this ensures valid pair, and it can even extract
+# nested pairs.
+_CP() {
+    < "$PIPESSH" \
+    sed -ne '/^\s*# +_CP_\w\+$/,/^\s*# -_CP_\w\+$/ {
+                s/^\s*# +\(_CP_\w\+\)$/\1()\{/
+                s/^\s*# -_CP_\w\+$/\}/
+                p
+            }' |
+    sed -e 's/\$\?RANDOM/$((_RND_SEQ[_RND_IDX++]))/g'
+}
+
+
+# _RND_* are the mock RANDOM functions, used in conjunction with the _CP above.
+# They should be used in the following method
+#
+#     _RND_init            # => _RND_IDX = 0 and _RND_SEQ=()
+#     _RND_push 3 1 4 1 5  # => _RND_SEQ=(3 1 4 1 5)
+#
+# When the tested code expands RANDOM, which is in turn the following code
+# after being replaced by _CP():
+#
+#     $((_RND_SEQ[_RND_IDX++]))
+#
+# With each expansion, one number will be expanded, then next as the index
+# _RND_IDX being incremented.
+#
+# Note that: there is no range check, when the index goes beyond the range,
+# the replaced code would be expanded to nothing, which should trigger a syntax
+# error, for example:
+#
+#     ((number + RANDOM * 3))
+#  => ((number +        * 3))  # a syntax error
+#
+# Limitation: this mock is very basic, you can not use it when RANDOM is used
+# in the process of the tested code and in subprocess that it spawns, as
+# anything being updated in the subprocess will not be updated to the parent,
+# that means the _RND_IDX.
+
+
+# initializes a mock RANDOM
+_RND_init() {
+    _RND_IDX=0
+    declare -ga _RND_SEQ=()
+}
+
+
+_RND_deinit() {
+    unset _RND_IDX _RND_SEQ
+}
+
+
+# push numbers into the sequence
+_RND_push() {
+    _RND_SEQ+=("$@")
+}
+
+
+# _INVR $X $N
+# Calculates an inverted number for a RANDOM in X = N * RANDOM / M,
+# the calculated value can be _RND_push and the X will be the result when
+# tested code expands RANDOM.
+#
+# Note that: it actually calculates RANDOM for (X + (X + 1)) / 2, the mid-point
+# between X and X + 1, it would be truncated/floored to be X, otherwise the
+# resulted X might be slightly short for X and ending up as X - 1
+#
+# For example, X = 2, but it might be 1.999999... as the integer operations
+# goes, therefore calculating for 2.5 is a safe way to ensure X = X.
+_INVR() {
+    echo $((M * (2 * $1 + 1) / (2 * $2)))
+}
