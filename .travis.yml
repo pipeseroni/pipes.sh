@@ -1,0 +1,21 @@
+language: bash
+
+matrix:
+    include:
+        - os: linux
+        - os: osx
+          env: HOMEBREW_NO_AUTO_UPDATE=1
+
+sudo: required
+
+before_install:
+    - if [[ "$TRAVIS_OS_NAME" == 'osx' ]]; then brew install bash; fi
+    - if [[ "$TRAVIS_OS_NAME" == 'osx' ]]; then export PATH=/usr/local/bin:$PATH; fi
+    - if [[ "$TRAVIS_OS_NAME" == 'osx' ]]; then bash -c 'echo $BASH_VERSION'; fi
+    - if [[ "$TRAVIS_OS_NAME" == 'osx' ]]; then brew install bats; fi
+
+script:
+    - make test
+    - sudo make install
+    - pipes.sh -v
+    - sudo make uninstall
