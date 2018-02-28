@@ -166,7 +166,7 @@ init_pipes() {
 
 init_screen() {
     stty -echo
-    tput smcup || FORCE_RESET=1
+    tput smcup
     tput civis
     tput clear
     trap cleanup HUP TERM
