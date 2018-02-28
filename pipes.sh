@@ -229,9 +229,8 @@ main() {
             # -_CP_newdir
 
             # Print:
-            tput cup ${y[i]} ${x[i]}
             # +_CP_print
-            echo -ne "\e[${BOLD}m"
+            echo -ne "\e[${y[i]};${x[i]}H\e[${BOLD}m"
             ((NOCOLOR)) && echo -ne "\e[0m" || echo -ne "\e[3${c[i]}m"
             echo -n "${sets[v[i]]:l[i]*4+n[i]:1}"
             # -_CP_print

@@ -12,6 +12,8 @@ setup() {
     w=20  h=20
     i=0
     l[i]=0  n[i]=0
+    x[i]=0  y[i]=0
+
       C=(1 2 3)      V=(4 5 6)
      CN=${#C[@]}    VN=${#C[@]}
     c[i]=${C[0]}  v[i]=${V[0]}
@@ -225,35 +227,38 @@ teardown() {
 }
 
 
+@test "CSI Cursor Position" {
+    x[i]=3  y[i]=5
+    [[ "$(_CP_print)" == $'\e[5;3H'* ]]
+}
+
+
 @test "BOLD" {
     BOLD=0
-    [[ "$(_CP_print)" == $'\e[0m\e[31m0' ]]
+    [[ "$(_CP_print)" == *$'\e[0m'* ]]
     BOLD=1
-    [[ "$(_CP_print)" == $'\e[1m\e[31m0' ]]
+    [[ "$(_CP_print)" == *$'\e[1m'* ]]
 }
 
 
 @test "NOCOLOR" {
-    BOLD=0
     NOCOLOR=0
-    [[ "$(_CP_print)" == $'\e[0m\e[31m0' ]]
+    [[ "$(_CP_print)" == *$'\e[31m'? ]]
     NOCOLOR=1
-    [[ "$(_CP_print)" == $'\e[0m\e[0m0' ]]
+    [[ "$(_CP_print)" == *$'\e[0m'? ]]
 }
 
 
 @test "l[] n[] -> sets[l * 4 + n]" {
     local _li _ni _I
 
-    BOLD=0
-    NOCOLOR=1
     for ((_li = 0; _li < 4; _li++)); do
        l[i]=_li
         for ((_ni = 0; _ni < 4; _ni++)); do
             n[i]=_ni
             printf -v _I '%X' $((_li * 4 + _ni))
             echo "l=$_li  n=$_ni  I=$_I"
-            [[ "$(_CP_print)" == $'\e[0m\e[0m'$_I ]]
+            [[ "$(_CP_print)" == *$_I ]]
         done
     done
 }
