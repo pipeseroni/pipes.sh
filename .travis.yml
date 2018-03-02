@@ -6,6 +6,11 @@ matrix:
     - os: osx
       env: HOMEBREW_NO_AUTO_UPDATE=1
 
+addons:
+  apt:
+    packages:
+      - groff
+
 sudo: required
 
 before_install:
@@ -14,8 +19,13 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == 'osx' ]]; then bash -c 'echo $BASH_VERSION'; fi
   - if [[ "$TRAVIS_OS_NAME" == 'osx' ]]; then brew install bats; fi
 
+before_script:
+  - groff --version
+  - if [[ "$TRAVIS_OS_NAME" != 'osx' ]]; then sed --version; fi
+
 script:
   - make test
   - sudo make install
   - pipes.sh -v
   - sudo make uninstall
+  - make pipes.sh.6.html

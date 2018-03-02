@@ -60,25 +60,10 @@ If you are a `Homebrew <http://brew.sh>`_ user, you can install via:
 Options
 =======
 
-Full List
----------
+See |pipes.sh(6)|_ for a full list of options.
 
-===============  ============================================================
-Options          Descrptions (Defaults)
-===============  ============================================================
-``-p [1-]``      Number of pipes (1)
-``-t [#]``       Type of pipes, can be used more than once (0)
-``-c [0-7]``     Color of pipes, can be used more than once (1 2 3 4 5 6 7 0)
-``-f [20-100]``  Framerate (75)
-``-s [5-15]``    Probability of a straight fitting (13)
-``-r LIMIT```    Reset after x characters, 0 if no limit (2000)
-``-R``           Random starting point
-``-B``           No bold effect
-``-C``           No color
-``-K``           Pipes keep their color and type when hitting the screen edge
-``-h``           Help message
-``-v``           Print version number
-===============  ============================================================
+.. |pipes.sh(6)| replace:: ``pipes.sh(6)``
+.. _pipes.sh(6): https://pipeseroni.github.io/pipes.sh/pipes.sh.6.html
 
 
 ``-t [#]``: pipe types
@@ -167,6 +152,10 @@ Keys                 Actions
 History
 =======
 
+(Read full history_  in |pipes.sh(6)|_)
+
+.. _history: https://pipeseroni.github.io/pipes.sh/pipes.sh.6.html#HISTORY
+
 pipes.sh was originally created by Matthew Simpson and posted to the `Arch
 Linux Forums`__ in early 2010. It was also later posted to Gist__ released in
 the public domain.
@@ -174,19 +163,8 @@ the public domain.
 __ https://bbs.archlinux.org/viewtopic.php?pid=728932#p728932
 __ https://gist.github.com/msimpson/1096939
 
-In early 2013, Yu-Jie Lin posted a modification of the script to Gist after
-reading about it on a blog__ It was maintained on Gist independently for a
-period of a few months.
-
-__ https://inconsolation.wordpress.com/2013/02/01/pipes-sh-a-little-bit-of-fun/
-
-In 2014 the script was given its own GitHub repository as a project which
-encouraged contributions from other developers. As the project gained more
-popularity the decision was made to combine forces with developers of similar
-projects.
-
-Finally, in 2015, the MIT License was added and the Pipeseroni_ collective was
-formed to maintain the project.
+In 2015, the MIT License was added and the Pipeseroni_ collective was formed to
+maintain pipes.sh.
 
 .. _Pipeseroni: https://pipeseroni.github.io/
 

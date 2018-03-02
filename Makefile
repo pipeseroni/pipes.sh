@@ -14,6 +14,19 @@ all:
 .PHONY: all
 
 
+# this target is intended for an HTML version of manpage to be displayed on
+# GitHub Pages, so if there is a such named directory, it will also copy the
+# generated HTML to the directory.
+$(MANPAGE).html: $(MANPAGE)
+	TZ=UTC scripts/gen-man-html.sh '$^' '$@'
+	test -d gh-pages && cp -a $@ gh-pages/ || true
+
+
+clean:
+	$(RM) $(MANPAGE).html
+.PHONY: clean
+
+
 test:
 	bats test
 .PHONY: test
