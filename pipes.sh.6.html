@@ -1,0 +1,640 @@
+<!-- Creator     : groff version 1.22.2 -->
+<!-- CreationDate: Fri Mar  2 04:52:24 2018 -->
+<!-- Modified By : pipes.sh Makefile --> 
+<!-- Modified At : Fri Mar  2 04:52:24 UTC 2018 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org; pipes.sh Makefile">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="Content-Style" content="text/css">
+<style type="text/css">
+       body  { font-family: monospace; width: 79ch; margin: auto auto }
+       p       { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       pre     { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       table   { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       h1      { text-align: center }
+</style>
+<title>pipes.sh</title>
+
+</head>
+<body>
+
+<h1 align="center">pipes.sh</h1>
+
+<a href="#NAME">NAME</a><br>
+<a href="#SYNOPSIS">SYNOPSIS</a><br>
+<a href="#DESCRIPTION">DESCRIPTION</a><br>
+<a href="#OPTIONS">OPTIONS</a><br>
+<a href="#KEYBOARD CONTROLS">KEYBOARD CONTROLS</a><br>
+<a href="#HISTORY">HISTORY</a><br>
+<a href="#LINKS">LINKS</a><br>
+<a href="#BUGS">BUGS</a><br>
+<a href="#AUTHORS">AUTHORS</a><br>
+<a href="#COPYRIGHT">COPYRIGHT</a><br>
+
+<hr>
+
+
+<h2>NAME
+<a name="NAME"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">pipes.sh
+&minus; animated pipes terminal screensaver</p>
+
+<h2>SYNOPSIS
+<a name="SYNOPSIS"></a>
+</h2>
+
+
+
+<p style="margin-left:11%; margin-top: 1em"><b>pipes.sh</b>
+[<i>OPTION</i>]...</p>
+
+<h2>DESCRIPTION
+<a name="DESCRIPTION"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">A bash script
+which draws randomly pathed pipes over the terminal.
+Generally used either as a functional screensaver or for
+amusement.</p>
+
+<h2>OPTIONS
+<a name="OPTIONS"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em"><b>-p
+[1-]</b></p>
+
+<p style="margin-left:18%;">Number of pipes. (default is
+1)</p>
+
+<p style="margin-left:11%;"><b>-t [0-9]</b></p>
+
+<p style="margin-left:18%;">Determines the type of pipes to
+be drawn. Multiple arguments can be used. (default is 0)</p>
+
+<p style="margin-left:18%; margin-top: 1em">Due to the
+manpage limitation, the following list describes types in
+text, please see
+<a href="https://github.com/pipeseroni/pipes.sh#-t--pipe-types">README</a>
+for actual Unicode characters and screenshots.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="18%"></td>
+<td width="7%">
+
+
+<p><b>-t 0</b></p></td>
+<td width="4%"></td>
+<td width="71%">
+
+
+<p>&quot;BOX DRAWING HEAVY&quot;</p></td></tr>
+<tr valign="top" align="left">
+<td width="18%"></td>
+<td width="7%">
+
+
+<p><b>-t 1</b></p></td>
+<td width="4%"></td>
+<td width="71%">
+
+
+<p>&quot;BOX DRAWING LIGHT&quot; and &quot;BOX DRAWING
+LIGHT ARC&quot;</p></td></tr>
+<tr valign="top" align="left">
+<td width="18%"></td>
+<td width="7%">
+
+
+<p><b>-t 2</b></p></td>
+<td width="4%"></td>
+<td width="71%">
+
+
+<p>&quot;BOX DRAWING LIGHT&quot;</p></td></tr>
+<tr valign="top" align="left">
+<td width="18%"></td>
+<td width="7%">
+
+
+<p><b>-t 3</b></p></td>
+<td width="4%"></td>
+<td width="71%">
+
+
+<p>&quot;BOX DRAWING DOUBLE&quot;</p></td></tr>
+<tr valign="top" align="left">
+<td width="18%"></td>
+<td width="7%">
+
+
+<p><b>-t 4</b></p></td>
+<td width="4%"></td>
+<td width="71%">
+
+
+<p>&quot;|+ ++-+ +|++ +-&quot;</p></td></tr>
+<tr valign="top" align="left">
+<td width="18%"></td>
+<td width="7%">
+
+
+<p><b>-t 5</b></p></td>
+<td width="4%"></td>
+<td width="71%">
+
+
+<p>&quot;|/ \/-\ \|/\ /-&quot;</p></td></tr>
+<tr valign="top" align="left">
+<td width="18%"></td>
+<td width="7%">
+
+
+<p><b>-t 6</b></p></td>
+<td width="4%"></td>
+<td width="71%">
+
+
+<p>&quot;.. .... .... ..&quot;</p></td></tr>
+<tr valign="top" align="left">
+<td width="18%"></td>
+<td width="7%">
+
+
+<p><b>-t 7</b></p></td>
+<td width="4%"></td>
+<td width="71%">
+
+
+<p>&quot;.o oo.o o.oo o.&quot;</p></td></tr>
+<tr valign="top" align="left">
+<td width="18%"></td>
+<td width="7%">
+
+
+<p><b>-t 8</b></p></td>
+<td width="4%"></td>
+<td width="71%">
+
+
+<p>&quot;-\ /\|/ /-\/ \|&quot; (railway)</p></td></tr>
+<tr valign="top" align="left">
+<td width="18%"></td>
+<td width="7%">
+
+
+<p><b>-t 9</b></p></td>
+<td width="4%"></td>
+<td width="71%">
+
+
+<p>&quot;BOX DRAWING HEAVY AND LIGHT&quot; (knobby)</p></td></tr>
+</table>
+
+<p style="margin-left:11%;"><b>-t c[16 chars]</b></p>
+
+<p style="margin-left:18%;">Use custom type of pipes.</p>
+
+<p style="margin-left:18%; margin-top: 1em">The following
+table describes the order of characters and what they
+represent. Four of the characters are not applicable as the
+pipes does not perform a 180-turn.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="18%"></td>
+<td width="8%">
+
+
+<p><b>Index</b></p></td>
+<td width="3%"></td>
+<td width="71%">
+
+
+<p>Going</p></td></tr>
+<tr valign="top" align="left">
+<td width="18%"></td>
+<td width="8%">
+
+
+<p><b>1</b></p></td>
+<td width="3%"></td>
+<td width="71%">
+
+
+<p>Straight up</p></td></tr>
+<tr valign="top" align="left">
+<td width="18%"></td>
+<td width="8%">
+
+
+<p><b>2</b></p></td>
+<td width="3%"></td>
+<td width="71%">
+
+
+<p>Up and going right</p></td></tr>
+<tr valign="top" align="left">
+<td width="18%"></td>
+<td width="8%">
+
+
+<p><b>3</b></p></td>
+<td width="3%"></td>
+<td width="71%">
+
+
+<p>Not applicable (up and back down), use space</p></td></tr>
+<tr valign="top" align="left">
+<td width="18%"></td>
+<td width="8%">
+
+
+<p><b>4</b></p></td>
+<td width="3%"></td>
+<td width="71%">
+
+
+<p>Up and going left</p></td></tr>
+<tr valign="top" align="left">
+<td width="18%"></td>
+<td width="8%">
+
+
+<p><b>5</b></p></td>
+<td width="3%"></td>
+<td width="71%">
+
+
+<p>Right and going up</p></td></tr>
+<tr valign="top" align="left">
+<td width="18%"></td>
+<td width="8%">
+
+
+<p><b>6</b></p></td>
+<td width="3%"></td>
+<td width="71%">
+
+
+<p>Stright right</p></td></tr>
+<tr valign="top" align="left">
+<td width="18%"></td>
+<td width="8%">
+
+
+<p><b>7</b></p></td>
+<td width="3%"></td>
+<td width="71%">
+
+
+<p>Right and going down</p></td></tr>
+<tr valign="top" align="left">
+<td width="18%"></td>
+<td width="8%">
+
+
+<p><b>8</b></p></td>
+<td width="3%"></td>
+<td width="71%">
+
+
+<p>Not applicable (right and back left), use space</p></td></tr>
+<tr valign="top" align="left">
+<td width="18%"></td>
+<td width="8%">
+
+
+<p><b>9</b></p></td>
+<td width="3%"></td>
+<td width="71%">
+
+
+<p>Not applicable (down and back up), use space</p></td></tr>
+<tr valign="top" align="left">
+<td width="18%"></td>
+<td width="8%">
+
+
+<p><b>10</b></p></td>
+<td width="3%"></td>
+<td width="71%">
+
+
+<p>Down and going right</p></td></tr>
+<tr valign="top" align="left">
+<td width="18%"></td>
+<td width="8%">
+
+
+<p><b>11</b></p></td>
+<td width="3%"></td>
+<td width="71%">
+
+
+<p>Straight down</p></td></tr>
+<tr valign="top" align="left">
+<td width="18%"></td>
+<td width="8%">
+
+
+<p><b>12</b></p></td>
+<td width="3%"></td>
+<td width="71%">
+
+
+<p>Down and going left</p></td></tr>
+<tr valign="top" align="left">
+<td width="18%"></td>
+<td width="8%">
+
+
+<p><b>13</b></p></td>
+<td width="3%"></td>
+<td width="71%">
+
+
+<p>Left and going up</p></td></tr>
+<tr valign="top" align="left">
+<td width="18%"></td>
+<td width="8%">
+
+
+<p><b>14</b></p></td>
+<td width="3%"></td>
+<td width="71%">
+
+
+<p>Not applicable (left and back right), use space</p></td></tr>
+<tr valign="top" align="left">
+<td width="18%"></td>
+<td width="8%">
+
+
+<p><b>15</b></p></td>
+<td width="3%"></td>
+<td width="71%">
+
+
+<p>Left and going down</p></td></tr>
+<tr valign="top" align="left">
+<td width="18%"></td>
+<td width="8%">
+
+
+<p><b>16</b></p></td>
+<td width="3%"></td>
+<td width="71%">
+
+
+<p>Straight left</p></td></tr>
+</table>
+
+<p style="margin-left:11%;"><b>-c [0-7]</b></p>
+
+<p style="margin-left:18%;">Colors of pipes. Multiple
+arguments can be used. (default is 1 2 3 4 5 6 7 0)</p>
+
+<p style="margin-left:11%;"><b>-f [20-100]</b></p>
+
+<p style="margin-left:18%;">Frame rate. (default is 75)</p>
+
+<p style="margin-left:11%;"><b>-s [5-15]</b></p>
+
+<p style="margin-left:18%;">Probability of straight
+fitting. (default is 13)</p>
+
+<p style="margin-left:11%;"><b>-r [LIMIT]</b></p>
+
+<p style="margin-left:18%;">Resets the drawing after
+[LIMIT] characters. If no limit is specified then it takes
+the value 0. (default is 2000)</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="3%">
+
+
+<p><b>-R</b></p></td>
+<td width="4%"></td>
+<td width="82%">
+
+
+<p>Randomize starting position and direction.</p></td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="3%">
+
+
+<p><b>-B</b></p></td>
+<td width="4%"></td>
+<td width="82%">
+
+
+<p>No bold effect.</p></td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="3%">
+
+
+<p><b>-C</b></p></td>
+<td width="4%"></td>
+<td width="82%">
+
+
+<p>No color.</p></td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="3%">
+
+
+<p><b>-K</b></p></td>
+<td width="4%"></td>
+<td width="82%">
+
+
+<p>No change of colors and types when hitting screen
+edges.</p> </td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="3%">
+
+
+<p><b>-h</b></p></td>
+<td width="4%"></td>
+<td width="82%">
+
+
+<p>Displays a help message.</p></td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="3%">
+
+
+<p><b>-v</b></p></td>
+<td width="4%"></td>
+<td width="82%">
+
+
+<p>Prints the version number.</p></td></tr>
+</table>
+
+<h2>KEYBOARD CONTROLS
+<a name="KEYBOARD CONTROLS"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">Press any key
+to quit pipes.sh, except the following <b>Shift</b> +
+<b>Key</b>:</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="7%">
+
+
+<p style="margin-top: 1em"><b>P</b> / <b>O</b></p></td>
+<td width="4%"></td>
+<td width="78%">
+
+
+<p style="margin-top: 1em">Increase/decrease probability of
+straight pipes</p></td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="7%">
+
+
+<p><b>F</b> / <b>D</b></p></td>
+<td width="4%"></td>
+<td width="78%">
+
+
+<p>Increase/decrease frame rate</p></td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="7%">
+
+
+<p><b>B</b></p></td>
+<td width="4%"></td>
+<td width="78%">
+
+
+<p>Toggle bold effect</p></td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="7%">
+
+
+<p><b>C</b></p></td>
+<td width="4%"></td>
+<td width="78%">
+
+
+<p>Toggle no colors</p></td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="7%">
+
+
+<p><b>K</b></p></td>
+<td width="4%"></td>
+<td width="78%">
+
+
+<p>Toggle keeping pipe color and type when crossing
+edges</p> </td></tr>
+</table>
+
+<h2>HISTORY
+<a name="HISTORY"></a>
+</h2>
+
+
+
+<p style="margin-left:11%; margin-top: 1em"><i>pipes.sh</i>
+was originally created by Matthew Simpson and posted to the
+<a href="https://bbs.archlinux.org/viewtopic.php?pid=728932#p728932">Arch
+Linux Forums</a> in early 2010. It was also later posted to
+<a href="https://gist.github.com/msimpson/1096939">Gist</a>
+released in the public domain.</p>
+
+<p style="margin-left:11%; margin-top: 1em">In early 2013,
+Yu-Jie Lin posted a modification of the script to Gist after
+reading about it on a
+<a href="https://inconsolation.wordpress.com/2013/02/01/pipes-sh-a-little-bit-of-fun/">blog</a>.
+It was maintained on Gist independently for a period of a
+few months.</p>
+
+<p style="margin-left:11%; margin-top: 1em">In 2014, the
+script was given its own GitHub repository as a project
+which encouraged contributions from other developers. As the
+project gained more popularity the decision was made to
+combine forces with developers of similar projects.</p>
+
+<p style="margin-left:11%; margin-top: 1em">Finally in
+2015, the MIT License was added and the Pipeseroni
+collective was formed (see <b>LINKS</b> below) to maintain
+the project.</p>
+
+<h2>LINKS
+<a name="LINKS"></a>
+</h2>
+
+
+
+<p style="margin-left:11%; margin-top: 1em"><a href="https://pipeseroni.github.io/"><b>Website</b></a>
+<br>
+
+<a href="https://github.com/pipeseroni/pipes.sh"><b>Repository</b></a></p>
+
+<h2>BUGS
+<a name="BUGS"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">Please see
+current issues on
+<a href="https://github.com/pipeseroni/pipes.sh/issues">issue
+tracker</a>, and report any bugs or request feature
+you&rsquo;d like.</p>
+
+<h2>AUTHORS
+<a name="AUTHORS"></a>
+</h2>
+
+
+
+<p style="margin-left:11%; margin-top: 1em"><a href="https://github.com/pipeseroni/pipes.sh/graphs/contributors">Pipeseroni/pipes.sh
+contributors</a>.</p>
+
+<h2>COPYRIGHT
+<a name="COPYRIGHT"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">Copyright (c)
+2010-2018 Pipeseroni/pipes.sh contributors.</p>
+
+
+<p style="margin-left:11%; margin-top: 1em"><i>pipes.sh</i>
+is licensed under the MIT License, see LICENSE file.</p>
+<hr>
+</body>
+</html>
