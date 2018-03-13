@@ -229,7 +229,7 @@ teardown() {
 
 @test "CSI Cursor Position" {
     x[i]=3  y[i]=5
-    [[ "$(_CP_print)" == $'\e[5;3H'* ]]
+    [[ "$(_CP_print)" == $'\e[6;4H'* ]]
 }
 
 
