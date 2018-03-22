@@ -1,12 +1,11 @@
-PREFIX=/usr/local
-DESTDIR=
+SCRIPT  = pipes.sh
+MANPAGE = $(SCRIPT).6
 
-INSTDIR=$(DESTDIR)$(PREFIX)
-INSTBIN=$(INSTDIR)/bin
-INSTMAN=$(INSTDIR)/share/man/man6
-
-SCRIPT=pipes.sh
-MANPAGE=$(SCRIPT).6
+PREFIX  = /usr/local
+DESTDIR =
+INSTDIR = $(DESTDIR)$(PREFIX)
+INSTBIN = $(INSTDIR)/bin
+INSTMAN = $(INSTDIR)/share/man/man6
 
 
 all:
@@ -43,6 +42,6 @@ install:
 
 
 uninstall:
-	rm -f $(INSTBIN)/$(SCRIPT)
-	rm -f $(INSTMAN)/$(MANPAGE)
+	$(RM) $(INSTBIN)/$(SCRIPT)
+	$(RM) $(INSTMAN)/$(MANPAGE)
 .PHONY: uninstall
