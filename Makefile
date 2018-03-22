@@ -1,5 +1,6 @@
 SCRIPT  = pipes.sh
 MANPAGE = $(SCRIPT).6
+GEN_MAN = scripts/gen-man-html.sh
 
 PREFIX  = /usr/local
 DESTDIR =
@@ -16,8 +17,8 @@ all:
 # this target is intended for an HTML version of manpage to be displayed on
 # GitHub Pages, so if there is a such named directory, it will also copy the
 # generated HTML to the directory.
-$(MANPAGE).html: $(MANPAGE)
-	TZ=UTC scripts/gen-man-html.sh '$^' '$@'
+$(MANPAGE).html: $(MANPAGE) $(GEN_MAN)
+	TZ=UTC $(GEN_MAN) $(MANPAGE) $@
 	test -d gh-pages && cp -a $@ gh-pages/ || true
 
 
