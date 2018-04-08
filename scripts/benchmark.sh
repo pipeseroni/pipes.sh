@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Benchmark pipes.sh by revisions
+# Benchmark pipes.sh by revisions excluding terminal render time
 # Copyright (c) 2018 Pipeseroni/pipes.sh contributors
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +34,7 @@
 
 
 PIPESSH='pipes.sh'
-LIMIT=1000
+LIMIT=${LIMIT:-1000}
 
 SED_E=(
     -e 's/read\|sleep\|cat/:/g'  # NOP
@@ -61,15 +61,19 @@ mkp_pipes() {
 }
 
 
-# time the monkey-patched gitrevision $1 pipes.sh with Bash builtiin time.
+# time the monkey-patched gitrevision $1 pipes.sh with Bash time keyword.
 # The stdout and stderr are swapped.  So the pipes are on stderr and time's
 # result (real %e) is on stdout.
 run() {
-    TIME=%e time bash <(mkp_pipes "$1") -r $LIMIT 3>&2 2>&1 1>&3
+    local TIMEFORMAT=%R
+    {
+        time bash <(mkp_pipes "$1") -r $LIMIT
+    } 3>&2 2>&1 1>&3
 }
 
 
-# benchmark a gitrevision ($1) pipes.sh, the result is pipe chars per second.
+# benchmark a gitrevision ($1) pipes.sh without terminal render time
+# (2>/dev/null), the result is pipe chars per second.
 benchmark() {
     local t=$(run "$1" 2>/dev/null)
     local cps="$(bc <<< "$LIMIT/$t")"
