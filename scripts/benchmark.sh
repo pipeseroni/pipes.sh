@@ -35,6 +35,7 @@
 
 PIPESSH='pipes.sh'
 LIMIT=${LIMIT:-1000}
+TIMEF=${TIMEF:-time_ndis}
 
 SED_E=(
     -e 's/read\|sleep\|cat/:/g'  # NOP
@@ -65,20 +66,32 @@ mkp_pipes() {
 
 
 # time the monkey-patched gitrevision $1 pipes.sh with Bash time keyword.
-# The stdout and stderr are swapped.  So the pipes are on stderr and time's
-# result (real %e) is on stdout.
-run() {
+time_pipes() {
     local TIMEFORMAT=%R
+    time bash <(mkp_pipes "$1") -r $LIMIT
+}
+
+
+# timing helper function that sends pipes to /dev/null, and Bash keyword time
+# output redirects to stdout.
+time_ndis() {
     {
-        time bash <(mkp_pipes "$1") -r $LIMIT
-    } 3>&2 2>&1 1>&3
+        time_pipes "$1" >/dev/null
+    } 2>&1
+}
+
+
+# timing helper function that swaps stdout and stderr, so that pipes are on
+# stderr and Bash keyword time output are on stdout.
+time_disp() {
+    time_pipes "$1" 3>&1 1>&2 2>&3
 }
 
 
 # benchmark a gitrevision ($1) pipes.sh without terminal render time
-# (2>/dev/null), the result is pipe chars per second.
+# (>/dev/null), the result is pipe chars per second.
 benchmark() {
-    local t=$(run "$1" 2>/dev/null)
+    local t=$($TIMEF "$1")
     local cps="$(bc <<< "$LIMIT/$t")"
     printf '%-10s: %6d c/s\n' "$1" "$cps"
 }
