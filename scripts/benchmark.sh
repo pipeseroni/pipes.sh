@@ -39,6 +39,8 @@ LIMIT=${LIMIT:-1000}
 SED_E=(
     -e 's/read\|sleep\|cat/:/g'  # NOP
     -e 's/! :/:/'                # ! read -> ! : -> :
+    -e 's/tput cols/echo 80/'    # 80x24
+    -e 's/tput lines/echo 24/'
 )
 SED_CLNUP=("${SED_E[@]}" -e 's/&& t=0/\&\& cleanup/')
 SED_BREAK=("${SED_E[@]}" -e 's/&& t=0/\&\& break/')
@@ -47,6 +49,7 @@ SED_BREAK=("${SED_E[@]}" -e 's/&& t=0/\&\& break/')
 # monkey-patch gitrevision $1 pipes.sh:
 # 1. make read/sleep/cat nop
 # 2. exit when reach -r LIMIT
+# 3. have a (logical) terminal size 80x24
 #
 # Some early commits use sleep to work around Bash < 4 for delay < 1 second,
 # and cat is used to clear out standard input, which could hang if not made
