@@ -1,0 +1,119 @@
+benchmark.sh
+
+    Benchmarking pipes.sh by revisions excluding terminal render time
+    
+    Usage:
+
+        $ scripts/benchmark.sh <revision>...
+
+    Example outputs:
+
+	$ TIMEF=time_ndis scripts/benchmark.sh f7d0941 $(git tag) HEAD
+	f7d0941   :    558 c/s
+	2013-02-01:    539 c/s
+	2013-02-06:    532 c/s
+	2013-02-07:    555 c/s
+	2014-02-20:    536 c/s
+	2014-02-21:    543 c/s
+	v0.1.0    :    542 c/s
+	v0.1.1    :    534 c/s
+	v0.2.0    :    550 c/s
+	v1.0.0    :    528 c/s
+	v1.1.0    :    541 c/s
+	v1.2.0    :    531 c/s
+	v1.3.0    :    503 c/s
+	HEAD      :   3115 c/s
+
+	$ TIMEF=time_disp scripts/benchmark.sh f7d0941 $(git tag) HEAD
+	f7d0941   :    493 c/s
+	2013-02-01:    457 c/s
+	2013-02-06:    450 c/s
+	2013-02-07:    464 c/s
+	2014-02-20:    460 c/s
+	2014-02-21:    464 c/s
+	v0.1.0    :    453 c/s
+	v0.1.1    :    463 c/s
+	v0.2.0    :    452 c/s
+	v1.0.0    :    451 c/s
+	v1.1.0    :    459 c/s
+	v1.2.0    :    443 c/s
+	v1.3.0    :    439 c/s
+	HEAD      :   2659 c/s
+
+    Method:
+
+        This script uses Bash keyword time to measure the execution time t of 
+        pipes.sh for certain amount of pipe characters -- through -r LIMIT -- 
+        which is 1000 by default.
+
+        Without modifications, pipes.sh runs forever with timing control, 
+        therefore mkp_pipes() monkey-patches pipes.sh in order to
+
+        * make read builtin as nop using : builtin
+
+          We do not want the delay which is one of two purpose of using read, 
+          we want pipes.sh to pipe out the pipe as fast as it can.
+
+        * exit and cleanup when reach -r LIMIT characters
+
+        * have a (logical) terminal size 80x24
+
+        The time returns a real time (%R) t, which is used to calculate with 
+        LIMIT for a performance index, pipe chars per second:
+
+            cps = LIMIT / t
+
+        cps is calculated by bc program since Bash can not handle float 
+        numbers.
+
+    Environment variables:
+
+        LIMIT
+
+            Used for pipes.sh option -r LIMIT.
+
+        TIMEF
+
+            The timing helper function, whose value can be one of:
+
+            * time_ndis (default)
+
+                Do not time terminal render time by sending pipes to /dev/null
+
+            * time_disp
+
+                Time terminal render time
+
+    Important notes:
+
+        * It benchmarks with default options of each revision's pipes.sh
+        
+        * It excludes terminal render time
+
+        It's impossible to enforce the options as development goes, and the 
+        whole purpose of benchmarking is to have a (at least) comparable 
+        performance index that we can compare as we attempt to improve and 
+        optimize the code.
+
+        If without the latter, that is not excluding the terminal render time, 
+        the index would be clouded and even distorted, because you can't
+        actually guarantee
+
+        a) the improvement works for another terminal (emulator) in part of 
+           render.  This also means whatever you do to the code, it might have 
+           opposite effect in another terminal in term of execution time; and
+
+        b) the render in terminal may have or haven't been optimized that could 
+           affect the speed of render, which might also based on what and how 
+           data the terminal receives.
+
+        c) consistence of each run.  When render in X Window, there are more 
+           coming into affecting the performance.  With each component 
+           inevitably layered up -- not just terminal (emulator) and X Window 
+           System, e.g.  there is also font system -- each could vary the 
+           execution time, in turn, the level of variation increases.
+
+        In other words, with render part, the results of revisions are less 
+        comparable, which defeats the purpose of having a benchmark, therefore 
+        this benchmark script (so should the improvement) only focuses on the 
+        internal part, and excluding the terminal render time.

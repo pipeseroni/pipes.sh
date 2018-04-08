@@ -19,18 +19,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
-# Usage: scripts/benchmark.sh <revision>...
-#
-# Example:
-#
-#     $ scripts/benchmark.sh f7d0941 $(git tag) HEAD
-#     f7d0941   :    564 c/s
-#     2013-02-01:    534 c/s
-#     2013-02-06:    534 c/s
-#     [snip]
-#     v1.2.0    :    529 c/s
-#     v1.3.0    :    492 c/s
-#     HEAD      :   3030 c/s
+# Usage: see scripts/README.
 
 
 PIPESSH='pipes.sh'
