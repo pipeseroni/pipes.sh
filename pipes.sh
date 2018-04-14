@@ -157,8 +157,7 @@ init_pipes() {
         c[i] = C[ci],
         v[i] = V[vi],
         ci = (ci + 1) % CN,
-        vi = (vi + 1) % VN,
-        1
+        vi = (vi + 1) % VN
     ));}
     # -_CP_init_pipes
 }
@@ -223,8 +222,7 @@ main() {
             ((
                 n[i] = s * RANDOM / M - 1,
                 n[i] = n[i] >= 0 ? l[i] : l[i] + (2 * (RANDOM % 2) - 1),
-                n[i] = (n[i] + 4) % 4,
-                1
+                n[i] = (n[i] + 4) % 4
             ))
             # -_CP_newdir
 
