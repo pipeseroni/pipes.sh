@@ -82,7 +82,7 @@ time_disp() {
 benchmark() {
     local t=$($TIMEF "$1")
     local cps="$(bc <<< "$LIMIT/$t")"
-    printf '%-10s: %6d c/s\n' "$1" "$cps"
+    printf '%-10s: %6.0f c/s\n' "$1" "$cps"
 }
 
 
