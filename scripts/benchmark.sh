@@ -45,7 +45,14 @@ SED_BREAK=("${SED_E[@]}" -e 's/&& t=0/\&\& break/')
 # and cat is used to clear out standard input, which could hang if not made
 # nop.
 mkp_pipes() {
-    local GIT=(git cat-file --textconv "$1:$PIPESSH")
+    local GIT
+    # . refers to pipes.sh in working directory
+    if [[ $1 == . ]]; then
+        # may not always be run in reposistory root, could be under scripts/
+        GIT=(cat "$PWD/$(dirname "${BASH_SOURCE[0]}")/../$PIPESSH")
+    else
+        GIT=(git cat-file --textconv "$1:$PIPESSH")
+    fi
     if "${GIT[@]}" | grep cleanup &>/dev/null; then
         "${GIT[@]}" | sed "${SED_CLNUP[@]}"
     else
@@ -82,7 +89,7 @@ time_disp() {
 benchmark() {
     local t=$($TIMEF "$1")
     local cps="$(bc <<< "$LIMIT/$t")"
-    printf '%-10s: %6d c/s\n' "$1" "$cps"
+    printf '%-10s: %6d c/s\n' "${1:-staged}" "$cps"
 }
 
 
