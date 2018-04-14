@@ -27,7 +27,8 @@ LIMIT=${LIMIT:-1000}
 TIMEF=${TIMEF:-time_ndis}
 
 SED_E=(
-    -e 's/read\|sleep\|cat/:/g'  # NOP
+    -E                           # ERE (alias to -r in GNU sed)
+    -e 's/read|sleep|cat/:/g'    # NOP
     -e 's/! :/:/'                # ! read -> ! : -> :
     -e 's/tput cols/echo 80/'    # 80x24
     -e 's/tput lines/echo 24/'
