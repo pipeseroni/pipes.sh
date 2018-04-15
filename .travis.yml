@@ -10,6 +10,7 @@ addons:
   apt:
     packages:
       - groff
+      - shunit2
 
 sudo: required
 
@@ -17,7 +18,7 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == 'osx' ]]; then brew install bash; fi
   - if [[ "$TRAVIS_OS_NAME" == 'osx' ]]; then export PATH=/usr/local/bin:$PATH; fi
   - if [[ "$TRAVIS_OS_NAME" == 'osx' ]]; then bash -c 'echo $BASH_VERSION'; fi
-  - if [[ "$TRAVIS_OS_NAME" == 'osx' ]]; then brew install bats; fi
+  - if [[ "$TRAVIS_OS_NAME" == 'osx' ]]; then brew install shunit2; fi
 
 before_script:
   - groff --version
