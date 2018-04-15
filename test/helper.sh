@@ -137,7 +137,9 @@ _INVR() {
 # Bats-like run function
 run() {
     unset status lines
-    # load the output of command into lines without trailing newlines
-    mapfile -t lines < <(/usr/bin/env bash "$@")
+    local _lines
+    _lines=$("$@")
     status=$?
+    # load the output of command into lines without trailing newlines
+    mapfile -t lines < <(printf "$_lines")
 }
