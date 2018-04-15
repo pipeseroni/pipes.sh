@@ -1,17 +1,14 @@
-This directory hosts BATS [1] test files:
+This directory hosts shunit2 [1] test files.
 
-* <funcnames>.bats test the functions
-* command.bats tests the execution of pipes.sh
-* test_helper.bash is test helper
-
-[1] https://github.com/bats-core/bats-core
+[1] https://github.com/kward/shunit2
 
 
 Running tests
 =============
 
-    $ make test  # or
-    $ bats test
+    $ make test          # shortcut for the next
+    $ test/run_tests.sh  # or
+    $ test/test_*.sh     # individually
 
 
 Checklist
@@ -23,32 +20,13 @@ Checklist
 
   * Prefix an underscore.
 
-* If adding new default settings, please add new checks to the default 
-  settings test in parse.bats, ensuring no default settings can be changed 
+* If adding new default settings, please add new checks to the default settings 
+  test in test/test_parse.sh, ensuring no default settings can be changed 
   without failing the test.
 
 
 Notes
 =====
-
-((..., ..., 1))
----------------
-
-Because of how BATS constitutes an assertion and pipes.sh heavily relies on 
-ARITHMETIC EVALUATION, some existing code could easily trigger a failure, for 
-example:
-
-    ((A = B * 3 + 1 - C))
-    : doing something else don't care the $? from above
-
-In the code above, if B = 0 and C = 1, the (( )) returns status 1 as A = 0, 
-which we don't care, but BATS sees it as a failure.  In order to work around 
-it, we forces it to return status 0, by adding another evaluation:
-
-    ((A = B * 3 + 1 - C, 1))
-
-This ensures the evaluation always returning status 0.
-
 
 RANDOM
 ------
@@ -68,40 +46,3 @@ execution.
 
 Please read the comments of the two components in test_helper.bash for more 
 details.
-
-
-Uses of $BATS_TEST_DESCRIPTION
-------------------------------
-
-A good amount of tests utilizes it to run function with arguments, this would 
-reduce the chance of mismatches, for example:
-
-    @test "parse -c 8  # out of range" {
-        $BATS_TEST_DESCRIPTION
-
-        : ...
-    }
-
-Also to set settings/variables, for example:
-
-    @test "p=2 RNDSTART=1" {
-        eval $BATS_TEST_DESCRIPTION
-
-        : ...
-    }
-
-
-echo for indistinct assertions
-------------------------------
-
-Unlike most of unittest frameworks, BATS does not print out the expected and 
-actual results as it has no such concept.  You can use echo just before the 
-tests, for example:
-
-    for ((i = 0; i < 4; i++)); do
-        echo i=$i
-        ((i % 2 == 0))
-    done
-
-BATS only tells you the second line in loop fails, but you won't know the 
-value of i, a manual echo would tell you when the test fails.

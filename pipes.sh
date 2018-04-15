@@ -91,7 +91,7 @@ parse() {
         c) [[ $OPTARG =~ ^[0-7]$ ]] && C+=($OPTARG);;
         f) ((f = (OPTARG > 19 && OPTARG < 101) ? OPTARG : f));;
         s) ((s = (OPTARG > 4 && OPTARG < 16) ? OPTARG : s));;
-        r) ((r = (OPTARG >= 0) ? OPTARG : r, 1));;
+        r) ((r = (OPTARG >= 0) ? OPTARG : r));;
         R) RNDSTART=1;;
         B) BOLD=0;;
         C) NOCOLOR=1;;
@@ -157,8 +157,7 @@ init_pipes() {
         c[i] = C[ci],
         v[i] = V[vi],
         ci = (ci + 1) % CN,
-        vi = (vi + 1) % VN,
-        1
+        vi = (vi + 1) % VN
     ));}
     # -_CP_init_pipes
 }
@@ -201,7 +200,7 @@ main() {
             # New position:
             # l[] direction = 0: up, 1: right, 2: down, 3: left
             # +_CP_newpos
-            ((l[i] % 2)) && ((x[i] += -l[i] + 2, 1)) || ((y[i] += l[i] - 1, 1))
+            ((l[i] % 2)) && ((x[i] += -l[i] + 2, 1)) || ((y[i] += l[i] - 1))
             # -_CP_newpos
 
             # Loop on edges (change color on loop):
@@ -209,7 +208,7 @@ main() {
             ((!KEEPCT && (x[i] >= w || x[i] < 0 || y[i] >= h || y[i] < 0))) \
             && ((c[i] = C[CN * RANDOM / M], v[i] = V[VN * RANDOM / M]))
             ((x[i] = (x[i] + w) % w,
-              y[i] = (y[i] + h) % h, 1))
+              y[i] = (y[i] + h) % h))
             # -_CP_warp
 
             # new turning direction:
@@ -223,8 +222,7 @@ main() {
             ((
                 n[i] = s * RANDOM / M - 1,
                 n[i] = n[i] >= 0 ? l[i] : l[i] + (2 * (RANDOM % 2) - 1),
-                n[i] = (n[i] + 4) % 4,
-                1
+                n[i] = (n[i] + 4) % 4
             ))
             # -_CP_newdir
 
