@@ -49,7 +49,7 @@ mkp_pipes() {
     # . refers to pipes.sh in working directory
     if [[ $1 == . ]]; then
         # may not always be run in reposistory root, could be under scripts/
-        GIT=(cat "$PWD/$(dirname "${BASH_SOURCE[0]}")/../$PIPESSH")
+        GIT=(cat "$(dirname "${BASH_SOURCE[0]}")/../$PIPESSH")
     else
         GIT=(git cat-file --textconv "$1:$PIPESSH")
     fi
