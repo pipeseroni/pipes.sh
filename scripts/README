@@ -117,3 +117,10 @@ benchmark.sh
         comparable, which defeats the purpose of having a benchmark, therefore 
         this benchmark script (so should the improvement) only focuses on the 
         internal part, and excluding the terminal render time.
+
+    Other notes:
+
+        * pipes.sh revision references:
+
+            * ''  (empty string): index (staged)
+            * '.' (single dot)  : working directory
