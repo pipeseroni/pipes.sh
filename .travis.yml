@@ -26,6 +26,7 @@ before_script:
 
 script:
   - make test
+  - scripts/benchmark.sh $(for r in {2..0}; do git describe --always --tags HEAD~$r; done)
   - sudo make install
   - pipes.sh -v
   - sudo make uninstall
