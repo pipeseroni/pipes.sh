@@ -21,6 +21,7 @@
 
 TEST_DIR="$(dirname "${BASH_SOURCE[0]}")"
 PIPESSH="$TEST_DIR/../pipes.sh"
+TEST_TERM=xterm
 
 
 # cherrypick a piece of code to test and replace RANDOM with a mock, see _RND
@@ -142,4 +143,11 @@ run() {
     status=$?
     # load the output of command into lines without trailing newlines
     mapfile -t lines < <(printf "$_lines")
+}
+
+
+# `cat -v` on $1 and $2 into $_exp and $_ret
+CATV_EXP_RET() {
+    _exp=$(printf "$1" | cat -v)
+    _ret=$(printf "$2" | cat -v)
 }

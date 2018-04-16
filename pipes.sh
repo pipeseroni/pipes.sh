@@ -60,13 +60,14 @@ l=()  # current directions
       # 0: up, 1: right, 2: down, 3: left
 n=()  # new directions
 v=()  # current types
-c=()  # current color
+c=()  # current escape codes
 
 # selected pipes'
 V=()  # types (indexes to sets[])
-C=()  # colors
+C=()  # color indices for tput setaf
 VN=0  # number of selected types
 CN=0  # number of selected colors
+E=()  # pre-generated escape codes from BOLD, NOCOLOR, and C
 
 # switches
 RNDSTART=0  # randomize starting position and direction
@@ -76,6 +77,10 @@ KEEPCT=0    # keep pipe color and type
 
 
 parse() {
+    COLORS=$(tput colors)  # COLORS - 1 == maximum color index for -c argument
+    SGR0=$(tput sgr0)
+    SGR_BOLD=$(tput bold)
+
     OPTIND=1
     while getopts "p:t:c:f:s:r:RBCKhv" arg; do
     case $arg in
@@ -88,7 +93,7 @@ parse() {
                 ((OPTARG >= 0 && OPTARG < ${#sets[@]})) && V+=($OPTARG)
             fi
             ;;
-        c) [[ $OPTARG =~ ^[0-7]$ ]] && C+=($OPTARG);;
+        c) ((OPTARG > 0 && OPTARG < COLORS)) && C+=($OPTARG);;
         f) ((f = (OPTARG > 19 && OPTARG < 101) ? OPTARG : f));;
         s) ((s = (OPTARG > 4 && OPTARG < 16) ? OPTARG : s));;
         r) ((r = (OPTARG >= 0) ? OPTARG : r));;
@@ -100,7 +105,7 @@ parse() {
             echo -e "Animated pipes terminal screensaver.\n"
             echo -e " -p [1-]\tnumber of pipes (D=1)."
             echo -e " -t [0-$((${#sets[@]} - 1))]\ttype of pipes, can be used more than once (D=0)."
-            echo -e " -c [0-7]\tcolor of pipes, can be used more than once (D=1 2 3 4 5 6 7 0)."
+            echo -e " -c [COLORS]\tcolor index of pipes, valid index is in [0-$((COLORS - 1))], can be used more than once (D=1 2 3 4 5 6 7 0)."
             echo -e " -t c[16 chars]\tcustom type of pipes."
             echo -e " -f [20-100]\tframerate (D=75)."
             echo -e " -s [5-15]\tprobability of a straight fitting (D=13)."
@@ -122,6 +127,19 @@ parse() {
     VN=${#V[@]}
     ((${#C[@]})) || C=(1 2 3 4 5 6 7 0)
     CN=${#C[@]}
+
+    # generate E[] based on BOLD (SGR_BOLD), NOCOLOR, and C for each element in
+    # C, a corresponding element in E[] =
+    #   SGR0
+    #   + SGR_BOLD, if BOLD
+    #   + tput setaf C, if !NOCOLOR
+    local i ec
+    for ((i = 0; i < CN; i++)) {
+        ec=$SGR0
+        ((BOLD)) && ec+=$SGR_BOLD
+        ((NOCOLOR)) || ec+=$(tput setaf ${C[i]})
+        E[i]=$ec
+    }
 }
 
 
@@ -133,7 +151,7 @@ cleanup() {
     tput rmcup
     tput cnorm
     stty echo
-    ((NOCOLOR)) && echo -ne '\e[0m'
+    printf "$SGR0"
     exit 0
 }
 
@@ -149,16 +167,17 @@ init_pipes() {
 
     ci=$((KEEPCT ? 0 : CN * RANDOM / M))
     vi=$((KEEPCT ? 0 : VN * RANDOM / M))
-    for ((i = 0; i < p; i++)); {((
-        n[i] = 0,
-        l[i] = RNDSTART ? RANDOM % 4 : 0,
-        x[i] = RNDSTART ? w * RANDOM / M : w / 2,
-        y[i] = RNDSTART ? h * RANDOM / M : h / 2,
-        c[i] = C[ci],
-        v[i] = V[vi],
-        ci = (ci + 1) % CN,
-        vi = (vi + 1) % VN
-    ));}
+    for ((i = 0; i < p; i++)); do
+        ((
+            n[i] = 0,
+            l[i] = RNDSTART ? RANDOM % 4 : 0,
+            x[i] = RNDSTART ? w * RANDOM / M : w / 2,
+            y[i] = RNDSTART ? h * RANDOM / M : h / 2,
+            v[i] = V[vi]
+        ))
+        c[i]=${E[ci]}
+        ((ci = (ci + 1) % CN, vi = (vi + 1) % VN))
+    done
     # -_CP_init_pipes
 }
 
@@ -177,6 +196,9 @@ init_screen() {
 
 main() {
     local i
+
+    # simple pre-check of TERM, tput's error message should be enough
+    tput -T "$TERM" sgr0 >/dev/null || return $?
 
     parse "$@"
     init_screen
@@ -206,7 +228,7 @@ main() {
             # Loop on edges (change color on loop):
             # +_CP_warp
             ((!KEEPCT && (x[i] >= w || x[i] < 0 || y[i] >= h || y[i] < 0))) \
-            && ((c[i] = C[CN * RANDOM / M], v[i] = V[VN * RANDOM / M]))
+            && { c[i]=${E[CN * RANDOM / M]}; ((v[i] = V[VN * RANDOM / M])); }
             ((x[i] = (x[i] + w) % w,
               y[i] = (y[i] + h) % h))
             # -_CP_warp
@@ -228,9 +250,9 @@ main() {
 
             # Print:
             # +_CP_print
-            echo -ne "\e[$((y[i] + 1));$((x[i] + 1))H\e[${BOLD}m"
-            ((NOCOLOR)) && echo -ne "\e[0m" || echo -ne "\e[3${c[i]}m"
-            echo -n "${sets[v[i]]:l[i]*4+n[i]:1}"
+            printf '\e[%d;%dH%s%s'                      \
+                   $((y[i] + 1)) $((x[i] + 1)) ${c[i]}  \
+                   "${sets[v[i]]:l[i]*4+n[i]:1}"
             # -_CP_print
             l[i]=${n[i]}
         done

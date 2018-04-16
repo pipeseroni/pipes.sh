@@ -30,6 +30,10 @@ Requirements
 
 * Bash 4+ since version 1.0.0.
 
+* ncurses for ``tput``
+
+    * >= 6.1 (2018-01-27) for 24-bit colors and ``TERM=*-direct``.
+
 
 Installation
 ============
@@ -120,16 +124,6 @@ For example, ``-t cMAYFORCEBWITHYOU``.
   xsnap -region 640x140+$((2+2))+$((20+2)) -file i/pipes.tc.png
 
 .. figure:: i/pipes.tc.png
-
-
-``-c [0-7]``: colors
---------------------
-
-+---+------------+---+------------+---+------------+---+------------+
-| 0 | background | 1 | red        | 2 | green      | 3 | yellow     |
-+---+------------+---+------------+---+------------+---+------------+
-| 4 | blue       | 5 | magenta    | 6 | cyan       | 7 | foreground |
-+---+------------+---+------------+---+------------+---+------------+
 
 
 Controls

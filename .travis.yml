@@ -21,6 +21,7 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == 'osx' ]]; then brew install shunit2; fi
 
 before_script:
+  - tput -V
   - groff --version
   - if [[ "$TRAVIS_OS_NAME" != 'osx' ]]; then sed --version; fi
 

@@ -33,9 +33,14 @@ setUp() {
     l[i]=0  n[i]=0
     x[i]=0  y[i]=0
 
-      C=(1 2 3)      V=(4 5 6)
-     CN=${#C[@]}    VN=${#C[@]}
-    c[i]=${C[0]}  v[i]=${V[0]}
+    C=(1 2 3)
+    E=(X Y Z)
+    c=(X Y Z)
+    CN=${#C[@]}
+
+    V=(4 5 6)
+    v=(4 5 6)
+    VN=${#C[@]}
 
     sets[V[i]]='0123456789ABCDEF'
 
@@ -107,10 +112,10 @@ test_cross() {
     local _test_fields=10
     local _tests=(
         # edge    x   y   l  nx  ny  KEEPCT  c            v            RND
-        'top'     10   0  0  10  19  0       "${C[_ci]}"  "${V[_vi]}"  "$_RND"
-        'right'   19  10  1   0  10  0       "${C[_ci]}"  "${V[_vi]}"  "$_RND"
-        'bottom'  10  19  2  10   0  0       "${C[_ci]}"  "${V[_vi]}"  "$_RND"
-        'left'     0  10  3  19  10  0       "${C[_ci]}"  "${V[_vi]}"  "$_RND"
+        'top'     10   0  0  10  19  0       "${c[_ci]}"  "${V[_vi]}"  "$_RND"
+        'right'   19  10  1   0  10  0       "${c[_ci]}"  "${V[_vi]}"  "$_RND"
+        'bottom'  10  19  2  10   0  0       "${c[_ci]}"  "${V[_vi]}"  "$_RND"
+        'left'     0  10  3  19  10  0       "${c[_ci]}"  "${V[_vi]}"  "$_RND"
         'top'     10   0  0  10  19  1       "${c[i]}"    "${v[i]}"    ''
         'right'   19  10  1   0  10  1       "${c[i]}"    "${v[i]}"    ''
         'bottom'  10  19  2  10   0  1       "${c[i]}"    "${v[i]}"    ''
@@ -158,51 +163,24 @@ test_newdir_turning() {
 
 
 test_cur_pos() {
-    local exp ret
     x[i]=3  y[i]=5
-    exp='^[['$((y[i] + 1))';'$((x[i] + 1))'H^[['$BOLD'm^[[31m0'
-    ret=$(_CP_print | cat -v)
-    $_ASSERT_EQUALS_ "'$exp'" "'$ret'"
-}
-
-
-test_BOLD() {
-    local exp ret
-    BOLD=0
-    exp='^[['$((y[i] + 1))';'$((x[i] + 1))'H^[['$BOLD'm^[[31m0'
-    ret=$(_CP_print | cat -v)
-    $_ASSERT_EQUALS_ "'$exp'" "'$ret'"
-    BOLD=1
-    exp='^[['$((y[i] + 1))';'$((x[i] + 1))'H^[['$BOLD'm^[[31m0'
-    ret=$(_CP_print | cat -v)
-    $_ASSERT_EQUALS_ "'$exp'" "'$ret'"
-}
-
-
-test_NOCOLOR() {
-    local exp ret
-    NOCOLOR=0
-    exp='^[['$((y[i] + 1))';'$((x[i] + 1))'H^[['$BOLD'm^[[31m0'
-    ret=$(_CP_print | cat -v)
-    $_ASSERT_EQUALS_ "'$exp'" "'$ret'"
-    NOCOLOR=1
-    exp='^[['$((y[i] + 1))';'$((x[i] + 1))'H^[['$BOLD'm^[[0m0'
-    ret=$(_CP_print | cat -v)
-    $_ASSERT_EQUALS_ "'$exp'" "'$ret'"
+    local _exp _ret
+    CATV_EXP_RET $'\e['$((y[i] + 1))';'$((x[i] + 1))'HX0' "$(_CP_print)"
+    $_ASSERT_EQUALS_ "'$_exp'" "'$_ret'"
 }
 
 
 test_sets_ln() {
-    local _li _ni _I ret
+    local _li _ni _I _ret
 
     for ((_li = 0; _li < 4; _li++)); do
        l[i]=_li
         for ((_ni = 0; _ni < 4; _ni++)); do
             n[i]=_ni
             printf -v _I '%X' $((_li * 4 + _ni))
-            ret=$(_CP_print)
-            ret=${ret:${#ret} - 1}
-            $_ASSERT_EQUALS_ "'l=$_li  n=$_ni  I=$_I'" "$_I" "$ret"
+            _ret=$(_CP_print)
+            _ret=${_ret: -1}  # oh dear Bash, you love space, don't you?
+            $_ASSERT_EQUALS_ "'l=$_li  n=$_ni  I=$_I'" "$_I" "$_ret"
         done
     done
 }

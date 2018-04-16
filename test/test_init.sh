@@ -33,6 +33,7 @@ setUp() {
 
     C=(1 2 3 4 5 6 7 0) CN=8
     V=(0 1 2 3 4 5 6)   VN=7
+    E=(A B C D E F G H)
 
     _RND_init
 }
@@ -52,9 +53,9 @@ test_2pipes() {
     _CP_init_pipes
 
     $_ASSERT_EQUALS_ 2 "${#n[@]}"
-    $_ASSERT_EQUALS_ "${C[_ci]}"     "${c[0]}"
+    $_ASSERT_EQUALS_ "${E[_ci]}"     "${c[0]}"
     $_ASSERT_EQUALS_ "${V[_vi]}"     "${v[0]}"
-    $_ASSERT_EQUALS_ "${C[_ci + 1]}" "${c[1]}"
+    $_ASSERT_EQUALS_ "${E[_ci + 1]}" "${c[1]}"
     $_ASSERT_EQUALS_ "${V[_vi + 1]}" "${v[1]}"
 }
 
