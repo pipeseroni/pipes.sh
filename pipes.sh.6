@@ -136,10 +136,25 @@ For 256 colors, you may use 0 to 255 as color index.  For 16,777,216 colors,
 the index can be calculated with three color components,  R * 65536 + G * 256 +
 B (0 <= R, G, B < 256).
 
+You can also use hexdecimal, for examples:
+.RS 8
+.TP 12
+-c\fB#ffff\fR
+# cyan color
+.TP
+-c\fB#FFA500\fR
+# orange color
+.TP
+-c\fB#64\fR
+# for 256color index 100
+.RE
+
+.RS
 See also
 .UR https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
 Wikipedia
 .UE .
+.RE
 
 .TP
 .B -f [20-100]

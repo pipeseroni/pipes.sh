@@ -93,7 +93,11 @@ parse() {
                 ((OPTARG >= 0 && OPTARG < ${#sets[@]})) && V+=($OPTARG)
             fi
             ;;
-        c) ((OPTARG > 0 && OPTARG < COLORS)) && C+=($OPTARG);;
+        c)
+            local _color=$OPTARG
+            [[ $_color == '#'* ]] && ((_color = 16$_color))
+            ((_color > 0 && _color < COLORS)) && C+=($_color)
+            ;;
         f) ((f = (OPTARG > 19 && OPTARG < 101) ? OPTARG : f));;
         s) ((s = (OPTARG > 4 && OPTARG < 16) ? OPTARG : s));;
         r) ((r = (OPTARG >= 0) ? OPTARG : r));;
@@ -105,7 +109,9 @@ parse() {
             echo -e "Animated pipes terminal screensaver.\n"
             echo -e " -p [1-]\tnumber of pipes (D=1)."
             echo -e " -t [0-$((${#sets[@]} - 1))]\ttype of pipes, can be used more than once (D=0)."
-            echo -e " -c [COLORS]\tcolor index of pipes, valid index is in [0-$((COLORS - 1))], can be used more than once (D=1 2 3 4 5 6 7 0)."
+            echo -e " -c [COLORS]\tcolor index of pipes, valid index is in [0-$((COLORS - 1))],
+\t\tcan be hexdecimal with '#' prefix, can be used
+\t\tmore than once (D=1 2 3 4 5 6 7 0)."
             echo -e " -t c[16 chars]\tcustom type of pipes."
             echo -e " -f [20-100]\tframerate (D=75)."
             echo -e " -s [5-15]\tprobability of a straight fitting (D=13)."

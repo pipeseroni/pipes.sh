@@ -137,6 +137,23 @@ test_c_3() {
 }
 
 
+test_c_hex() {
+    TERM=xterm-256color parse -c#f -c#1f -c '#AF'
+    $_ASSERT_EQUALS_ "'15 31 175'" "'${C[*]}'"
+
+    # skipping when xterm-direct not in terminfo, likely because ncurses is not
+    # >= 6.1.  FIXME: remove this when 6.1 is commonly available.
+    if ! tput -T xterm-direct sgr0 &>/dev/null; then
+        printf '%s%s is not available, test skipped%s\n' \
+               "$(tput setf 5)" xterm-direct "$(tput sgr0)" >&2
+        return
+    fi
+    C=()
+    TERM=xterm-direct parse -c#C001AF
+    $_ASSERT_EQUALS_ 12583343 "'${C[*]}'"
+}
+
+
 test_c_3_1_4() {
     TERM=$TEST_TERM parse -c 3 -c 1 -c 4
 
