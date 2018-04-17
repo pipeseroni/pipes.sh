@@ -31,6 +31,38 @@ setUp() {
 }
 
 
+# test valid option arguments using
+#   $1: option name
+#   $2-: option arguments to be parsed one by one
+# parse() must return 0 and the variable value must be same as the used $2-
+_test_opt_args() {
+    local _opt=$1
+    shift
+    while (($#)); do
+        unset $_opt
+        parse -$_opt "$1"
+        $_ASSERT_EQUALS_ "'-$_opt $1'" 0 $?
+        $_ASSERT_EQUALS_ "'-$_opt $1'" "'$1'" "'${!_opt}'"
+        shift
+    done
+}
+
+
+# test invalid option arguments using
+#   $1: option name
+#   $2-: invalid option arguments to be parsed one by one
+# parse() must return 1
+_test_opt_args_invalid() {
+    local _opt=$1
+    shift
+    while (($#)); do
+        parse -$_opt "$1" 2>/dev/null
+        $_ASSERT_EQUALS_ "'-$_opt $1'" 1 $?
+        shift
+    done
+}
+
+
 # this fails when default settings are changed, which should be not changed
 # without a discussion.
 test_default_settings() {
@@ -52,123 +84,88 @@ test_default_settings() {
 }
 
 
-test_p_0_invalid() {
-    parse -p 0
-
-    $_ASSERT_EQUALS_ 1 "$p"
+test_p() {
+    _test_opt_args p 1 2 666
+    _test_opt_args_invalid p 0 NaN
 }
 
 
-test_p_2() {
-    parse -p 2
-
-    $_ASSERT_EQUALS_ 2 "$p"
-}
-
-
-test_t_3() {
+test_t() {
+    unset V
     parse -t 3
+    $_ASSERT_EQUALS_ 0 $?
+    $_ASSERT_EQUALS_ 3 "'${V[*]}'"
 
-    $_ASSERT_EQUALS_ 3 "'${V[@]}'"
-}
-
-
-test_t_3_1_4() {
+    unset V
     parse -t 3 -t 1 -t 4
-
+    $_ASSERT_EQUALS_ 0 $?
     $_ASSERT_EQUALS_ "'3 1 4'" "'${V[*]}'"
-}
 
-
-test_t_999_outofrange() {
-    parse -t 999
-
-    $_ASSERT_EQUALS_ "''" "'${V[*]}'"
-}
-
-
-test_t_custom() {
+    unset V
     local _t=fedcba9876543210
     parse -t "c$_t"
+    $_ASSERT_EQUALS_ 0 $?
+    $_ASSERT_EQUALS_ "$_t" "${sets[V[0]]}"
 
-    $_ASSERT_EQUALS_ "$_t" "${sets[V[VN-1]]}"
+    parse -t $((${#sets[@]} - 1))
+    $_ASSERT_EQUALS_ 0 $?
+    $_ASSERT_EQUALS_ "$_t" "${sets[V[1]]}"
 }
 
 
-test_c_3() {
-    parse -c 3
+test_t_invalid() {
+    _test_opt_args_invalid t ${#sets[@]} 999 NaN cfoobar
+}
 
+
+test_c() {
+    unset C
+    parse -c 3
+    $_ASSERT_EQUALS_ 0 $?
     $_ASSERT_EQUALS_ 3 "'${C[*]}'"
+
+    unset C
+    parse -c 3 -c 1 -c 4
+    $_ASSERT_EQUALS_ 0 $?
+    $_ASSERT_EQUALS_ "'3 1 4'" "'${C[*]}'"
 }
 
 
 test_c_hex() {
     COLORS=256
+    unset C
     parse -c#f -c#1f -c '#AF'
+    $_ASSERT_EQUALS_ 0 $?
     $_ASSERT_EQUALS_ "'15 31 175'" "'${C[*]}'"
 
     COLORS=16777216
-    C=()
+    unset C
     parse -c#C001AF
+    $_ASSERT_EQUALS_ 0 $?
     $_ASSERT_EQUALS_ 12583343 "'${C[*]}'"
 }
 
 
-test_c_3_1_4() {
-    parse -c 3 -c 1 -c 4
-
-    $_ASSERT_EQUALS_ "'3 1 4'" "'${C[*]}'"
+test_c_invalid() {
+    _test_opt_args_invalid c 8 NaN '#z' '#10'
 }
 
 
-test_c_8_1_9_2_outofrange() {
-    parse -c 8
-    $_ASSERT_EQUALS_ "''" "'${C[*]}'"
-
-    parse -c{8,1,9,2}
-    $_ASSERT_EQUALS_ "'1 2'" "'${C[*]}'"
+test_f() {
+    _test_opt_args f 20 50 100
+    _test_opt_args_invalid f 0 19 101 NaN
 }
 
 
-test_f_50() {
-    parse -f 50
-
-    $_ASSERT_EQUALS_ 50 "$f"
+test_s() {
+    _test_opt_args s 5 10 15
+    _test_opt_args_invalid f 0 4 16 NaN
 }
 
 
-test_f_10_invalid() {
-    parse -f 10
-
-    $_ASSERT_EQUALS_ 75 "$f"
-}
-
-
-test_s_10() {
-    parse -s 10
-
-    $_ASSERT_EQUALS_ 10 "$s"
-}
-
-
-test_s_30_invalid() {
-    parse -s 30
-
-    $_ASSERT_EQUALS_ 13 "$s"
-}
-
-
-test_r_0() {
-    parse -r 0
-
-    $_ASSERT_EQUALS_ 0 "$r"
-}
-
-
-test_r__1_invalid() {
-    parse -r -1
-
-    $_ASSERT_EQUALS_ 2000  "$r"
+test_r() {
+    _test_opt_args r 0 10 10000
+    _test_opt_args_invalid r NaN
 }
 
 
@@ -179,6 +176,12 @@ test_RBCK() {
     $_ASSERT_EQUALS_ 0 "$BOLD"
     $_ASSERT_EQUALS_ 1 "$NOCOLOR"
     $_ASSERT_EQUALS_ 1 "$KEEPCT"
+}
+
+
+test_opt_invalid() {
+    parse -'!@#$%^&*()' 2>/dev/null
+    $_ASSERT_EQUALS_ 1 $?
 }
 
 

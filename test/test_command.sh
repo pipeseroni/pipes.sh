@@ -58,4 +58,30 @@ test_command_TERM() {
 }
 
 
+# test invalid option arguments using
+#   $1: option name
+#   $2-: invalid option arguments to be parsed one by one
+# parse() must return 1
+_test_args_invalid() {
+    local _opt=$1
+    shift
+    while (($#)); do
+        run "$PIPESSH" -$_opt "$1" 2>/dev/null
+        $_ASSERT_EQUALS_ "'-$_opt $1'" 1 "'$status'"
+        shift
+    done
+}
+
+
+test_invalid_arg() {
+    _test_args_invalid p 0 NaN
+    _test_args_invalid t NaN
+    TERM=$TEST_TERM _test_args_invalid c 9 '#f' '#z' NaN
+    TERM=xterm-256color _test_args_invalid c 256 '#100' '#z' NaN cfoobar
+    _test_args_invalid f 0 19 101 NaN
+    _test_args_invalid s 0 4 16 NaN
+    _test_args_invalid r NaN
+}
+
+
 source shunit2
