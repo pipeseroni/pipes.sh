@@ -109,26 +109,95 @@ HELP
 # parse command-line options
 # It depends on a valid COLORS which is set by _CP_init_termcap_vars
 parse() {
+    # test if $1 is a natural number in decimal, an integer >= 0
+    is_N() {
+        [[ -n $1 && -z ${1//[0-9]} ]]
+    }
+
+
+    # test if $1 is a hexadecimal string
+    is_hex() {
+        [[ -n $1 && -z ${1//[0-9A-Fa-f]} ]]
+    }
+
+
+    # print error message for invalid argument to standard error, this
+    # - mimics getopts error message
+    # - use all positional parameters as error message
+    # - has a newline appended
+    # $arg and $OPTARG are the option name and argument set by getopts.
+    pearg() {
+        printf "%s: -$arg invalid argument -- $OPTARG; %s\n" "$0" "$*" >&2
+    }
+
+
     OPTIND=1
     while getopts "p:t:c:f:s:r:RBCKhv" arg; do
     case $arg in
-        p) ((p = (OPTARG > 0) ? OPTARG : p));;
+        p)
+            if is_N "$OPTARG" && ((OPTARG > 0)); then
+                p=$OPTARG
+            else
+                pearg 'must be an integer and greater than 0'
+                return 1
+            fi
+            ;;
         t)
             if [[ "$OPTARG" = c???????????????? ]]; then
                 V+=(${#sets[@]})
                 sets+=("${OPTARG:1}")
+            elif is_N "$OPTARG" && ((OPTARG < ${#sets[@]})); then
+                V+=($OPTARG)
             else
-                ((OPTARG >= 0 && OPTARG < ${#sets[@]})) && V+=($OPTARG)
+                pearg 'must be an integer and from 0 to' \
+                      "$((${#sets[@]} - 1)); or a custom type"
+                return 1
             fi
             ;;
         c)
-            local _color=$OPTARG
-            [[ $_color == '#'* ]] && ((_color = 16$_color))
-            ((_color > 0 && _color < COLORS)) && C+=($_color)
+            if [[ $OPTARG == '#'* ]]; then
+                if ! is_hex "${OPTARG:1}"; then
+                    pearg 'unrecognized hexadecimal string'
+                    return 1
+                fi
+                if ((16$OPTARG >= COLORS)); then
+                    pearg 'hexadecimal must be from #0 to' \
+                          "#$(printf '%X' $((COLORS - 1)))"
+                    return 1
+                fi
+                C+=($((16$OPTARG)))
+            elif is_N "$OPTARG" && ((OPTARG < COLORS)); then
+                C+=($OPTARG)
+            else
+                pearg "must be an integer and from 0 to $((COLORS - 1));" \
+                      'or a hexadecimal string with # prefix'
+                return 1
+            fi
             ;;
-        f) ((f = (OPTARG > 19 && OPTARG < 101) ? OPTARG : f));;
-        s) ((s = (OPTARG > 4 && OPTARG < 16) ? OPTARG : s));;
-        r) ((r = (OPTARG >= 0) ? OPTARG : r));;
+        f)
+            if is_N "$OPTARG" && ((OPTARG >= 20 && OPTARG <= 100)); then
+                f=$OPTARG
+            else
+                pearg 'must be an integer and from 20 to 100'
+                return 1
+            fi
+            ;;
+        s)
+            if is_N "$OPTARG" && ((OPTARG >= 5 && OPTARG <= 15)); then
+                s=$OPTARG
+            else
+                pearg 'must be an integer and from 5 to 15'
+                return 1
+            fi
+            ;;
+        r)
+            if is_N "$OPTARG"; then
+                r=$OPTARG
+            else
+                pearg 'must be a non-negative integer'
+                return 1
+            fi
+            ;;
         R) RNDSTART=1;;
         B) BOLD=0;;
         C) NOCOLOR=1;;
@@ -139,6 +208,9 @@ parse() {
             ;;
         v) echo "$(basename -- "$0") $VERSION"
             exit 0
+            ;;
+        *)
+            return 1
         esac
     done
 
