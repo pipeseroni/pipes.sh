@@ -26,6 +26,8 @@ source "$(dirname "${BASH_SOURCE[0]}")"/helper.sh
 
 setUp() {
     source "$PIPESSH"
+
+    COLORS=8
 }
 
 
@@ -45,10 +47,8 @@ test_default_settings() {
     $_ASSERT_EQUALS_ 0 "$NOCOLOR"
     $_ASSERT_EQUALS_ 0 "$KEEPCT"
 
-    $_ASSERT_EQUALS_ 0 "'${V[*]}'"
-    $_ASSERT_EQUALS_ 1 "$VN"
-    $_ASSERT_EQUALS_ "'1 2 3 4 5 6 7 0'" "'${C[*]}'"
-    $_ASSERT_EQUALS_ 8 "$CN"
+    $_ASSERT_EQUALS_ "''" "'${V[*]}'"
+    $_ASSERT_EQUALS_ "''" "'${C[*]}'"
 }
 
 
@@ -70,7 +70,6 @@ test_t_3() {
     parse -t 3
 
     $_ASSERT_EQUALS_ 3 "'${V[@]}'"
-    $_ASSERT_EQUALS_ 1 "$VN"
 }
 
 
@@ -78,15 +77,13 @@ test_t_3_1_4() {
     parse -t 3 -t 1 -t 4
 
     $_ASSERT_EQUALS_ "'3 1 4'" "'${V[*]}'"
-    $_ASSERT_EQUALS_ 3 "$VN"
 }
 
 
 test_t_999_outofrange() {
     parse -t 999
 
-    $_ASSERT_EQUALS_ 0 "'${V[*]}'"
-    $_ASSERT_EQUALS_ 1 "$VN"
+    $_ASSERT_EQUALS_ "''" "'${V[*]}'"
 }
 
 
@@ -102,7 +99,18 @@ test_c_3() {
     parse -c 3
 
     $_ASSERT_EQUALS_ 3 "'${C[*]}'"
-    $_ASSERT_EQUALS_ 1 "$CN"
+}
+
+
+test_c_hex() {
+    COLORS=256
+    parse -c#f -c#1f -c '#AF'
+    $_ASSERT_EQUALS_ "'15 31 175'" "'${C[*]}'"
+
+    COLORS=16777216
+    C=()
+    parse -c#C001AF
+    $_ASSERT_EQUALS_ 12583343 "'${C[*]}'"
 }
 
 
@@ -110,15 +118,15 @@ test_c_3_1_4() {
     parse -c 3 -c 1 -c 4
 
     $_ASSERT_EQUALS_ "'3 1 4'" "'${C[*]}'"
-    $_ASSERT_EQUALS_ 3 "$CN"
 }
 
 
-test_c_8_outofrange() {
+test_c_8_1_9_2_outofrange() {
     parse -c 8
+    $_ASSERT_EQUALS_ "''" "'${C[*]}'"
 
-    $_ASSERT_EQUALS_ "'1 2 3 4 5 6 7 0'" "'${C[*]}'"
-    $_ASSERT_EQUALS_ 8 "$CN"
+    parse -c{8,1,9,2}
+    $_ASSERT_EQUALS_ "'1 2'" "'${C[*]}'"
 }
 
 

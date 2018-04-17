@@ -25,7 +25,7 @@ source "$(dirname "${BASH_SOURCE[0]}")"/helper.sh
 
 
 test_command_help() {
-    run "$PIPESSH" -h
+    TERM=$TEST_TERM run "$PIPESSH" -h
 
     $_ASSERT_EQUALS_ 0 "$status"
     # if there is something, it might be working
@@ -34,11 +34,18 @@ test_command_help() {
 
 
 test_command_version() {
-    run "$PIPESSH" -v
+    TERM=$TEST_TERM run "$PIPESSH" -v
 
     $_ASSERT_EQUALS_ 0 "$status"
     local VER="$(sed -n '/^VERSION=/ s/VERSION=//p' "$PIPESSH")"
     $_ASSERT_EQUALS_ "'pipes.sh $VER'" "'${lines[0]}'"
+}
+
+
+test_command_TERM() {
+    TERM='NOSUCHTERMWHATSOEVER' run "$PIPESSH" -v 2>/dev/null
+
+    $_ASSERT_EQUALS_ 3 "$status"
 }
 
 

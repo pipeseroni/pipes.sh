@@ -33,9 +33,14 @@ setUp() {
     l[i]=0  n[i]=0
     x[i]=0  y[i]=0
 
-      C=(1 2 3)      V=(4 5 6)
-     CN=${#C[@]}    VN=${#C[@]}
-    c[i]=${C[0]}  v[i]=${V[0]}
+    C=(1 2 3)
+    E=(X Y Z)
+    c=(X Y Z)
+    CN=${#C[@]}
+
+    V=(4 5 6)
+    v=(4 5 6)
+    VN=${#C[@]}
 
     sets[V[i]]='0123456789ABCDEF'
 
@@ -49,6 +54,125 @@ setUp() {
 
 tearDown() {
     _RND_deinit
+}
+
+
+test_init_termcap_vars_COLORS() {
+    TERM=$TEST_TERM _CP_init_termcap_vars
+    $_ASSERT_EQUALS_ 8 $COLORS
+    TERM=xterm-16color _CP_init_termcap_vars
+    $_ASSERT_EQUALS_ 16 $COLORS
+    TERM=xterm-256color _CP_init_termcap_vars
+    $_ASSERT_EQUALS_ 256 $COLORS
+    # skipping when xterm-direct not in terminfo, likely because ncurses is not
+    # >= 6.1.  FIXME: remove this when 6.1 is commonly available.
+    if ! tput -T xterm-direct sgr0 &>/dev/null; then
+        printf '%s%s is not available, test skipped%s\n' \
+               "$(tput setf 5)" xterm-direct "$(tput sgr0)" >&2
+        return
+    fi
+    TERM=xterm-direct _CP_init_termcap_vars
+    $_ASSERT_EQUALS_ 16777216 $COLORS
+}
+
+
+test_init_termcap_vars_SGR() {
+    TERM=$TEST_TERM _CP_init_termcap_vars
+
+    local _exp _ret
+    CATV_EXP_RET     $'\e(B\e[m' "$SGR0"
+    $_ASSERT_EQUALS_ "'$_exp'"   "'$_ret'"
+
+    CATV_EXP_RET     $'\e[1m'    "$SGR_BOLD"
+    $_ASSERT_EQUALS_ "'$_exp'"   "'$_ret'"
+}
+
+
+test_init_VC() {
+    local _V _C _VN _CN
+
+    _VN=1  _V=0
+    _CN=8  _C='1 2 3 4 5 6 7 0'
+    unset V VN C CN
+    _CP_init_VC
+
+    $_ASSERT_EQUALS_ "'$_V'"  "'${V[*]}'"
+    $_ASSERT_EQUALS_ "'$_C'"  "'${C[*]}'"
+    $_ASSERT_EQUALS_ "'$_VN'" "'$VN'"
+    $_ASSERT_EQUALS_ "'$_CN'" "'$CN'"
+
+    _VN=2  _V='1 2'
+    _CN=3  _C='4 5 6'
+    unset V VN C CN
+    V=($_V)
+    C=($_C)
+    _CP_init_VC
+
+    $_ASSERT_EQUALS_ "'$_V'"  "'${V[*]}'"
+    $_ASSERT_EQUALS_ "'$_C'"  "'${C[*]}'"
+    $_ASSERT_EQUALS_ "'$_VN'" "'$VN'"
+    $_ASSERT_EQUALS_ "'$_CN'" "'$CN'"
+}
+
+
+test_init_E() {
+    local _tests_fields=5
+    local _tests=(
+    #   TERM            BOLD    C  E
+    #                      NOCOLOR
+        $TEST_TERM      0  0    3  $'\e(B\e[m\e[33m'
+        xterm-16color   0  0    3  $'\e(B\e[m\e[33m'
+        xterm-256color  0  0    3  $'\e(B\e[m\e[33m'
+        xterm-direct    0  0    3  $'\e(B\e[m\e[33m'
+        xterm-256color  0  0   73  $'\e(B\e[m\e[38;5;73m'
+        xterm-direct    0  0   73  $'\e(B\e[m\e[38:2::0:0:73m'
+        xterm-direct    0  0  273  $'\e(B\e[m\e[38:2::0:1:17m'
+
+        $TEST_TERM      1  0    3  $'\e(B\e[m\e[1m\e[33m'
+        xterm-16color   1  0    3  $'\e(B\e[m\e[1m\e[33m'
+        xterm-256color  1  0    3  $'\e(B\e[m\e[1m\e[33m'
+        xterm-direct    1  0    3  $'\e(B\e[m\e[1m\e[33m'
+        xterm-256color  1  0   73  $'\e(B\e[m\e[1m\e[38;5;73m'
+        xterm-direct    1  0   73  $'\e(B\e[m\e[1m\e[38:2::0:0:73m'
+        xterm-direct    1  0  273  $'\e(B\e[m\e[1m\e[38:2::0:1:17m'
+
+        $TEST_TERM      0  1    3  $'\e(B\e[m'
+        xterm-16color   0  1    3  $'\e(B\e[m'
+        xterm-256color  0  1    3  $'\e(B\e[m'
+        xterm-direct    0  1    3  $'\e(B\e[m'
+        xterm-256color  0  1   73  $'\e(B\e[m'
+        xterm-direct    0  1   73  $'\e(B\e[m'
+        xterm-direct    0  1  273  $'\e(B\e[m'
+
+        $TEST_TERM      1  1    3  $'\e(B\e[m\e[1m'
+        xterm-16color   1  1    3  $'\e(B\e[m\e[1m'
+        xterm-256color  1  1    3  $'\e(B\e[m\e[1m'
+        xterm-direct    1  1    3  $'\e(B\e[m\e[1m'
+        xterm-256color  1  1   73  $'\e(B\e[m\e[1m'
+        xterm-direct    1  1   73  $'\e(B\e[m\e[1m'
+        xterm-direct    1  1  273  $'\e(B\e[m\e[1m'
+    )
+    local _i _exp _ret
+    for ((_i = 0; _i < ${#_tests[@]}; _i += _tests_fields)); do
+        local _TERM=${_tests[_i]}
+        # skipping when xterm-direct not in terminfo, likely because ncurses is
+        # not >= 6.1.  FIXME: remove this when 6.1 is commonly available.
+        if [[ $_TERM == xterm-direct ]]; then
+            if ! tput -T "$_TERM" sgr0 &>/dev/null; then
+                printf '%s%s is not available, test skipped%s\n' \
+                       "$(tput setf 5)" "$_TERM" "$(tput sgr0)" >&2
+                continue
+            fi
+        fi
+        BOLD=${_tests[_i + 1]}
+        NOCOLOR=${_tests[_i + 2]}
+        C=(4 ${_tests[_i + 3]})  # put into C[1]
+        TERM=$_TERM _CP_init_termcap_vars
+        TERM=$_TERM _CP_init_E
+        CATV_EXP_RET "${_tests[_i + 4]}" "${E[1]}"
+        $_ASSERT_EQUALS_ "'TERM=$TERM BOLD=$BOLD NOCOLOR=$NOCOLOR C=$C'" \
+                         "'$_exp'" "'$_ret'"
+    done
 }
 
 
@@ -107,10 +231,10 @@ test_cross() {
     local _test_fields=10
     local _tests=(
         # edge    x   y   l  nx  ny  KEEPCT  c            v            RND
-        'top'     10   0  0  10  19  0       "${C[_ci]}"  "${V[_vi]}"  "$_RND"
-        'right'   19  10  1   0  10  0       "${C[_ci]}"  "${V[_vi]}"  "$_RND"
-        'bottom'  10  19  2  10   0  0       "${C[_ci]}"  "${V[_vi]}"  "$_RND"
-        'left'     0  10  3  19  10  0       "${C[_ci]}"  "${V[_vi]}"  "$_RND"
+        'top'     10   0  0  10  19  0       "${c[_ci]}"  "${V[_vi]}"  "$_RND"
+        'right'   19  10  1   0  10  0       "${c[_ci]}"  "${V[_vi]}"  "$_RND"
+        'bottom'  10  19  2  10   0  0       "${c[_ci]}"  "${V[_vi]}"  "$_RND"
+        'left'     0  10  3  19  10  0       "${c[_ci]}"  "${V[_vi]}"  "$_RND"
         'top'     10   0  0  10  19  1       "${c[i]}"    "${v[i]}"    ''
         'right'   19  10  1   0  10  1       "${c[i]}"    "${v[i]}"    ''
         'bottom'  10  19  2  10   0  1       "${c[i]}"    "${v[i]}"    ''
@@ -158,51 +282,24 @@ test_newdir_turning() {
 
 
 test_cur_pos() {
-    local exp ret
     x[i]=3  y[i]=5
-    exp='^[['$((y[i] + 1))';'$((x[i] + 1))'H^[['$BOLD'm^[[31m0'
-    ret=$(_CP_print | cat -v)
-    $_ASSERT_EQUALS_ "'$exp'" "'$ret'"
-}
-
-
-test_BOLD() {
-    local exp ret
-    BOLD=0
-    exp='^[['$((y[i] + 1))';'$((x[i] + 1))'H^[['$BOLD'm^[[31m0'
-    ret=$(_CP_print | cat -v)
-    $_ASSERT_EQUALS_ "'$exp'" "'$ret'"
-    BOLD=1
-    exp='^[['$((y[i] + 1))';'$((x[i] + 1))'H^[['$BOLD'm^[[31m0'
-    ret=$(_CP_print | cat -v)
-    $_ASSERT_EQUALS_ "'$exp'" "'$ret'"
-}
-
-
-test_NOCOLOR() {
-    local exp ret
-    NOCOLOR=0
-    exp='^[['$((y[i] + 1))';'$((x[i] + 1))'H^[['$BOLD'm^[[31m0'
-    ret=$(_CP_print | cat -v)
-    $_ASSERT_EQUALS_ "'$exp'" "'$ret'"
-    NOCOLOR=1
-    exp='^[['$((y[i] + 1))';'$((x[i] + 1))'H^[['$BOLD'm^[[0m0'
-    ret=$(_CP_print | cat -v)
-    $_ASSERT_EQUALS_ "'$exp'" "'$ret'"
+    local _exp _ret
+    CATV_EXP_RET $'\e['$((y[i] + 1))';'$((x[i] + 1))'HX0' "$(_CP_print)"
+    $_ASSERT_EQUALS_ "'$_exp'" "'$_ret'"
 }
 
 
 test_sets_ln() {
-    local _li _ni _I ret
+    local _li _ni _I _ret
 
     for ((_li = 0; _li < 4; _li++)); do
        l[i]=_li
         for ((_ni = 0; _ni < 4; _ni++)); do
             n[i]=_ni
             printf -v _I '%X' $((_li * 4 + _ni))
-            ret=$(_CP_print)
-            ret=${ret:${#ret} - 1}
-            $_ASSERT_EQUALS_ "'l=$_li  n=$_ni  I=$_I'" "$_I" "$ret"
+            _ret=$(_CP_print)
+            _ret=${_ret: -1}  # oh dear Bash, you love space, don't you?
+            $_ASSERT_EQUALS_ "'l=$_li  n=$_ni  I=$_I'" "$_I" "$_ret"
         done
     done
 }

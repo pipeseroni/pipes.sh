@@ -121,8 +121,41 @@ Straight left
 .RE
 
 .TP
-.B -c [0-7]
-Colors of pipes. Multiple arguments can be used. (default is 1 2 3 4 5 6 7 0)
+.B -c [0-(COLORS-1)]
+Color index of pipes. Multiple arguments can be used. (default is 1 2 3 4 5 6 7
+0)
+
+\fICOLORS\fR is the available colors depending on \fB$TERM\fR capability.  For
+examples, \fBxterm\fR has 8 colors, \fBxterm-256color\fR has 256 colors, and
+\fBxterm-direct\fR -- requires ncurses 6.1+ -- has 16,777,216 colors.
+
+The color index is used to generate escape code using \fBtput setaf
+color_index\fR.
+
+For 256 colors, you may use 0 to 255 as color index.  For 16,777,216 colors,
+the index can be calculated with three color components,  R * 65536 + G * 256 +
+B (0 <= R, G, B < 256).
+
+You can also use hexadecimal, for examples:
+.RS 8
+.TP 12
+-c\fB#ffff\fR
+# cyan color
+.TP
+-c\fB#FFA500\fR
+# orange color
+.TP
+-c\fB#64\fR
+# for 256color index 100
+.RE
+
+.RS
+See also
+.UR https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
+Wikipedia
+.UE .
+.RE
+
 .TP
 .B -f [20-100]
 Frame rate. (default is 75)
