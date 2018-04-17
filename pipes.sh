@@ -76,11 +76,9 @@ NOCOLOR=0
 KEEPCT=0    # keep pipe color and type
 
 
+# parse command-line options
+# It depends on a valid COLORS which is set by _CP_init_termcap_vars
 parse() {
-    COLORS=$(tput colors)  # COLORS - 1 == maximum color index for -c argument
-    SGR0=$(tput sgr0)
-    SGR_BOLD=$(tput bold)
-
     OPTIND=1
     while getopts "p:t:c:f:s:r:RBCKhv" arg; do
     case $arg in
@@ -127,25 +125,6 @@ parse() {
             exit 0
         esac
     done
-
-    # set default values if not by options
-    ((${#V[@]})) || V=(0)
-    VN=${#V[@]}
-    ((${#C[@]})) || C=(1 2 3 4 5 6 7 0)
-    CN=${#C[@]}
-
-    # generate E[] based on BOLD (SGR_BOLD), NOCOLOR, and C for each element in
-    # C, a corresponding element in E[] =
-    #   SGR0
-    #   + SGR_BOLD, if BOLD
-    #   + tput setaf C, if !NOCOLOR
-    local i ec
-    for ((i = 0; i < CN; i++)) {
-        ec=$SGR0
-        ((BOLD)) && ec+=$SGR_BOLD
-        ((NOCOLOR)) || ec+=$(tput setaf ${C[i]})
-        E[i]=$ec
-    }
 }
 
 
@@ -201,17 +180,46 @@ init_screen() {
 
 
 main() {
-    local i
-
     # simple pre-check of TERM, tput's error message should be enough
     tput -T "$TERM" sgr0 >/dev/null || return $?
 
-    parse "$@"
-    init_screen
+    # +_CP_init_termcap_vars
+    COLORS=$(tput colors)  # COLORS - 1 == maximum color index for -c argument
+    SGR0=$(tput sgr0)
+    SGR_BOLD=$(tput bold)
+    # -_CP_init_termcap_vars
 
+    parse "$@"
+
+    # +_CP_init_VC
+    # set default values if not by options
+    ((${#V[@]})) || V=(0)
+    VN=${#V[@]}
+    ((${#C[@]})) || C=(1 2 3 4 5 6 7 0)
+    CN=${#C[@]}
+    # -_CP_init_VC
+
+    # +_CP_init_E
+    # generate E[] based on BOLD (SGR_BOLD), NOCOLOR, and C for each element in
+    # C, a corresponding element in E[] =
+    #   SGR0
+    #   + SGR_BOLD, if BOLD
+    #   + tput setaf C, if !NOCOLOR
+    local i
+    for ((i = 0; i < CN; i++)) {
+        E[i]=$SGR0
+        ((BOLD))    && E[i]+=$SGR_BOLD
+        ((NOCOLOR)) || E[i]+=$(tput setaf ${C[i]})
+    }
+    # -_CP_init_E
+
+    init_screen
     init_pipes
+
     # any key press exits the loop and this script
     trap 'break 2' INT
+
+    local i
     while REPLY=; do
         read -t 0.0$((1000 / f)) -n 1 2>/dev/null
         case "$REPLY" in

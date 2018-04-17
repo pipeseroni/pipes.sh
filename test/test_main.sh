@@ -57,6 +57,125 @@ tearDown() {
 }
 
 
+test_init_termcap_vars_COLORS() {
+    TERM=$TEST_TERM _CP_init_termcap_vars
+    $_ASSERT_EQUALS_ 8 $COLORS
+    TERM=xterm-16color _CP_init_termcap_vars
+    $_ASSERT_EQUALS_ 16 $COLORS
+    TERM=xterm-256color _CP_init_termcap_vars
+    $_ASSERT_EQUALS_ 256 $COLORS
+    # skipping when xterm-direct not in terminfo, likely because ncurses is not
+    # >= 6.1.  FIXME: remove this when 6.1 is commonly available.
+    if ! tput -T xterm-direct sgr0 &>/dev/null; then
+        printf '%s%s is not available, test skipped%s\n' \
+               "$(tput setf 5)" xterm-direct "$(tput sgr0)" >&2
+        return
+    fi
+    TERM=xterm-direct _CP_init_termcap_vars
+    $_ASSERT_EQUALS_ 16777216 $COLORS
+}
+
+
+test_init_termcap_vars_SGR() {
+    TERM=$TEST_TERM _CP_init_termcap_vars
+
+    local _exp _ret
+    CATV_EXP_RET     $'\e(B\e[m' "$SGR0"
+    $_ASSERT_EQUALS_ "'$_exp'"   "'$_ret'"
+
+    CATV_EXP_RET     $'\e[1m'    "$SGR_BOLD"
+    $_ASSERT_EQUALS_ "'$_exp'"   "'$_ret'"
+}
+
+
+test_init_VC() {
+    local _V _C _VN _CN
+
+    _VN=1  _V=0
+    _CN=8  _C='1 2 3 4 5 6 7 0'
+    unset V VN C CN
+    _CP_init_VC
+
+    $_ASSERT_EQUALS_ "'$_V'"  "'${V[*]}'"
+    $_ASSERT_EQUALS_ "'$_C'"  "'${C[*]}'"
+    $_ASSERT_EQUALS_ "'$_VN'" "'$VN'"
+    $_ASSERT_EQUALS_ "'$_CN'" "'$CN'"
+
+    _VN=2  _V='1 2'
+    _CN=3  _C='4 5 6'
+    unset V VN C CN
+    V=($_V)
+    C=($_C)
+    _CP_init_VC
+
+    $_ASSERT_EQUALS_ "'$_V'"  "'${V[*]}'"
+    $_ASSERT_EQUALS_ "'$_C'"  "'${C[*]}'"
+    $_ASSERT_EQUALS_ "'$_VN'" "'$VN'"
+    $_ASSERT_EQUALS_ "'$_CN'" "'$CN'"
+}
+
+
+test_init_E() {
+    local _tests_fields=5
+    local _tests=(
+    #   TERM            BOLD    C  E
+    #                      NOCOLOR
+        $TEST_TERM      0  0    3  $'\e(B\e[m\e[33m'
+        xterm-16color   0  0    3  $'\e(B\e[m\e[33m'
+        xterm-256color  0  0    3  $'\e(B\e[m\e[33m'
+        xterm-direct    0  0    3  $'\e(B\e[m\e[33m'
+        xterm-256color  0  0   73  $'\e(B\e[m\e[38;5;73m'
+        xterm-direct    0  0   73  $'\e(B\e[m\e[38:2::0:0:73m'
+        xterm-direct    0  0  273  $'\e(B\e[m\e[38:2::0:1:17m'
+
+        $TEST_TERM      1  0    3  $'\e(B\e[m\e[1m\e[33m'
+        xterm-16color   1  0    3  $'\e(B\e[m\e[1m\e[33m'
+        xterm-256color  1  0    3  $'\e(B\e[m\e[1m\e[33m'
+        xterm-direct    1  0    3  $'\e(B\e[m\e[1m\e[33m'
+        xterm-256color  1  0   73  $'\e(B\e[m\e[1m\e[38;5;73m'
+        xterm-direct    1  0   73  $'\e(B\e[m\e[1m\e[38:2::0:0:73m'
+        xterm-direct    1  0  273  $'\e(B\e[m\e[1m\e[38:2::0:1:17m'
+
+        $TEST_TERM      0  1    3  $'\e(B\e[m'
+        xterm-16color   0  1    3  $'\e(B\e[m'
+        xterm-256color  0  1    3  $'\e(B\e[m'
+        xterm-direct    0  1    3  $'\e(B\e[m'
+        xterm-256color  0  1   73  $'\e(B\e[m'
+        xterm-direct    0  1   73  $'\e(B\e[m'
+        xterm-direct    0  1  273  $'\e(B\e[m'
+
+        $TEST_TERM      1  1    3  $'\e(B\e[m\e[1m'
+        xterm-16color   1  1    3  $'\e(B\e[m\e[1m'
+        xterm-256color  1  1    3  $'\e(B\e[m\e[1m'
+        xterm-direct    1  1    3  $'\e(B\e[m\e[1m'
+        xterm-256color  1  1   73  $'\e(B\e[m\e[1m'
+        xterm-direct    1  1   73  $'\e(B\e[m\e[1m'
+        xterm-direct    1  1  273  $'\e(B\e[m\e[1m'
+    )
+    local _i _exp _ret
+    for ((_i = 0; _i < ${#_tests[@]}; _i += _tests_fields)); do
+        local _TERM=${_tests[_i]}
+        # skipping when xterm-direct not in terminfo, likely because ncurses is
+        # not >= 6.1.  FIXME: remove this when 6.1 is commonly available.
+        if [[ $_TERM == xterm-direct ]]; then
+            if ! tput -T "$_TERM" sgr0 &>/dev/null; then
+                printf '%s%s is not available, test skipped%s\n' \
+                       "$(tput setf 5)" "$_TERM" "$(tput sgr0)" >&2
+                continue
+            fi
+        fi
+        BOLD=${_tests[_i + 1]}
+        NOCOLOR=${_tests[_i + 2]}
+        C=(4 ${_tests[_i + 3]})  # put into C[1]
+        TERM=$_TERM _CP_init_termcap_vars
+        TERM=$_TERM _CP_init_E
+        CATV_EXP_RET "${_tests[_i + 4]}" "${E[1]}"
+        $_ASSERT_EQUALS_ "'TERM=$TERM BOLD=$BOLD NOCOLOR=$NOCOLOR C=$C'" \
+                         "'$_exp'" "'$_ret'"
+    done
+}
+
+
 _test_newpos() {
     local testname=$1
     x[i]=$2
