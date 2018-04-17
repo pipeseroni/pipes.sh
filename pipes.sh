@@ -108,7 +108,7 @@ parse() {
             echo -e " -p [1-]\tnumber of pipes (D=1)."
             echo -e " -t [0-$((${#sets[@]} - 1))]\ttype of pipes, can be used more than once (D=0)."
             echo -e " -c [COLORS]\tcolor index of pipes, valid index is in [0-$((COLORS - 1))],
-\t\tcan be hexdecimal with '#' prefix, can be used
+\t\tcan be hexadecimal with '#' prefix, can be used
 \t\tmore than once (D=1 2 3 4 5 6 7 0)."
             echo -e " -t c[16 chars]\tcustom type of pipes."
             echo -e " -f [20-100]\tframerate (D=75)."
