@@ -43,6 +43,7 @@ setUp() {
     VN=${#C[@]}
 
     sets[V[i]]='0123456789ABCDEF'
+    _CP_init_SETS
 
     BOLD=1
     NOCOLOR=0
@@ -173,6 +174,24 @@ test_init_E() {
         $_ASSERT_EQUALS_ "'TERM=$TERM BOLD=$BOLD NOCOLOR=$NOCOLOR C=$C'" \
                          "'$_exp'" "'$_ret'"
     done
+}
+
+
+test_init_SETS() {
+    local _exp
+
+    unset SETS
+    sets=('1234567890abcdef')
+    _CP_init_SETS
+    _exp='1 2 3 4 5 6 7 8 9 0 a b c d e f'
+    $_ASSERT_EQUALS_ "'$_exp'" "'${SETS[*]}'"
+
+    unset SETS
+    sets=('1234567890abcdef' 'foobarABCDEFGHIJ')
+    _CP_init_SETS
+     _exp='1 2 3 4 5 6 7 8 9 0 a b c d e f '
+    _exp+='f o o b a r A B C D E F G H I J'
+    $_ASSERT_EQUALS_ "'$_exp'" "'${SETS[*]}'"
 }
 
 

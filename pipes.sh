@@ -52,6 +52,7 @@ sets=(
     "-\ /\|/  /-\/ \|"  # railway
     "╿┍ ┑┚╼┒  ┕╽┙┖ ┎╾"  # knobby pipe
 )
+SETS=()  # rearranged all pipe chars into individul elements for easier access
 
 # pipes'
 x=()  # current position
@@ -213,6 +214,16 @@ main() {
     }
     # -_CP_init_E
 
+    # +_CP_init_SETS
+    local i j
+    for ((i = 0; i < ${#sets[@]}; i++)) {
+        for ((j = 0; j < 16; j++)) {
+            SETS+=("${sets[i]:j:1}")
+        }
+    }
+    unset i j
+    # -_CP_init_SETS
+
     init_screen
     init_pipes
 
@@ -266,7 +277,7 @@ main() {
             # +_CP_print
             printf '\e[%d;%dH%s%s'                      \
                    $((y[i] + 1)) $((x[i] + 1)) ${c[i]}  \
-                   "${sets[v[i]]:l[i]*4+n[i]:1}"
+                   "${SETS[v[i] * 16 + l[i] * 4 + n[i]]}"
             # -_CP_print
             l[i]=${n[i]}
         done
