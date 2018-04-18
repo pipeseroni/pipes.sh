@@ -76,6 +76,35 @@ NOCOLOR=0
 KEEPCT=0    # keep pipe color and type
 
 
+# print help message in 72-char width
+print_help() {
+    local cgap
+    printf -v cgap '%*s' $((15 - ${#COLORS})) ''
+    cat <<HELP
+Usage: $(basename $0) [OPTION]...
+Animated pipes terminal screensaver.
+
+  -p [1-]               number of pipes (D=1)
+  -t [0-$((${#sets[@]} - 1))]              pipe type (D=0)
+  -t c[16 chars]        custom pipe type
+  -c [0-$COLORS]${cgap}pipe color INDEX (TERM=$TERM), can be
+                        hexadecimal with '#' prefix
+                        (D=-c 1 -c 2 ... -c 7 -c 0)
+  -f [20-100]           framerate (D=75)
+  -s [5-15]             going straight probability, 1 in (D=13)
+  -r [0-]               reset after (D=2000) characters, 0 if no reset
+  -R                    randomize starting position and direction
+  -B                    no bold effect
+  -C                    no color
+  -K                    keep pipe color and type when crossing edges
+  -h                    print this help message
+  -v                    print version number
+
+Note: -t and -c can be used more than once.
+HELP
+}
+
+
 # parse command-line options
 # It depends on a valid COLORS which is set by _CP_init_termcap_vars
 parse() {
@@ -103,24 +132,10 @@ parse() {
         B) BOLD=0;;
         C) NOCOLOR=1;;
         K) KEEPCT=1;;
-        h) echo -e "Usage: $(basename $0) [OPTION]..."
-            echo -e "Animated pipes terminal screensaver.\n"
-            echo -e " -p [1-]\tnumber of pipes (D=1)."
-            echo -e " -t [0-$((${#sets[@]} - 1))]\ttype of pipes, can be used more than once (D=0)."
-            echo -e " -c [COLORS]\tcolor index of pipes, valid index is in [0-$((COLORS - 1))],
-\t\tcan be hexadecimal with '#' prefix, can be used
-\t\tmore than once (D=1 2 3 4 5 6 7 0)."
-            echo -e " -t c[16 chars]\tcustom type of pipes."
-            echo -e " -f [20-100]\tframerate (D=75)."
-            echo -e " -s [5-15]\tprobability of a straight fitting (D=13)."
-            echo -e " -r LIMIT\treset after x characters, 0 if no limit (D=2000)."
-            echo -e " -R \t\trandomize starting position and direction."
-            echo -e " -B \t\tno bold effect."
-            echo -e " -C \t\tno color."
-            echo -e " -K \t\tpipes keep their color and type when hitting the screen edge."
-            echo -e " -h\t\thelp (this screen)."
-            echo -e " -v\t\tprint version number.\n"
-            exit 0;;
+        h)
+            print_help
+            exit 0
+            ;;
         v) echo "$(basename -- "$0") $VERSION"
             exit 0
         esac
