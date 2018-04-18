@@ -125,6 +125,12 @@ parse() {
             exit 0
         esac
     done
+
+    shift $((OPTIND - 1))
+    if (($#)); then
+        printf "$0: illegal arguments -- $*; no arguments allowed\n" >&2
+        return 1
+    fi
 }
 
 
@@ -189,7 +195,7 @@ main() {
     SGR_BOLD=$(tput bold)
     # -_CP_init_termcap_vars
 
-    parse "$@"
+    parse "$@" || return $?
 
     # +_CP_init_VC
     # set default values if not by options

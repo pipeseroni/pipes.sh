@@ -33,6 +33,15 @@ test_command_help() {
 }
 
 
+test_command_arg() {
+    run "$PIPESSH" foo 2>/dev/null
+    $_ASSERT_EQUALS_ 1 "$status"
+
+    run "$PIPESSH" foo bar 2>/dev/null
+    $_ASSERT_EQUALS_ 1 "$status"
+}
+
+
 test_command_version() {
     TERM=$TEST_TERM run "$PIPESSH" -v
 
