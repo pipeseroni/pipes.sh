@@ -182,4 +182,13 @@ test_RBCK() {
 }
 
 
+test_args() {
+    parse foo 2>/dev/null
+    $_ASSERT_EQUALS_ 1 $?
+
+    parse foo bar 2>/dev/null
+    $_ASSERT_EQUALS_ 1 $?
+}
+
+
 source shunit2
