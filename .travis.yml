@@ -26,9 +26,4 @@ before_script:
   - if [[ "$TRAVIS_OS_NAME" != 'osx' ]]; then sed --version; fi
 
 script:
-  - make test
-  - scripts/benchmark.sh $(for r in {2..0}; do git describe --always --tags HEAD~$r; done)
-  - sudo make install
-  - pipes.sh -v
-  - sudo make uninstall
-  - make pipes.sh.6.html
+  - scripts/travis-script.sh
