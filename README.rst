@@ -32,7 +32,7 @@ Requirements
 
 * ncurses for ``tput``
 
-    * >= 6.1 (2018-01-27) for 24-bit colors and ``TERM=*-direct``.
+  * >= 6.1 (2018-01-27) for 24-bit colors and ``TERM=*-direct``.
 
 
 Installation
