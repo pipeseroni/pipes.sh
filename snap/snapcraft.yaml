@@ -1,0 +1,19 @@
+name: pipes-sh
+base: core18
+version: git
+summary: Animated pipes terminal screensaver
+description: |
+  Animated pipes terminal screensaver.
+grade: stable
+confinement: strict
+
+parts:
+  pipes:
+    plugin: make
+    source: .
+
+apps:
+  pipes-sh:
+    command: usr/local/bin/pipes.sh
+    environment:
+      LC_ALL: C.UTF-8
