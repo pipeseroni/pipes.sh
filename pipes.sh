@@ -75,6 +75,7 @@ RNDSTART=0  # randomize starting position and direction
 BOLD=1
 NOCOLOR=0
 KEEPCT=0    # keep pipe color and type
+NOCLEAR=0   # clear the screen
 
 
 # print help message in 72-char width
@@ -98,6 +99,7 @@ Animated pipes terminal screensaver.
   -B                    no bold effect
   -C                    no color
   -K                    keep pipe color and type when crossing edges
+  -d                    do not clear the screen on start
   -h                    print this help message
   -v                    print version number
 
@@ -132,7 +134,7 @@ parse() {
 
 
     OPTIND=1
-    while getopts "p:t:c:f:s:r:RBCKhv" arg; do
+    while getopts "p:t:c:f:s:r:RBCKhvd" arg; do
     case $arg in
         p)
             if is_N "$OPTARG" && ((OPTARG > 0)); then
@@ -202,6 +204,7 @@ parse() {
         B) BOLD=0;;
         C) NOCOLOR=1;;
         K) KEEPCT=1;;
+        d) NOCLEAR=1;;
         h)
             print_help
             exit 0
@@ -263,9 +266,13 @@ init_pipes() {
 
 init_screen() {
     stty -echo
-    tput smcup
+    if [[ "$NOCLEAR" = 0 ]]; then
+        tput smcup
+    fi
     tput civis
-    tput clear
+    if [[ "$NOCLEAR" = 0 ]]; then
+        tput clear
+    fi
     trap cleanup HUP TERM
 
     resize
