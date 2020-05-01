@@ -52,7 +52,7 @@ sets=(
     "-\ /\|/  /-\/ \|"  # railway
     "╿┍ ┑┚╼┒  ┕╽┙┖ ┎╾"  # knobby pipe
 )
-SETS=()  # rearranged all pipe chars into individul elements for easier access
+SETS=()  # rearranged all pipe chars into individual elements for easier access
 
 # pipes'
 x=()  # current position
