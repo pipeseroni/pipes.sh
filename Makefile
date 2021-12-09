@@ -2,11 +2,11 @@ SCRIPT  = pipes.sh
 MANPAGE = $(SCRIPT).6
 GEN_MAN = scripts/gen-man-html.sh
 
-PREFIX  = /usr/local
+PREFIX  = /usr/
 DESTDIR =
 INSTDIR = $(DESTDIR)$(PREFIX)
 INSTBIN = $(INSTDIR)/bin
-INSTMAN = $(INSTDIR)/share/man/man6
+INSTMAN = $(INSTDIR)/local/share/man/man6
 
 
 all:

@@ -38,11 +38,11 @@ Requirements
 Installation
 ============
 
-If you want to install, you can run:
+If you want to install, you can run (in sudo mode):
 
 .. code:: sh
 
-  $ make install
+  $ sudo make install
 
 By default, it installs to ``/usr/local``; for user home, you can run:
 
