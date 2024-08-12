@@ -226,7 +226,7 @@ cleanup() {
     # clear out standard input
     read -t 0.001 && cat </dev/stdin>/dev/null
 
-    tput reset  # fix for konsole, see pipeseroni/pipes.sh#43
+    clear # fix for konsole, see pipeseroni/pipes.sh#43
     tput rmcup
     tput cnorm
     stty echo
@@ -374,7 +374,7 @@ main() {
             # -_CP_print
             l[i]=${n[i]}
         done
-        ((r > 0 && t * p >= r)) && tput reset && tput civis && t=0 || ((t++))
+        ((r > 0 && t * p >= r)) && clear && tput civis && t=0 || ((t++))
     done
 
     cleanup
