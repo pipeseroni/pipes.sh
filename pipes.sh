@@ -231,6 +231,7 @@ cleanup() {
     tput cnorm
     stty echo
     printf "$SGR0"
+    tput clear  # fix to avoid buffer visual glitch
     exit 0
 }
 
